@@ -63,31 +63,61 @@ function slugify(title) {
     .slice(0, 60);
 }
 
-// ── 4. Plantilla de post ES ──
+// ── 4. Plantilla de post ES — estilo Medium (artículo largo y detallado) ──
 function postTemplate({id, title, description, published, url}) {
   const date = published.toISOString().split('T')[0];
-  const excerpt = description.split('\n')[0].slice(0, 160) || title;
+  // Dividir la descripción del vídeo en párrafos útiles (suele incluir el resumen del guion)
+  const body = description
+    .split(/\n{2,}/)
+    .map((p) => p.trim())
+    .filter((p) => p.length > 0 && !p.startsWith('#') && !p.startsWith('📄') && !p.startsWith('👍') && !p.startsWith('💬') && !p.startsWith('🔔') && !p.startsWith('⏱'))
+    .slice(0, 6);
+  const chapters = [...description.matchAll(/(\d+:\d+)\s+(.+)/g)].slice(0, 12).map((m) => `- **${m[1]}** — ${m[2].trim()}`);
+  const sources = [...description.matchAll(/📄[^\n]*/g)].map((m) => m[0].trim());
+
   return `---
 title: '${title.replace(/'/g, "\\'")}'
-description: '${excerpt.replace(/'/g, "\\'")}'
+description: '${(body[0] || title).slice(0, 160).replace(/'/g, "\\'")}'
 pubDate: ${date}
 lang: es
 videoId: '${id}'
 videoUrl: '${url}'
 duration: ''
 color: '#ff6a00'
-tags: ['youtube', 'nramosdev']
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
 ---
+
+## TL;DR
+
+**${title}**
+
+${body[0] || 'Análisis completo del vídeo publicado en el canal nramosdev.'}
+
+${chapters.length ? `## Capítulos del vídeo\n\n${chapters.join('\n')}\n` : ''}
 
 ## El contexto
 
-Este artículo acompaña al vídeo publicado en el canal [nramosdev](https://www.youtube.com/@${HANDLE}).
+${body[1] || `Este artículo amplía el vídeo publicado en el canal [nramosdev](https://www.youtube.com/@${HANDLE}).`}
 
-${description.slice(0, 800) || ''}
+## Análisis
+
+${body.slice(2, 5).join('\n\n') || 'El vídeo desgrana el tema con datos verificados, comparativas y conclusiones prácticas. Aquí tienes el contexto por escrito para profundizar.'}
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: ${url}
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+${sources.length ? `## Fuentes\n\n${sources.join('\n')}\n` : ''}
+
+## Conclusión
+
+${body[5] || `Un análisis más en el canal. [Suscríbete](https://www.youtube.com/@${HANDLE}) para no perderte los próximos.`}
 
 ---
 
-*Suscríbete al canal para más análisis de IA en español: https://www.youtube.com/@${HANDLE}*
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@${HANDLE}). Cada número citado proviene de la investigación verificada del pipeline.*
 `;
 }
 

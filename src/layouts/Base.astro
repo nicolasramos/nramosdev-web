@@ -51,6 +51,13 @@ const altLang = lang === 'es' ? 'en' : 'es';
           <a href="mailto:hola@nicolasramos.es" class="transition hover:text-white">Contacto</a>
         </div>
       </div>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-neutral-600">
+        <a href={lang === 'es' ? '/privacidad' : '/en/privacy'} class="transition hover:text-neutral-300">Política de privacidad</a>
+        <a href={lang === 'es' ? '/cookies' : '/en/cookies'} class="transition hover:text-neutral-300">Política de cookies</a>
+        <a href={lang === 'es' ? '/aviso-legal' : '/en/legal'} class="transition hover:text-neutral-300">Aviso legal</a>
+        <span>·</span>
+        <span>Alojado en la UE · RGPD</span>
+      </div>
     </footer>
   </body>
 </html>
