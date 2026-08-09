@@ -16,7 +16,7 @@ const posts = (await getCollection('posts', ({data}) => data.lang === 'en' && !d
     </h1>
     <p class="mx-auto mt-6 max-w-xl text-neutral-600">
       Deep dives on language models, AI agents and software development. Every video on
-      <a href="https://www.youtube.com/@nramosdev" target="_blank" rel="noopener" class="text-black underline decoration-black underline-offset-4 hover:opacity-80">nramosdev</a>
+      <a href="https://www.youtube.com/@nramosdev" target="_blank" rel="noopener" class="text-black underline decoration-black underline-offset-4 hover:opacity-80">nramosdev</a>{' '}
       gets its full context article here.
     </p>
   </section>
@@ -25,7 +25,7 @@ const posts = (await getCollection('posts', ({data}) => data.lang === 'en' && !d
     <h2 class="mb-8 text-sm font-black uppercase tracking-[0.3em] text-neutral-600">Posts</h2>
     <div class="grid gap-6">
       {posts.map((post) => (
-        <a href={`/en/blog/${post.id.replace(/\.en$/, '')}`} class="group block rounded-xl border border-black/10 bg-neutral-50 p-8 transition hover:border-black/60 hover:bg-neutral-100">
+        <a href={`/en/blog/${post.id.replace(/^(es|en)-/, '')}`} class="group block rounded-xl border border-black/10 bg-neutral-50 p-8 transition hover:border-black/60 hover:bg-neutral-100">
           <div class="flex flex-wrap items-center gap-3 text-xs font-bold uppercase tracking-widest text-neutral-600">
             <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString('en-US', {day: 'numeric', month: 'long', year: 'numeric'})}</time>
             {post.data.duration && <span class="rounded-full border border-black/15 px-2 py-0.5">▶ {post.data.duration}</span>}
