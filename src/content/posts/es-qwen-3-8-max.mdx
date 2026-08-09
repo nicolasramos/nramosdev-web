@@ -1,0 +1,62 @@
+---
+title: 'Qwen 3.8 Max: el gigante de 2,4 billones que promete abrir sus pesos'
+description: 'Análisis técnico del Qwen 3.8 Max de Alibaba: arquitectura Mixtura de Expertos, 983K de contexto, benchmarks frente a GPT-5 y Claude, y la promesa de open weights.'
+pubDate: 2026-08-09
+lang: es
+videoUrl: 'https://www.youtube.com/watch?v=PENDIENTE'
+videoId: 'PENDIENTE'
+duration: '4:05'
+color: '#ff6a00'
+tags: ['qwen', 'inteligencia-artificial', 'modelos-de-lenguaje', 'open-weights']
+---
+
+## El contexto: por qué este lanzamiento importa
+
+El **3 de agosto de 2026**, Alibaba lanzó **Qwen 3.8 Max**, un modelo de **2,4 billones de parámetros** diseñado para liderar la era de la inteligencia agéntica. No es un salto incremental más: por primera vez, la firma china ha prometido abrir los pesos de su modelo estrella de clase Max.
+
+Este vídeo desgrana su arquitectura, sus benchmarks frente a GPT-5 y Claude, y la cruda realidad de si podrás correrlo en local.
+
+## Arquitectura: la bestia por dentro
+
+- **Mixtura de Expertos**: de los 2,4 billones totales solo se activan **95 mil millones de parámetros por token**, optimizando al extremo la latencia.
+- **Contexto colosal**: **983 mil tokens de entrada** (casi un millón) y un límite de **128K de salida**.
+- **Nativamente multimodal**: procesa vídeo, imágenes, documentos y texto en un solo pipeline.
+- **Precio**: **2 dólares** el millón de tokens de entrada, **6 dólares** de salida — una reducción clara frente al Qwen 3.7 Max.
+
+## La evolución exprés de Alibaba
+
+| Versión | Fecha | Destacado |
+|---------|-------|-----------|
+| Qwen 3.5 | Febrero 2026 | — |
+| Qwen 3.6 | Abril 2026 | 262K contexto, pesos abiertos bajo Apache 2.0 |
+| Qwen 3.7 Max | Mayo 2026 | Propietario, tarifas de 2,50/7,50 $ |
+| Qwen 3.8 Max | Agosto 2026 | 983K contexto, 2/6 $, promesa de open weights |
+
+## Benchmarks: la cruda realidad
+
+- **OSWorld Verified**: **86.1** — lidera, superando a Claude Fable 5 y GPT-5.6 Sol.
+- **PaperBench**: **93.0** — arrasa.
+- **Terminal-Bench 2.1**: **86.6** — supera a Fable 5, por detrás del 88.8 de GPT-5.6.
+- **IFBench**: **82.8** — domina.
+- **SWE-Bench Pro**: **67.7** — su punto débil, pierde frente al 80.0 de Claude Fable 5.
+
+## La carnicería china
+
+- **Kimi K3** (Moonshot AI): **2,8 billones** de parámetros totales, **104 mil millones** activos. Pesos liberados en MXFP4 (**1,56 TB** en disco).
+- **DeepSeek V4** y **GLM-5.2** (Zhipu AI): también en la pelea.
+
+Aunque Kimi K3 tiene más parámetros brutos, Qwen 3.8 Max gana el pulso en razonamiento real: PaperBench y OSWorld.
+
+## Open weights: la promesa que se hace esperar
+
+El **2 de agosto**, Alibaba anunció que los pesos se liberarían la próxima semana. Hoy, en su repositorio oficial de Hugging Face **no hay rastro del modelo**.
+
+Ejecutar en local un modelo de 2,4 billones es fantasía: cuantizado a 4 bits requiere **1,2 terabytes de VRAM**. La vía local real será el esperado **Qwen 3.8 de 27 mil millones** de parámetros.
+
+## Veredicto
+
+**Qwen 3.8 Max es un gigante agéntico de primer nivel**, ideal en la nube por su relación rendimiento-precio. Sus capacidades multimodales y su solidez manejando sistemas marcan la pauta. La gran pregunta queda en el aire: ¿liberará Alibaba los pesos, o seguirá siendo una promesa de marketing?
+
+---
+
+*Este artículo acompaña al vídeo del canal [nramosdev](https://www.youtube.com/@nramosdev). Suscríbete para más análisis de IA en español.*

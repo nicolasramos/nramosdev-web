@@ -1,0 +1,45 @@
+---
+title: 'Qwen 3.8 Max: the 2.4-trillion giant that promises open weights'
+description: 'Technical analysis of Alibaba Qwen 3.8 Max: Mixture of Experts architecture, 983K context, benchmarks vs GPT-5 and Claude, and the open weights promise.'
+pubDate: 2026-08-09
+lang: en
+videoUrl: 'https://www.youtube.com/watch?v=PENDIENTE'
+videoId: 'PENDIENTE'
+duration: '4:05'
+color: '#ff6a00'
+tags: ['qwen', 'ai', 'llm', 'open-weights']
+---
+
+## Why this launch matters
+
+On **August 3, 2026**, Alibaba released **Qwen 3.8 Max**, a **2.4-trillion parameter** model designed to lead the agentic intelligence era. For the first time, the Chinese firm has promised to open the weights of its flagship Max-class model.
+
+## Architecture: the beast within
+
+- **Mixture of Experts**: only **95 billion parameters** are active per token out of 2.4 trillion total.
+- **Colossal context**: **983K input tokens** (nearly a million) and a **128K output** limit.
+- **Natively multimodal**: video, images, documents and text in one pipeline.
+- **Pricing**: **$2** per million input tokens, **$6** for output — a clear reduction vs Qwen 3.7 Max.
+
+## Benchmarks
+
+- **OSWorld Verified**: **86.1** — leading, ahead of Claude Fable 5 and GPT-5.6 Sol.
+- **PaperBench**: **93.0** — dominant.
+- **Terminal-Bench 2.1**: **86.6** — above Fable 5, below GPT-5.6's 88.8.
+- **IFBench**: **82.8** — leading.
+- **SWE-Bench Pro**: **67.7** — its weak spot, losing to Claude Fable 5's 80.0.
+
+## The Chinese arms race
+
+- **Kimi K3** (Moonshot AI): **2.8 trillion** total, **104 billion** active. Weights released in MXFP4 (**1.56 TB** on disk).
+- **DeepSeek V4** and **GLM-5.2** (Zhipu AI): also in the fight.
+
+## Open weights: the promise that keeps waiting
+
+On **August 2**, Alibaba said weights would be released the following week. Today, no trace of the model on Hugging Face.
+
+Running 2.4 trillion parameters locally is fantasy: 4-bit quantization needs **1.2 TB of VRAM**. The real local path will be the upcoming **Qwen 3.8 27B**.
+
+---
+
+*This article accompanies the video on the [nramosdev](https://www.youtube.com/@nramosdev) channel. Subscribe for more AI analysis in Spanish.*

@@ -1,0 +1,56 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  lang: 'es' | 'en';
+}
+const {title, description, lang} = Astro.props;
+const t = {
+  es: {home: 'Inicio', blog: 'Blog', nav: 'Artículos', suscribe: 'Suscríbete en YouTube'},
+  en: {home: 'Home', blog: 'Blog', nav: 'Posts', suscribe: 'Subscribe on YouTube'},
+}[lang];
+const altLang = lang === 'es' ? 'en' : 'es';
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="theme-color" content="#0a0a0a" />
+    <style>@import '../styles/global.css';</style>
+  </head>
+  <body class="bg-[#0a0a0a] text-white antialiased">
+    <header class="sticky top-0 z-40 border-b border-white/10 bg-[#0a0a0a]/85 backdrop-blur">
+      <nav class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+        <a href={lang === 'es' ? '/' : '/en/'} class="font-mono text-2xl font-black tracking-tight" aria-label="NRamosDev">
+          <span class="text-white">(</span><span class="text-[#ff6a00]">[</span>nr<span class="text-[#ff6a00]">]</span><span class="text-white">)</span>
+        </a>
+        <div class="flex items-center gap-6 text-sm font-bold uppercase tracking-widest text-neutral-400">
+          <a href={lang === 'es' ? '/blog' : '/en/blog'} class="transition hover:text-white">{t.nav}</a>
+          <a href="https://www.youtube.com/@nramosdev" target="_blank" rel="noopener" class="transition hover:text-[#ff6a00]">{t.suscribe}</a>
+          <a href={lang === 'es' ? '/en/' : '/'} class="rounded-full border border-white/20 px-3 py-1 text-xs transition hover:border-[#ff6a00] hover:text-[#ff6a00]">{altLang.toUpperCase()}</a>
+        </div>
+      </nav>
+    </header>
+    <main class="mx-auto max-w-5xl px-6">
+      <slot />
+    </main>
+    <footer class="mx-auto mt-24 max-w-5xl border-t border-white/10 px-6 py-10">
+      <div class="flex flex-col items-center justify-between gap-4 text-sm text-neutral-500 sm:flex-row">
+        <span class="font-mono font-bold text-neutral-400">([nr]) — NRamosDev</span>
+        <div class="flex gap-5">
+          <a href="https://github.com/nicolasramos" target="_blank" rel="noopener" class="transition hover:text-white">GitHub</a>
+          <a href="https://www.linkedin.com/in/nramosdev" target="_blank" rel="noopener" class="transition hover:text-white">LinkedIn</a>
+          <a href="https://www.youtube.com/@nramosdev" target="_blank" rel="noopener" class="transition hover:text-white">YouTube</a>
+          <a href="mailto:hola@nicolasramos.es" class="transition hover:text-white">Contacto</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
