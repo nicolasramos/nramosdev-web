@@ -63,17 +63,73 @@ function slugify(title) {
     .slice(0, 60);
 }
 
-// ── 4. Plantilla de post ES — estilo Medium (artículo largo y detallado) ──
+// ── 4. Utilidades de limpieza ──
+function decodeEntities(s) {
+  return s
+    .replace(/&quot;/g, '"')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, ' ');
+}
+
+// ¿Es una línea de keywords SEO (lista de términos minúsculos separados por comas)?
+function isKeywordLine(p) {
+  const words = p.split(',').map((w) => w.trim()).filter(Boolean);
+  if (words.length < 5) return false;
+  // la mayoría de términos debe ir en minúscula (sin mayúsculas internas)
+  const lower = words.filter((w) => !/[A-ZÁÉÍÓÚÑ]/.test(w)).length;
+  return lower / words.length >= 0.8;
+}
+
+// Encabezado de sección suelto de la descripción ("📌 ENLACES:", "📊 DATOS CLAVE")
+function sectionHeader(p) {
+  const m = p.match(/^(?:📌|📊|🔗|📝|🎯|💡|🏆)\s*([A-Za-zÁÉÍÓÚÑa-z ]{2,40}):?$/);
+  if (!m) return null;
+  // solo si parece encabezado (mayúscula inicial o todo en mayúsculas)
+  const t = m[1].trim();
+  return /^[A-ZÁÉÍÓÚÑ]/.test(t) ? t : null;
+}
+
+// ── 5. Plantilla de post ES — estilo Medium (artículo largo y detallado) ──
 function postTemplate({id, title, description, published, url}) {
   const date = published.toISOString().split('T')[0];
-  // Dividir la descripción del vídeo en párrafos útiles (suele incluir el resumen del guion)
-  const body = description
-    .split(/\n{2,}/)
-    .map((p) => p.trim())
-    .filter((p) => p.length > 0 && !p.startsWith('#') && !p.startsWith('📄') && !p.startsWith('👍') && !p.startsWith('💬') && !p.startsWith('🔔') && !p.startsWith('⏱'))
-    .slice(0, 6);
-  const chapters = [...description.matchAll(/(\d+:\d+)\s+(.+)/g)].slice(0, 12).map((m) => `- **${m[1]}** — ${m[2].trim()}`);
-  const sources = [...description.matchAll(/📄[^\n]*/g)].map((m) => m[0].trim());
+  const desc = decodeEntities(description);
+  // Parseo por LÍNEAS: la descripción mezcla párrafos, capítulos, fuentes y keywords SEO
+  const kept = [];
+  const chapterLines = [];
+  const sourceLines = [];
+  for (const raw of desc.split('\n')) {
+    const line = raw.trim();
+    if (!line) { kept.push(''); continue; }
+    const src = line.match(/^📄\s*(.+):\s*(https?:\/\/\S+)$/);
+    if (src) { sourceLines.push(`${src[1].trim()}: ${src[2].trim()}`); continue; }
+    if (line.startsWith('#') || /^(📄|👍|💬|🔔|⏱|🌐|🔗|🐙)/.test(line)) continue;
+    if (/^(\d{1,2}:\d{2})\s+\S/.test(line)) { chapterLines.push(line); continue; }
+    if (/^CAPÍTULOS/i.test(line.replace(/^⏱️?\s*/, ''))) continue;
+    if (isKeywordLine(line)) continue;
+    if (/^Canal de nramos\.?dev/i.test(line)) continue;
+    // boilerplate de CTA/enlaces fijos — ya está en el footer de la web
+    if (/^(Web|LinkedIn|GitHub|Email|Contacto|Sígueme|Blog|nramos\.dev):\s*https?:\/\//i.test(line)) continue;
+    if (/^💼\s*linkedin\.com/i.test(line)) continue;
+    if (/^(👉\s*)?Suscríbete/i.test(line)) continue;
+    if (/^Enlaces:?$/i.test(line)) continue;
+    const header = sectionHeader(line);
+    if (header) { kept.push(`**${header}**`); continue; }
+    kept.push(line);
+  }
+  const body = kept.join('\n').split(/\n{2,}/).map((p) => p.trim()).filter(Boolean).slice(0, 8);
+  const chapters = chapterLines.slice(0, 12).map((l) => {
+    const m = l.match(/^(\d{1,2}:\d{2})\s+(.+)$/);
+    return `- **${m[1]}** — ${m[2]}`;
+  });
+  const sources = sourceLines.map((l) => {
+    const m = l.match(/^(.+):\s*(https?:\/\/\S+)$/);
+    return m ? `- [${m[1].trim()}](${m[2].trim()})` : `- ${l}`;
+  });
+
+  const conclusion = body[5] || `Un análisis más en el canal. [Suscríbete](https://www.youtube.com/@${HANDLE}) para no perderte los próximos.`;
 
   return `---
 title: '${title.replace(/'/g, "\\'")}'
@@ -93,8 +149,10 @@ tags: ['youtube', 'nramosdev', 'ia', 'análisis']
 
 ${body[0] || 'Análisis completo del vídeo publicado en el canal nramosdev.'}
 
-${chapters.length ? `## Capítulos del vídeo\n\n${chapters.join('\n')}\n` : ''}
+${chapters.length ? `## Capítulos del vídeo
 
+${chapters.join('\n')}
+` : ''}
 ## El contexto
 
 ${body[1] || `Este artículo amplía el vídeo publicado en el canal [nramosdev](https://www.youtube.com/@${HANDLE}).`}
@@ -109,11 +167,13 @@ ${body.slice(2, 5).join('\n\n') || 'El vídeo desgrana el tema con datos verific
 - Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
 - Fuentes primarias listadas a continuación
 
-${sources.length ? `## Fuentes\n\n${sources.join('\n')}\n` : ''}
+${sources.length ? `## Fuentes
 
+${sources.join('\n')}
+` : ''}
 ## Conclusión
 
-${body[5] || `Un análisis más en el canal. [Suscríbete](https://www.youtube.com/@${HANDLE}) para no perderte los próximos.`}
+${conclusion}
 
 ---
 

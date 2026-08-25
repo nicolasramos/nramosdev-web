@@ -1,0 +1,69 @@
+---
+title: 'MISTRAL LARGE 3 EN LOCAL: el MITO del 2-bit en GPU de consumo 💀'
+description: '¿Te han dicho que puedes correr "Mistral Large 3 de 123B" en una GPU de 48GB con cuantización 2-bit? Es falso — y en este vídeo lo demostramos con datos. Mistra'
+pubDate: 2026-08-16
+lang: es
+videoId: 'n8Jniroq9hQ'
+videoUrl: 'https://www.youtube.com/watch?v=n8Jniroq9hQ'
+duration: ''
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**MISTRAL LARGE 3 EN LOCAL: el MITO del 2-bit en GPU de consumo 💀**
+
+¿Te han dicho que puedes correr "Mistral Large 3 de 123B" en una GPU de 48GB con cuantización 2-bit? Es falso — y en este vídeo lo demostramos con datos. Mistral Large 3 real es un MoE granular de 675 mil millones de parámetros (41B activos por token), lanzado el 2 de diciembre de 2025 bajo licencia Apache 2.0. Y ni siquiera la cuantización más agresiva (2-bit ≈ 170GB) lo mete en una GPU de consumo.
+
+## Capítulos del vídeo
+
+- **00:00** — El gancho y el mito del "123B"
+- **00:53** — La verdad técnica de Mistral Large 3
+- **01:48** — La cruda realidad del hardware
+- **02:38** — El truco MoE: solo 41B activos
+- **03:26** — Offload de expertos con llama.cpp
+- **04:18** — El embudo de la velocidad: RAM y PCIe
+- **05:14** — ¿Qué tal habla un modelo a 2 bits?
+- **05:57** — Benchmarks: el potencial real
+- **06:49** — Veredicto: nube vs local
+
+## El contexto
+
+Entonces, ¿es imposible correrlo en casa? No del todo: la ingeniería MoE + offload de expertos con llama.cpp permite ejecutar un modelo de 675B con 48GB de VRAM + RAM del sistema. Analizamos la degradación real del 2-bit (KLD ×10 vs Q4), los benchmarks oficiales y el veredicto final: nube vs local.
+
+## Análisis
+
+**DATOS CLAVE**
+
+Mistral Large 3: 675B totales / 41B activos · MoE granular · Apache 2.0 · 256K contexto · multimodal
+Memoria por quant: BF16 1.35TB → FP8 675GB → NVFP4 338GB → Q2/IQ2 170GB mínimo
+48GB VRAM NO es suficiente ni a 2-bit → offload de expertos a RAM (llama.cpp --cpu-moe)
+Velocidad con offload: 15-50 tokens/s (limitado por PCIe/RAM ~50GB/s)
+Degradación 2-bit: KLD 0.27 (IQ2) vs 0.025 (Q4) — ×10 más error
+Benchmarks: MMLU-Pro 85.5% · GPQA Diamond 43.9% · HumanEval+ 92% · LMARENA #2 OSS (1418 ELO)
+API: $0.5/M input · $1.5/M output
+
+Mistral AI — Introducing Mistral 3: https://mistral.ai/news/mistral-3
+Docs oficiales Mistral Large 3: https://docs.mistral.ai/models/mistral-large-3-25-12
+Modelo en Hugging Face: https://huggingface.co/mistralai/Mistral-Large-3-675B-Instruct-2512
+GGUFs comunidad (Unsloth): https://huggingface.co/unsloth/Mistral-Large-3-675B-Instruct-2512-GGUF
+Guía offload MoE llama.cpp: https://huggingface.co/blog/Doctor-Shotgun/llamacpp-moe-offload-guide
+Blind tests de quantización (llama.cpp): https://github.com/ggml-org/llama.cpp/discussions/5962
+Unsloth Dynamic 2.0 (KLD por quant): https://unsloth.ai/docs/basics/unsloth-dynamic-2.0-ggufs
+VRAM por quant: https://www.spheron.network/blog/deploy-mistral-large-3-gpu-cloud
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=n8Jniroq9hQ
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+
+## Conclusión
+
+Un análisis más en el canal. [Suscríbete](https://www.youtube.com/@nramosdev) para no perderte los próximos.
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*
