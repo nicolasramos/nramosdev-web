@@ -1,0 +1,106 @@
+---
+title: '70B en 4GB de VRAM: la compresión neural de 2026, ¿es real?'
+description: 'En 2026 el "breakthrough de compresión neural" para meter un 70B en pocos GB de VRAM NO es una única técnica, sino TRES frentes que se atacan en paralelo: 1. '
+pubDate: 2026-08-25
+lang: es
+videoId: 'lA8mj94sVWQ'
+videoUrl: 'https://www.youtube.com/watch?v=lA8mj94sVWQ'
+duration: ''
+image: 'https://i.ytimg.com/vi/lA8mj94sVWQ/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**70B en 4GB de VRAM: la compresión neural de 2026, ¿es real?**
+
+
+Este artículo amplía el vídeo del canal [nramosdev](https://www.youtube.com/@nramosdev) con el estudio completo y las fuentes verificadas.
+
+## El contexto
+
+En 2026 el "breakthrough de compresión neural" para meter un 70B en pocos GB de VRAM NO es una única técnica, sino TRES frentes que se atacan en paralelo:
+1. **PESOS (weight-only)**: NanoQuant (Samsung Labs) — primera cuantización post-training SUB-1-BIT, comprime Llama2-70B de ~138GB a ~5.35GB (25.8x) en 13h con 1 GPU H100, y corre en una GPU de consumo de 8GB a hasta 20.11 tok/s. Código abierto en github.com/SamsungLabs/NanoQuant.
+2. **Disco/streaming (sin cuantización)**: AirLLM (lyogavin) — carga UNA capa a la vez desde disco, 70B en 4GB, sin cuantización ni destilación ni pruning. El trade-off: velocidad (1-5 tok/s en NVMe, ~0.07 tok/s en MacBook). 28k+ estrellas, Apache 2.0.
+3. **KV cache (no los pesos)**: TurboQuant (Google Research, ICLR 2026) — comprime el KV cache a ~3 bits por valor, sin retraining, con distorsión matemáticamente casi óptima (factor ~2.7 de Shannon). Reducción ≥6x de memoria del KV cache, hasta 8x más rápido en atención (H100, 4-bit). El "memory wall" real no son solo los pesos: el KV cache crece linealmente con el contexto.
+
+El gancho del título YouTube ("Fitting 70B into 4GB") es REAL pero con matices: depende del método. NanoQuant 25.8x = "cabe de peso", AirLLM = "cabe por streaming de capas". El vídeo honesto: explicar que el muro de la memoria se ataca desde 3 frentes distintos, con números reales y trade-offs de velocidad.
+
+## HECHOS VERIFICADOS CON FUENTES
+
+### 1. NanoQuant — sub-1-bit PTQ (Samsung Labs, arXiv 2602.06694)
+- Primera método POST-TRAINING (PTQ, sin retraining) que comprime LLMs a binario (1-bit) y sub-1-bit.
+- Formulación: factorización binaria de bajo rango. Cada peso W ≈ s1 ⊙ (U±1 · V±1ᵀ) ⊙ s2ᵀ, con U/V matrices binarias {-1,+1} de bajo rango r y escalas de canal s1/s2.
+- Método: inicialización ADMM (precisa, hessiana-aware) + reconstrucción por bloques + calibración global.
+- Datos: solo 128 muestras de calibración (0.26M tokens), 1 GPU.
+- Resultado: comprime Llama2-70B de 138.04GB a 5.35GB (25.8x) en 13h en 1 H100; corre en GPU de consumo de 8GB a hasta 20.11 tok/s.
+- Kernels CUDA GEMV/GEMM binarios propios → mayor throughput, menor footprint, mejor eficiencia energética.
+- Versión v3 (más reciente): 137.95GB → 5.75GB (24x), mismos 20.11 tok/s.
+- Tabla vs otras PTQ/QAT: BiLLM, STBLLM, ARB-LLM, HB-LLM (PTQ binario, no sub-1-bit); OneBit, BinaryMoS, DBF, ParetoQ (QAT); LittleBit (QAT sub-1bit). NanoQuant es el único PTQ que llega a sub-1-bit.
+- Benchmark Bin GEMV en Jetson TX2: hasta 12.2x más rápido que PyTorch FP16.
+- GitHub: github.com/SamsungLabs/NanoQuant.
+### 2. AirLLM — 70B en 4GB sin cuantización (lyogavin/airllm, GitHub)
+- "AirLLM dramatically reduces inference memory usage, letting 70B LLMs run on a single 4GB GPU — without quantization, distillation, or pruning."
+- Método: carga UNA capa a la vez (layer-by-layer), la procesa, la descarga y sigue. El modelo nunca está residente al completo. El disco = extensión de memoria, tu almacenamiento es el presupuesto, no tu VRAM.
+- Funciona también con MoE (sparse): 405B Llama 3.1 en 8GB, DeepSeek-V3 (671B) en ~12GB, Kimi K3 (2.8T, el mayor open source) en &lt;4GB (los MoE stream un experto a la vez).
+- 28,000+ estrellas, 3,000+ forks, 250k+ descargas. Licencia Apache 2.0.
+- Trade-off REAL (verificado): la velocidad está acotada por el BANDWIDTH del disco, no por compute:
+- NVMe + GPU: 1-3 tok/s (mejor caso local)
+- SATA SSD + GPU: 0.5-1 tok/s
+- HDD + GPU: &lt;0.3 tok/s
+- MacBook: ~0.07 tok/s (~14 s/token)
+- 70B FP16 (~140GB): floor de ~20s/token en NVMe Gen4 7GB/s (la aritmética del bandwidth), ~255s en SATA SSD.
+- Comparación honesta: full-VRAM en multi-GPU = 15-30 tok/s. AirLLM es 5-30x más lento según disco. "No hace 70B RÁPIDO en 4GB; hace 70B POSIBLE en 4GB."
+- Cuantización 4-bit ayuda: reduce los bytes a transferir (~35GB) → menos bandwidth.
+- Config: pip install -U bitsandbytes, pip install -U airllm; compression='4bit' (o 8bit) da ~3x speedup, impacto de precisión comparable a cuantización 4-bit estándar.
+### 3. TurboQuant — compresión KV cache (Google Research, ICLR 2026, arXiv 2504.19874)
+- Problema: en inferencia de LLM el mayor problema de memoria NO son los pesos sino el KV CACHE. Un 70B para 512 usuarios concurrentes puede quemar 512GB solo de cache (casi 4x los pesos).
+- KV cache escala con capas, heads, dim y CONTEXTO. Para un Llama-3.1-8B con ventana 128K, la KV cache puede consumir más memoria que los parámetros.
+- Vector quantization (VQ) del KV cache no es nuevo (GPTQ/AWQ/GGUF van para pesos), pero VQ del KV cache debe ser ONLINE (sin datos futuros, sin fine-tuning) y los métodos anteriores tenían OVERHEAD: constants de normalización por-bloque (escalas/zero-points) añaden 1-2 bits extra por número → deshacen la compresión.
+- TurboQuant ELIMINA el overhead:
+- Stage 1 PolarQuant: multiplica por una matriz ortogonal aleatoria (QR de Gaussiana) → cada coordenada sigue una distribución conocida (concentrada Beta, ≈ N(0,1/d)) INDEPENDIENTE de los datos → un solo conjunto de centroides Lloyd-Max precomputado sirve para todos los vectores. Cero overhead, cero codebook training.
+- Stage 2 QJL (Quantized JL, bias correction): el MSE-optimal cuantizador introduce sesgo sistemático en el dot product (daño a la atención). QJL gasta 1 bit del presupuesto en una proyección aleatoria del error residual → sesgo cancelado → estimadores UNBIASED del inner product.
+- Resultados:
+- KV cache comprimido a 3 bits/valor (y 2.5 con estrategia outlier-aware) sin retraining, sin pérdida medible en QA/code/summarization. ≥6x reducción de memoria KV vs 16-bit.
+- Needle In A Haystack: a 4x compression iguala precisión full hasta 104K tokens (100% retrieval accuracy).
+- H100, 4-bit: hasta 8x más rápido el cálculo de logits de atención vs baseline 32-bit.
+- Optimalidad teórica: MSE-distortion dentro de un factor ~2.7 del límite teórico (Shannon + Yao minimax) en todas las bit-widths; a 1-bit, ~1.45x de lo óptimo.
+- Variantes: TurboQuant_prod (inner product fidelity, para keys) y TurboQuant_mse (reconstruction, para values).
+- Limitaciones honestas (en el propio artículo/TowardsAI): paper usa modelos hasta ~8B, el comportamiento a 70B+ KV no está bien caracterizado; NO hay código oficial de Google aún; asymmetría key/value (ratios 10x-1000x) no bien tratada; speedups 8x en H100 JAX, en otras harads depende de kernels.
+- Comunidad: portado a llama.cpp y MLX en 48h; llamado "el momento DeepSeek de Google" por Cloudflare CEO. Paper arXiv 2504.19874, blog Google Research 24-03-2026.
+- Implementaciones open source: github.com/OmarHory/turboquant (KV cache 2.5-4 bits, 3.8-5.7x reducción en Mistral-7B, sin training).
+### 4. Contexto / marco del "memory wall"
+- Un 70B FP16 = ~140GB (weights solos). Cuantización clásica 4GB (INT4) = ~35GB.
+- Cuantización INT4-AWQ: casi lossless, 3x+ speedup, LLaMA-70B cabe en 1 RTX 4090 (24GB).
+- 1-bit/sub-1bit (NanoQuant/LittleBit): 70B en 5-8GB de VRAM.
+- AirLLM: 70B en 4GB por streaming, sin cuantización.
+- Hardware de referencia: 24GB RTX 4090 con offload → 8-15 tok/s; M4 Ultra 192GB → 70B FP16 o 400B+ a 4-bit.
+- Pruning/distillation/quantization combinados: 35-49x de compresión total.
+
+## DATOS PARA EL GUIÓN (resumen ejecutivo)
+
+- El claim viral "70B en 4GB" es REAL pero con matices y TRES técnicas distintas.
+- NanoQuant: 1ª PTQ sub-1bit; 70B 138GB→5.35GB (25.8x) en 13h/1H100; corre en 8GB GPU ~20 tok/s; factorización binaria low-rank + ADMM; code en SamsungLabs/NanoQuant.
+- AirLLM: 70B en 4GB SIN cuantizar, capa a capa desde disco; 28k+ stars; NVMe 1-3 tok/s; MoE incl. Kimi K3 2.8T &lt;4GB; "no lo hace rápido, lo hace posible".
+- TurboQuant: KV cache a 3 bits sin retraining, ≥6x, near-optimal matemático; Google ICLR 2026; el KV cache, no los pesos, es el muro real a gran contexto.
+- Narrativa honesta: cada método rompe un muro distinto; todos con trade-offs de velocidad/entrenamiento.
+
+## Puntos clave
+
+- Ver el análisis en vídeo: https://www.youtube.com/watch?v=lA8mj94sVWQ
+- Investigación verificada contra fuentes primarias (fecha de publicación del vídeo)
+- Fuentes listadas a continuación para profundizar
+
+## Conclusión
+
+En 2026 el "breakthrough de compresión neural" para meter un 70B en pocos GB de VRAM NO es una única técnica, sino TRES frentes que se atacan en paralelo:
+1. **PESOS (weight-only)**: NanoQuant (Samsung Labs) — primera cuantización post-training SUB-1-BIT, comprime Llama2-70B de ~138GB a ~5.35GB (25.8x) en 13h con 1 GPU H100, y corre en una GPU de consumo de 8GB a hasta 20.11 tok/s. Código abierto en github.com/SamsungLabs/NanoQuant.
+2. **Disco/streaming (sin cuantización)**: AirLLM (lyogavin) — carga UNA capa a la vez desde disco, 70B en 4GB, sin cuantización ni destilación ni pruning. El trade-off: velocidad (1-5 tok/s en NVMe, ~0.07 tok/s en MacBook). 28k+ estrellas, Apache 2.0.
+3. **KV cache (no los pesos)**: TurboQuant (Google Research, ICLR 2026) — comprime el KV cache a ~3 bits por valor, sin retraining, con distorsión matemáticamente casi óptima (factor ~2.7 de Shannon). Reducción ≥6x de memoria del KV cache, hasta 8x más rápido en atención (H100, 4-bit). El "memory wall" real no son solo los pesos: el KV cache crece linealmente con el contexto.
+
+El gancho del título YouTube ("Fitting 70B into 4GB") es REAL pero con matices: depende del método. NanoQuant 25.8x = "cabe de peso", AirLLM = "cabe por streaming de capas". El vídeo honesto: explicar que el muro de la memoria se ataca desde 3 frentes distintos, con números reales y trade-offs de velocidad.
+
+---
+
+*Artículo generado desde el estudio completo del pipeline de vídeo de [nramosdev](https://www.youtube.com/@nramosdev). Todos los datos provienen de la investigación verificada del canal.*

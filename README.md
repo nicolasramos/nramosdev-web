@@ -1,43 +1,68 @@
-# Astro Starter Kit: Minimal
+# nramos.dev — technical blog
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Personal tech blog of Nicolás Ramos (NRamosDev). Built with **Astro** (static), Tailwind CSS and MDX. Each YouTube video on the [nramosdev](https://www.youtube.com/@nramosdev) channel gets its own article: context, verified research, benchmarks and sources.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Tech stack
 
-## 🚀 Project Structure
+- **Astro 7** — static site generator
+- **Tailwind CSS 4** (via `@tailwindcss/vite`)
+- **@astrojs/mdx** — article content
+- **@astrojs/sitemap** — sitemap + hreflang alternates
 
-Inside of your Astro project, you'll see the following folders and files:
+## Project structure
 
 ```text
 /
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+├── public/               # static assets (robots.txt, favicons)
+├── scripts/
+│   └── sync-youtube.mjs  # YouTube → blog sync (generates posts)
+└── src/
+    ├── content/
+    │   ├── config.ts     # content collection schema
+    │   └── posts/        # MDX articles (es- and en- prefixed)
+    ├── layouts/Base.astro
+    └── pages/
+        ├── blog/[slug].astro   # ES article (SEO + JSON-LD)
+        └── en/blog/[slug].astro # EN article
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Commands
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+| Command                 | Action                                   |
+| :---------------------- | :--------------------------------------- |
+| `npm install`           | Install dependencies                     |
+| `npm run dev`           | Start local dev server at `localhost:4321` |
+| `npm run build`         | Build production site to `./dist/`       |
+| `npm run preview`       | Preview the build locally                |
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Syncing YouTube → blog
 
-## 🧞 Commands
+`scripts/sync-youtube.mjs` pulls the channel's RSS feed and generates one MDX post per video. Content strategy is **hybrid**:
 
-All commands are run from the root of the project, from a terminal:
+1. **Rich article** — if the video's `research.md` from the video pipeline is found, the post is built from the full verified study: context, sections, benchmark tables and sources.
+2. **Light article** — otherwise it falls back to the video description (parsed for chapters, sources and key points).
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Set the path to the video pipeline (where the per-video `research.md` lives) via the environment variable:
 
-## 👀 Want to learn more?
+```sh
+export NRAMOSDEV_VIDEOS_DIR=/path/to/ai-video-pipeline/videos
+node scripts/sync-youtube.mjs            # create posts for new videos
+node scripts/sync-youtube.mjs --dry-run  # preview what would be created
+node scripts/sync-youtube.mjs --force    # regenerate every post
+```
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+If `NRAMOSDEV_VIDEOS_DIR` is not set, all posts fall back to the RSS-only version.
+
+## SEO
+
+Every article emits:
+
+- **Canonical + hreflang** (es/en/x-default) alternates
+- **OpenGraph + Twitter Cards** with the video thumbnail as `og:image`
+- **JSON-LD** `Article` + `VideoObject` (rich snippets for Google)
+- **Breadcrumbs** and **related posts** (shared tags)
+- **Sitemap** (`/sitemap-index.xml`) + **robots.txt**
+
+## License / privacy
+
+Hosted in the EU (GDPR). Contact: [hola@nicolasramos.es](mailto:hola@nicolasramos.es).

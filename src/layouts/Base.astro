@@ -3,13 +3,29 @@ interface Props {
   title: string;
   description: string;
   lang: 'es' | 'en';
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  jsonLd?: Record<string, unknown>;
 }
-const {title, description, lang} = Astro.props;
+const {title, description, lang, ogImage, ogType = 'website', jsonLd} = Astro.props;
 const t = {
   es: {home: 'Inicio', blog: 'Blog', nav: 'Artículos', suscribe: 'Suscríbete en YouTube'},
   en: {home: 'Home', blog: 'Blog', nav: 'Posts', suscribe: 'Subscribe on YouTube'},
 }[lang];
 const altLang = lang === 'es' ? 'en' : 'es';
+
+const SITE = 'https://nramos.dev';
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '';
+// Canonical: la ruta pública de esta página (la lengua por defecto va sin prefijo)
+const canonicalPath = lang === 'en' ? pathname : (pathname === '' ? '/' : pathname);
+const canonical = `${SITE}${canonicalPath || '/'}`;
+// Hreflang alternate: la misma página en la otra lengua
+const alternatePath =
+  lang === 'en'
+    ? (pathname.replace(/^\/en/, '') || '/')
+    : `/en${pathname === '/' ? '' : pathname}`;
+const alternate = `${SITE}${alternatePath === '/' ? '/' : alternatePath}`;
+const jsonLdStr = jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : '';
 ---
 
 <!doctype html>
@@ -20,10 +36,26 @@ const altLang = lang === 'es' ? 'en' : 'es';
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={altLang} href={alternate} />
+    <link rel="alternate" hreflang="x-default" href={canonical} />
+
+    <meta property="og:site_name" content="NRamosDev" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+
     <meta name="theme-color" content="#ffffff" />
     <style>@import '../styles/global.css';</style>
+    {jsonLdStr}
   </head>
   <body class="bg-white text-black antialiased">
     <header class="sticky top-0 z-40 border-b border-black/10 bg-white/90 backdrop-blur">

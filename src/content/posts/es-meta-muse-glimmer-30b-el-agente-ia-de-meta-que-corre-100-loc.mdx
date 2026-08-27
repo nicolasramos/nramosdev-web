@@ -1,11 +1,12 @@
 ---
 title: 'Meta Muse Glimmer 30B: el agente IA de Meta que corre 100% local'
-description: '¿Agentes de IA locales, siempre activos y sin pagar por token? Analizamos Muse Glimmer 30B de Meta: arquitectura, benchmarks y si de verdad corre en tu máquina.'
+description: '¿Agentes de IA locales, siempre activos y sin pagar por token? Analizamos Muse Glimmer 30B de Meta: arquitectura, benchmarks y si de verdad corre en tu máquin'
 pubDate: 2026-08-14
 lang: es
 videoId: 'QUwORJ1pTyI'
 videoUrl: 'https://www.youtube.com/watch?v=QUwORJ1pTyI'
 duration: ''
+image: 'https://i.ytimg.com/vi/QUwORJ1pTyI/hqdefault.jpg'
 color: '#ff6a00'
 tags: ['youtube', 'nramosdev', 'ia', 'análisis']
 ---
@@ -14,43 +15,103 @@ tags: ['youtube', 'nramosdev', 'ia', 'análisis']
 
 **Meta Muse Glimmer 30B: el agente IA de Meta que corre 100% local**
 
-¿Agentes de IA locales, siempre activos y sin pagar por token? Analizamos Muse Glimmer 30B de Meta: arquitectura, benchmarks y si de verdad corre en tu máquina.
+> ¿Agentes de IA locales, siempre activos y sin pagar por token? Analizamos Muse Glimmer 30B de Meta: arquitectura, benchmarks y si de verdad corre en tu máquina.
 
-## Capítulos del vídeo
-
-- **0:00** — Intro — El retorno de Meta a los pesos abiertos
-- **0:45** — Arquitectura — el multimodal denso
-- **1:27** — Propósito — agentes always-on en acción
-- **2:14** — Origen — la destilación de Muse Spark
-- **3:03** — Benchmarks agénticos — duelo de titanes
-- **3:44** — Las costuras — donde Qwen sigue mandando
-- **4:25** — Correr en local — el poder de DFlash
-- **5:05** — Nuestra infraestructura y runtimes
-- **5:48** — La gran confusión: multimodal, no generador de vídeo
-- **6:27** — Conclusión y debate: ¿local o en nube?
+Este artículo amplía el vídeo del canal [nramosdev](https://www.youtube.com/@nramosdev) con el estudio completo y las fuentes verificadas.
 
 ## El contexto
 
-Muse Glimmer 30B es la apuesta de Meta Superintelligence Labs por los pesos abiertos (Apache 2.0): un modelo denso y multimodal de 29,6 mil millones de parámetros diseñado para agentes always-on, con destilación de Muse Spark, 131K de contexto nativo y soporte para MCP. En este análisis comparamos Muse Glimmer con Gemma 4 y Qwen 3.6 en benchmarks agénticos, repasamos el hardware real que necesitas (17 GB en 4-bit, DFlash a 233 tok/s) y aclaramos la gran confusión: no genera vídeo, es un motor de lógica agéntica local.
+- **Publicado:** 10 agosto 2026 por Meta Superintelligence Labs (MSL)
+- **Licencia:** Apache 2.0 — uso comercial, modificación, redistribución libres
+- **Qué es:** modelo causal de lenguaje de 30B con encoder de percepción, **destilado de Muse Spark**, diseñado para agentes locales "always-on" (que no se apagan): tool calling fiable, estado persistente entre reinicios, memoria en sesiones de horas
+- **FUENTES PRIMARIAS:** https://developer.meta.com/ai/models/muse-glimmer · https://huggingface.co/meta-models/Muse-Glimmer-30B · https://www.amd.com/en/blogs/2026/run-meta-muse-glimmer-30b-on-amd-ryzen-ai-max-and-radeon-gpus.html
 
-## Análisis
+## Arquitectura (verificado en model card HF)
 
-- Página oficial de Meta — https://developer.meta.com/ai/models/muse-glimmer
-- Model card Hugging Face — https://huggingface.co/meta-models/Muse-Glimmer-30B
-- Documentación Meta — https://dev.meta.ai/docs/muse-glimmer
-- Blog AMD (rendimiento local) — https://www.amd.com/en/blogs/2026/run-meta-muse-glimmer-30b-on-amd-ryzen-ai-max-and-radeon-gpus.html
+- **Total de parámetros:** ~29.6B (incluye encoder de visión)
+- **Arquitectura:** Dense Causal Transformer con Perception Encoder
+- **Layers:** 52 · hidden dim 6656 · FFN SwiGLU (19,968)
+- **Atención:** [Local, Local, Local, Global] repetido, sliding window 2048, GQA 32/2 (ratio 16:1)
+- **Encoder de visión:** ViT-G/14 (~1.8B params, 50 layers, patch 14) — hasta 4.096 tokens visuales por imagen
+- **Contexto:** 131.072+ (128K+)
+- **Vocabulario:** 202.048 tokens (200K BPE + 2.048 especiales)
+- **Modalities:** entrada texto + imagen; **salida SOLO texto** (no genera audio ni vídeo)
+- **Knowledge cutoff:** 4 enero 2026
+- **Idiomas:** entrenado con datos de 100+ idiomas (válido para es-ES)
+
+## Propósito: agente local always-on
+
+- Tool calling fiable con schemas precisos en flujos largos
+- Razonamiento multi-paso con recuperación de fallos (si una tool falla, diagnostica y reintenta)
+- Memoria persistente y continuidad entre reinicios
+- Multimodal: interpreta capturas, gráficos, documentos junto al texto
+- Compatible con scaffolds: OpenClaw, **Hermes Agent**, y otros patrones agénticos
+- **Ya corremos Muse-Glimmer-30B-4bit en los Ultra (aliases u1-/u2-muse-glimmer-30b) — experiencia local real del canal**
+
+## Hardware y velocidad (verificado)
+
+- Cuantización ~4-bit: modelo bajo 20GB → **K-Quant-17GB en 24GB VRAM** (degradación 1.0%), K-Quant-Dynamic en 32GB (0.2%), full precision en 64GB
+- **Speculative decoding DFlash:** drafter de 5 capas, bloques de 16 tokens
+- Velocidades medias (HF model card):
+- **Nvidia RTX 5090:** 74.9 → **233.4 tok/s** con DFlash (3.1x)
+- **Apple M4 Max:** 23.7 → 37.8 tok/s (1.5x, ExecuTorch)
+- **Apple M5 Max:** 26.6 → 50.2 tok/s (1.8x)
+- AMD (blog oficial, llama.cpp Vulkan + dFlash):
+- **Ryzen AI Max+ 395:** hasta 24 tok/s
+- **Radeon AI PRO R9700:** hasta 53 tok/s
+- Runtimes: Transformers, vLLM (OpenAI-compatible), SGLang, llama.cpp, ExecuTorch, LM Studio, Lemonade (binario embebible ~4MB), Docker Model Runner, NVIDIA NIM
+
+## Benchmarks (tabla oficial Meta — comparativa con Gemma4-31B y Qwen3.6-27B)
+
+**Lectura honesta:** gana en agentes (MCP Atlas 75.5, DeepSearch 74.6, SWE-Bench Pro 51.2) y razonamiento (AIME 94.7); Qwen3.6-27B le gana en OSWorld (75.6), TerminalBench (60.7) y SWE-Bench Verified (77.2); Gemma4 gana solo GPQA (85.7).
+
+## Modelos de vídeo de Meta (contexto — no open weights)
+
+- Muse Video / Muse Image viven en Meta AI app / Instagram — **sin API pública ni pesos abiertos**
+- Movie Gen (2024): 30B text-to-video + 13B video-to-audio, sigue siendo research cerrado
+- **Meta no publica pesos abiertos de ningún modelo de vídeo** → el vídeo del canal se produce con el pipeline Remotion (motion graphics), no con el modelo
+
+## ¿Se puede correr en local? (sí — y nosotros ya lo hacemos)
+
+- ✅ 1 GPU consumer o Mac (24/32GB VRAM con cuantización)
+- ✅ Runtimes open source (vLLM, llama.cpp, LM Studio, ExecuTorch)
+- ✅ Ya corriendo en la infra del canal: Muse-Glimmer-30B-4bit en los Mac Ultra (u1-/u2-muse-glimmer-30b)
+- Coste: 0 €/token (local), vs API en la nube
+
+## Datos comparativos
+
+| Categoría | Benchmark | Muse Glimmer-30B | Gemma4-31B | Qwen3.6-27B |
+|---|---|---|---|---|
+| Agéntico general | **MCP Atlas** | **75.5** | 54.2 | 62.5 |
+| | DeepSearch QA | **74.6** | 61.7 | 71.1 |
+| | τ³-Banking | **23.5** | 15.1 | 16.7 |
+| | GAIA2 | **43.3** | 36.4 | 40.0 |
+| | OSWorld-Verified | 65.9 | 58.5 | **75.6** |
+| Coding agéntico | SWE-Bench Pro | **51.2** | 36.9 | 50.2 |
+| | SWE-Bench Verified | 76.0 | 66.6 | **77.2** |
+| | TerminalBench 2.1 | 51.7 | 43.4 | **60.7** |
+| Multimodal | Charxiv Reasoning | **78.8** | 77.7 | 78.4 |
+| | OmniDocBench v1.5 | **75.8** | 72.5 | 77.8 |
+| | MMMU Pro | 74 | 73 | **75** |
+| General/razonamiento | AIME 2026 | **94.7** | 89.2 | 94.1 |
+| | GPQA Diamond | 83.5 | **85.7** | 84.2 |
+| | IFBench | **77.0** | 76.0 | 70.8 |
+| | Beam128K | **65.1** | 58.2 | 63.0 |
+
 
 ## Puntos clave
 
-- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=QUwORJ1pTyI
-- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
-- Fuentes primarias listadas a continuación
+- Ver el análisis en vídeo: https://www.youtube.com/watch?v=QUwORJ1pTyI
+- Investigación verificada contra fuentes primarias (fecha de publicación del vídeo)
+- Fuentes listadas a continuación para profundizar
 
+## Fuentes
 
-## Conclusión
-
-Un análisis más en el canal. [Suscríbete](https://www.youtube.com/@nramosdev) para no perderte los próximos.
+- [developer.meta.com](https://developer.meta.com/ai/models/muse-glimmer)
+- [huggingface.co](https://huggingface.co/meta-models/Muse-Glimmer-30B)
+- [www.amd.com](https://www.amd.com/en/blogs/2026/run-meta-muse-glimmer-30b-on-amd-ryzen-ai-max-and-radeon-gpus.html)
+- [dev.meta.ai](https://dev.meta.ai/docs/muse-glimmer)
 
 ---
 
-*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*
+*Artículo generado desde el estudio completo del pipeline de vídeo de [nramosdev](https://www.youtube.com/@nramosdev). Todos los datos provienen de la investigación verificada del canal.*
