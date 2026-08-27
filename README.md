@@ -1,6 +1,6 @@
 # nramos.dev — technical blog
 
-Personal tech blog of Nicolás Ramos (NRamosDev). Built with **Astro** (static), Tailwind CSS and MDX. Each YouTube video on the [nramosdev](https://www.youtube.com/@nramosdev) channel gets its own article: context, verified research, benchmarks and sources.
+Personal tech blog of Nicolás Ramos (nramosdev). Built with **Astro** (static), Tailwind CSS and MDX. Each YouTube video on the [nramosdev](https://www.youtube.com/@nramosdev) channel gets its own article: context, verified research, benchmarks and sources.
 
 ## Tech stack
 

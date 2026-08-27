@@ -6,33 +6,47 @@ const posts = (await getCollection('posts', ({data}) => data.lang === 'es' && !d
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<Base lang="es" title="NRamosDev — IA y tecnología en español" description="Blog de Nicolás Ramos sobre inteligencia artificial, modelos de lenguaje y desarrollo de software. Cada vídeo del canal tiene su análisis por escrito.">
-  <section class="pb-16 pt-24 text-center">
-    <p class="font-mono text-3xl font-black tracking-tight sm:text-4xl">
-      <span class="text-black">(</span><span class="text-black">[</span>nr<span class="text-black">]</span><span class="text-black">)</span>
+<Base lang="es" title="nramosdev — IA y tecnología en español" description="Blog de Nicolás Ramos sobre inteligencia artificial, modelos de lenguaje y desarrollo de software. Cada vídeo del canal tiene su análisis por escrito.">
+  <section class="pb-14 pt-20 sm:pt-28">
+    <p class="reveal font-mono text-sm text-muted">
+      <span class="text-amber">nramos@dev</span>:<span class="text-fg">~</span>$ <span class="text-muted">cat manifiesto.md</span>
     </p>
-    <h1 class="mt-6 text-4xl font-black uppercase leading-tight tracking-tight sm:text-6xl">
-      IA y tecnología<br /><span class="text-black">sin humo</span>
+    <h1 class="reveal mt-6 max-w-3xl font-mono text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-6xl">
+      IA y tecnología<br /><span class="text-amber">sin humo.</span>
     </h1>
-    <p class="mx-auto mt-6 max-w-xl text-neutral-600">
+    <p class="reveal mt-7 max-w-xl text-base leading-relaxed text-muted">
       Análisis de modelos de lenguaje, agentes IA y desarrollo de software. Cada vídeo del canal{' '}
-      <a href="https://www.youtube.com/@nramosdev" target="_blank" rel="noopener" class="text-black underline decoration-black underline-offset-4 hover:opacity-80">nramosdev</a>{' '}
+      <a href="https://www.youtube.com/@nramosdev" target="_blank" rel="noopener" class="link-amber">nramosdev</a>{' '}
       tiene aquí su artículo con el contexto completo.
     </p>
+    <div class="reveal mt-9 flex flex-wrap items-center gap-4">
+      <a href="/blog" class="inline-flex items-center gap-2 rounded-md bg-amber px-5 py-2.5 font-mono text-sm font-bold text-bg transition hover:bg-amber/85">
+        <span aria-hidden="true">→</span> Leer los artículos
+      </a>
+      <a href="https://www.youtube.com/@nramosdev" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-md border border-line px-5 py-2.5 font-mono text-sm font-bold text-fg transition hover:border-amber hover:text-amber">
+        <span aria-hidden="true">▶</span> Ver el canal
+      </a>
+    </div>
   </section>
 
-  <section>
-    <h2 class="mb-8 text-sm font-black uppercase tracking-[0.3em] text-neutral-600">Artículos</h2>
-    <div class="grid gap-6">
-      {posts.map((post) => (
-        <a href={`/blog/${post.id.replace(/^(es|en)-/, '')}`} class="group block rounded-xl border border-black/10 bg-neutral-50 p-8 transition hover:border-black/60 hover:bg-neutral-100">
-          <div class="flex flex-wrap items-center gap-3 text-xs font-bold uppercase tracking-widest text-neutral-600">
-            <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString('es-ES', {day: 'numeric', month: 'long', year: 'numeric'})}</time>
-            {post.data.duration && <span class="rounded-full border border-black/15 px-2 py-0.5">▶ {post.data.duration}</span>}
-            {post.data.tags.slice(0, 3).map((tag) => <span class="text-black">#{tag}</span>)}
+  <section class="border-t border-line/70 pt-10">
+    <h2 class="reveal mb-6 flex items-center gap-3 font-mono text-xs font-bold uppercase tracking-[0.3em] text-muted">
+      <span class="text-amber" aria-hidden="true">▸</span> Artículos
+    </h2>
+    <div class="grid gap-4">
+      {posts.map((post, i) => (
+        <a href={`/blog/${post.id.replace(/^(es|en)-/, '')}`} class="reveal group block rounded-lg border border-line/70 bg-panel/60 p-6 transition hover:border-amber/50 hover:bg-panel sm:p-7" style={`animation-delay: ${0.05 + i * 0.05}s`}>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[0.7rem] uppercase tracking-widest text-muted">
+            <span class="text-amberdim" aria-hidden="true">[</span>
+            <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString('es-ES', {day: '2-digit', month: '2-digit', year: 'numeric'})}</time>
+            {post.data.duration && <span class="text-amberdim">· ▶ {post.data.duration}</span>}
+            <span class="text-amberdim">]</span>
+            {post.data.tags.slice(0, 3).map((tag) => <span class="text-amber">#{tag}</span>)}
           </div>
-          <h3 class="mt-4 text-2xl font-black leading-snug transition group-hover:text-black">{post.data.title}</h3>
-          <p class="mt-3 line-clamp-2 text-neutral-600">{post.data.description}</p>
+          <h3 class="mt-3 font-mono text-xl font-bold leading-snug transition group-hover:text-amber sm:text-2xl">
+            <span class="mr-2 text-amberdim opacity-0 transition group-hover:opacity-100" aria-hidden="true">→</span>{post.data.title}
+          </h3>
+          <p class="mt-3 line-clamp-2 text-sm leading-relaxed text-muted">{post.data.description}</p>
         </a>
       ))}
     </div>
