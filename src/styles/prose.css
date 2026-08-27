@@ -1,11 +1,23 @@
 /* ============================================================
-   Dark prose theme for @tailwindcss/typography.
-   This file is imported as a plain <style> (no Astro scope
-   attribute), so its selectors match the .prose elements that
-   live in page templates. The typography plugin ships its
-   defaults on `.prose` / `.prose :where(...)`; we override the
-   theme variables on :root and restyle elements below.
+   Unscoped base + dark prose theme.
+   This file is imported with <style is:global> (no Astro scope
+   attribute), so its selectors match elements that live in page
+   templates. Tailwind v4 preflight rules are Astro-scoped
+   (a[data-astro-cid-*]), which is why the base link reset below
+   must live here.
    ============================================================ */
+
+/* Base link reset: Tailwind v4 preflight sets `a { color: inherit;
+   text-decoration: inherit }`, but Astro scopes that rule to
+   a[data-astro-cid-*], so links in page templates never receive it
+   and fall back to the UA default — violet + underline under
+   color-scheme: dark. This unscoped rule restores the intended
+   behavior; intentional links (nav, .link-amber, prose) set their
+   own color and win by specificity. */
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
 
 /* Theme variables: the typography plugin declares the same set on
    `.prose` (specificity 0,1,0). We redeclare them on `.prose.prose`
