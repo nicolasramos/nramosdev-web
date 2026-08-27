@@ -25,7 +25,7 @@ const jsonLd = {
       datePublished: post.data.pubDate.toISOString(),
       dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
       author: {'@type': 'Person', name: 'Nicolás Ramos', url: 'https://nramos.dev'},
-      publisher: {'@type': 'Organization', name: 'NRamosDev', logo: {type: 'ImageObject', url: 'https://nramos.dev/favicon.svg'}},
+      publisher: {'@type': 'Organization', name: 'nramosdev', logo: {type: 'ImageObject', url: 'https://nramos.dev/favicon.svg'}},
       mainEntityOfPage: canonical,
       keywords: (post.data.tags ?? []).join(', '),
       inLanguage: 'es',
@@ -56,7 +56,7 @@ const related = (await getCollection('posts', ({data}) => data.lang === 'es' && 
   .map((r) => r.post);
 ---
 
-<Base lang="es" title={`${post.data.title} — NRamosDev`} description={post.data.description} ogType="article" ogImage={ogImage} jsonLd={jsonLd}>
+<Base lang="es" title={`${post.data.title} — nramosdev`} description={post.data.description} ogType="article" ogImage={ogImage} jsonLd={jsonLd}>
   <nav class="mx-auto max-w-3xl pt-8 font-mono text-xs text-muted" aria-label="Breadcrumb">
     <ol class="flex flex-wrap items-center gap-2">
       <li><a href="/" class="transition hover:text-amber">~</a></li>
@@ -69,7 +69,7 @@ const related = (await getCollection('posts', ({data}) => data.lang === 'es' && 
 
   <article class="mx-auto max-w-3xl py-10">
     <header class="mb-10 border-b border-line/70 pb-8">
-      <p class="reveal font-mono text-xs uppercase tracking-[0.3em] text-amber">NRamosDev · Blog</p>
+      <p class="reveal font-mono text-xs uppercase tracking-[0.3em] text-amber">nramosdev · Blog</p>
       <h1 class="reveal mt-4 font-mono text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">{post.data.title}</h1>
       <div class="reveal mt-5 flex flex-wrap items-center gap-3 font-mono text-xs uppercase tracking-widest text-muted">
         <time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString('es-ES', {day: '2-digit', month: '2-digit', year: 'numeric'})}</time>
