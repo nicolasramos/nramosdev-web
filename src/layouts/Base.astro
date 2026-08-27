@@ -25,7 +25,6 @@ const alternatePath =
     ? (pathname.replace(/^\/en/, '') || '/')
     : `/en${pathname === '/' ? '' : pathname}`;
 const alternate = `${SITE}${alternatePath === '/' ? '/' : alternatePath}`;
-const jsonLdStr = jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : '';
 ---
 
 <!doctype html>
@@ -55,7 +54,7 @@ const jsonLdStr = jsonLd ? `<script type="application/ld+json">${JSON.stringify(
 
     <meta name="theme-color" content="#ffffff" />
     <style>@import '../styles/global.css';</style>
-    {jsonLdStr}
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
   <body class="bg-white text-black antialiased">
     <header class="sticky top-0 z-40 border-b border-black/10 bg-white/90 backdrop-blur">
