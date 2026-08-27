@@ -9,7 +9,7 @@
  *   2. Si no → cae al feed RSS del canal + descripción del vídeo (versión ligera).
  *
  * El directorio del pipeline se configura con la variable de entorno NRAMOSDEV_VIDEOS_DIR
- * (ej. /Users/nramos/nas-development/ai-video-pipeline/videos en el Mac de Nico).
+ * (ej. ~/ai-video-pipeline/videos en la máquina donde corre el pipeline).
  * Si no está o no se encuentra el proyecto, se usa el RSS.
  *
  * Uso:
