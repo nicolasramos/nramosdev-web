@@ -1,0 +1,75 @@
+/* ============================================================
+   Dark prose theme for @tailwindcss/typography.
+   This file is imported as a plain <style> (no Astro scope
+   attribute), so its selectors match the .prose elements that
+   live in page templates. The typography plugin ships its
+   defaults on `.prose` / `.prose :where(...)`; we override the
+   theme variables on :root and restyle elements below.
+   ============================================================ */
+
+/* Theme variables: the typography plugin declares the same set on
+   `.prose` (specificity 0,1,0). We redeclare them on `.prose.prose`
+   (0,2,0) so our dark values win regardless of source order — the
+   plugin's element rules consume these vars, so fixing the vars
+   re-themes the whole block. */
+
+.prose.prose {
+  --tw-prose-body: #c9cdd4;
+  --tw-prose-headings: var(--color-fg);
+  --tw-prose-bold: var(--color-fg);
+  --tw-prose-links: var(--color-amber);
+  --tw-prose-code: var(--color-amber);
+  --tw-prose-quotes: #9aa3b0;
+  --tw-prose-quote-borders: var(--color-line);
+  --tw-prose-counters: var(--color-muted);
+  --tw-prose-bullets: var(--color-amberdim);
+  --tw-prose-hr: var(--color-line);
+  --tw-prose-th-borders: var(--color-line);
+  --tw-prose-td-borders: var(--color-line);
+  font-size: 1.0625rem;
+  line-height: 1.85;
+}
+
+.prose :where(a):not(:where(.not-prose *)) {
+  color: var(--color-amber);
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 180, 84, 0.4);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.2s ease;
+}
+.prose :where(a):not(:where(.not-prose *)):hover {
+  text-decoration-color: var(--color-amber);
+}
+.prose :where(strong):not(:where(.not-prose *)) {
+  color: var(--color-fg);
+}
+.prose :where(code):not(:where(.not-prose *, pre *)) {
+  background: rgba(255, 180, 84, 0.08);
+  border: 1px solid rgba(255, 180, 84, 0.18);
+  color: var(--color-amber);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+.prose :where(pre):not(:where(.not-prose *)) {
+  background: #0e1218;
+  border: 1px solid var(--color-line);
+  border-radius: 10px;
+}
+.prose :where(blockquote):not(:where(.not-prose *)) {
+  border-left: 2px solid var(--color-amberdim);
+  background: rgba(255, 180, 84, 0.04);
+  padding: 0.25em 1em;
+  border-radius: 0 8px 8px 0;
+}
+.prose :where(ul > li)::marker,
+.prose :where(ol > li)::marker {
+  color: var(--color-amber);
+}
+.prose :where(h1, h2, h3, h4):not(:where(.not-prose *)) {
+  font-family: var(--font-mono);
+  letter-spacing: -0.01em;
+}
+.prose :where(table):not(:where(.not-prose *)) {
+  font-size: 0.9em;
+}

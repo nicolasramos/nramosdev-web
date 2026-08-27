@@ -9,8 +9,8 @@ interface Props {
 }
 const {title, description, lang, ogImage, ogType = 'website', jsonLd} = Astro.props;
 const t = {
-  es: {home: 'Inicio', blog: 'Blog', nav: 'Artículos', suscribe: 'Suscríbete en YouTube'},
-  en: {home: 'Home', blog: 'Blog', nav: 'Posts', suscribe: 'Subscribe on YouTube'},
+  es: {nav: 'Artículos', suscribe: 'Suscríbete en YouTube'},
+  en: {nav: 'Posts', suscribe: 'Subscribe on YouTube'},
 }[lang];
 const altLang = lang === 'es' ? 'en' : 'es';
 
@@ -52,42 +52,56 @@ const alternate = `${SITE}${alternatePath === '/' ? '/' : alternatePath}`;
     <meta name="twitter:description" content={description} />
     {ogImage && <meta name="twitter:image" content={ogImage} />}
 
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#0b0e11" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;0,800;1,400&display=swap"
+      rel="stylesheet"
+    />
     <style>@import '../styles/global.css';</style>
+    <style is:global>@import '../styles/prose.css';</style>
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
-  <body class="bg-white text-black antialiased">
-    <header class="sticky top-0 z-40 border-b border-black/10 bg-white/90 backdrop-blur">
+  <body class="bg-bg text-fg antialiased">
+    <div class="bg-noir" aria-hidden="true"></div>
+
+    <header class="sticky top-0 z-40 border-b border-line/70 bg-bg/80 backdrop-blur-md">
       <nav class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-        <a href={lang === 'es' ? '/' : '/en/'} class="font-mono text-2xl font-black tracking-tight" aria-label="NRamosDev">
-          <span class="text-black">(</span><span class="text-black">[</span>nr<span class="text-black">]</span><span class="text-black">)</span>
+        <a href={lang === 'es' ? '/' : '/en/'} class="font-mono text-2xl font-extrabold tracking-tight" aria-label="NRamosDev">
+          <span class="text-fg">(</span><span class="text-amber">[</span><span class="text-fg">nr</span><span class="text-amber">]</span><span class="text-fg">)</span><span class="ml-0.5 inline-block h-[1em] w-[0.55ch] translate-y-[0.12em] bg-amber animate-blink" aria-hidden="true"></span>
         </a>
-        <div class="flex items-center gap-6 text-sm font-bold uppercase tracking-widest text-neutral-600">
-          <a href={lang === 'es' ? '/blog' : '/en/blog'} class="transition hover:text-black">{t.nav}</a>
-          <a href="https://www.youtube.com/@nramosdev" target="_blank" rel="noopener" class="transition hover:text-black">{t.suscribe}</a>
-          <a href={lang === 'es' ? '/en/' : '/'} class="rounded-full border border-black/20 px-3 py-1 text-xs transition hover:border-black">{altLang.toUpperCase()}</a>
+        <div class="flex items-center gap-5 text-xs font-bold uppercase tracking-[0.18em] text-muted sm:gap-7">
+          <a href={lang === 'es' ? '/blog' : '/en/blog'} class="transition hover:text-amber">{t.nav}</a>
+          <a href="https://www.youtube.com/@nramosdev" target="_blank" rel="noopener" class="transition hover:text-amber">{t.suscribe}</a>
+          <a href={lang === 'es' ? '/en/' : '/'} class="rounded-full border border-line px-3 py-1 text-[0.7rem] transition hover:border-amber hover:text-amber">{altLang.toUpperCase()}</a>
         </div>
       </nav>
     </header>
+
     <main class="mx-auto max-w-5xl px-6">
       <slot />
     </main>
-    <footer class="mx-auto mt-24 max-w-5xl border-t border-black/10 px-6 py-10">
-      <div class="flex flex-col items-center justify-between gap-4 text-sm text-neutral-600 sm:flex-row">
-        <span class="font-mono font-bold">([nr]) — NRamosDev</span>
-        <div class="flex gap-5">
-          <a href="https://github.com/nicolasramos" target="_blank" rel="noopener" class="transition hover:text-black">GitHub</a>
-          <a href="https://www.linkedin.com/in/nramosdev" target="_blank" rel="noopener" class="transition hover:text-black">LinkedIn</a>
-          <a href="https://www.youtube.com/@nramosdev" target="_blank" rel="noopener" class="transition hover:text-black">YouTube</a>
-          <a href="mailto:hola@nicolasramos.es" class="transition hover:text-black">Contacto</a>
+
+    <footer class="mt-24 border-t border-line/70">
+      <div class="mx-auto max-w-5xl px-6 py-10">
+        <div class="flex flex-col items-center justify-between gap-4 text-sm text-muted sm:flex-row">
+          <span class="font-mono font-bold text-fg">([nr])</span>
+          <span class="font-mono text-xs text-muted/70">~/nramos.dev — {new Date().getFullYear()}</span>
+          <div class="flex gap-5">
+            <a href="https://github.com/nicolasramos" target="_blank" rel="noopener" class="transition hover:text-amber">GitHub</a>
+            <a href="https://www.linkedin.com/in/nramosdev" target="_blank" rel="noopener" class="transition hover:text-amber">LinkedIn</a>
+            <a href="https://www.youtube.com/@nramosdev" target="_blank" rel="noopener" class="transition hover:text-amber">YouTube</a>
+            <a href="mailto:hola@nicolasramos.es" class="transition hover:text-amber">Contacto</a>
+          </div>
         </div>
-      </div>
-      <div class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-neutral-500">
-        <a href={lang === 'es' ? '/privacidad' : '/en/privacy'} class="transition hover:text-black">Política de privacidad</a>
-        <a href={lang === 'es' ? '/cookies' : '/en/cookies'} class="transition hover:text-black">Política de cookies</a>
-        <a href={lang === 'es' ? '/aviso-legal' : '/en/legal'} class="transition hover:text-black">Aviso legal</a>
-        <span>·</span>
-        <span>Alojado en la UE · RGPD</span>
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted/70">
+          <a href={lang === 'es' ? '/privacidad' : '/en/privacy'} class="transition hover:text-amber">Política de privacidad</a>
+          <a href={lang === 'es' ? '/cookies' : '/en/cookies'} class="transition hover:text-amber">Política de cookies</a>
+          <a href={lang === 'es' ? '/aviso-legal' : '/en/legal'} class="transition hover:text-amber">Aviso legal</a>
+          <span aria-hidden="true">·</span>
+          <span>Alojado en la UE · RGPD</span>
+        </div>
       </div>
     </footer>
   </body>
