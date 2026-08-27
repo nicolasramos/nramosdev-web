@@ -1,0 +1,64 @@
+---
+title: 'El Intel Gaudi 4 NO EXISTE: desmontando el mito del "rey de open weights" vs la H200'
+description: '¿Te han dicho que el "Intel Gaudi 4" va a destronar a la H200 de Nvidia como rey de la inferencia de open weights? Es falso: el Gaudi 4 no existe. El último ace'
+pubDate: 2026-08-25
+lang: es
+videoId: 'YOL71bUu0ks'
+videoUrl: 'https://www.youtube.com/watch?v=YOL71bUu0ks'
+duration: ''
+image: 'https://i.ytimg.com/vi/YOL71bUu0ks/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**El Intel Gaudi 4 NO EXISTE: desmontando el mito del "rey de open weights" vs la H200**
+
+¿Te han dicho que el "Intel Gaudi 4" va a destronar a la H200 de Nvidia como rey de la inferencia de open weights? Es falso: el Gaudi 4 no existe. El último acelerador real de Intel es el Gaudi 3 (septiembre 2024), su sucesor Falcon Shores fue cancelado en enero 2025, y el heredero Jaguar Shores aún no ha aterrizado (rumores de HBM4, ~2026-27). En este vídeo os desmonto el mito con datos.
+
+## Capítulos del vídeo
+
+- **00:00** — El mito del Gaudi 4
+- **00:28** — Falcon Shores cancelado
+- **00:54** — El heredero: Jaguar Shores
+- **01:17** — Lo que Intel prometió
+- **01:41** — La prueba independiente (9x)
+- **02:11** — Por qué: memoria y cómputo
+- **02:41** — El software pesa
+- **03:01** — Dónde Gaudi 3 sí compite
+- **03:25** — Veredicto
+
+## El contexto
+
+En una prueba independiente (Aquatron + Laboratorio Nacional de Los Álamos) corriendo Llama 3.1 405B en 16 precisiones, la H200 generó 26 tokens por segundo frente a solo 2.7 del Gaudi 3: un factor de 9 a favor de Nvidia. Analizamos por qué (memoria, cómputo FP8, software), lo que Intel prometió y no cumplió, y dónde Gaudi 3 sí puede ser una opción económica real para lote grande.
+
+## Análisis
+
+**DATOS CLAVE**
+
+- Gaudi 3: 128 GB HBM2e · 3.7 TB/s · 1,835 TFLOPS FP8 · 24x200GbE
+
+- H200: 141 GB HBM3e · 4.8 TB/s · 3,958 TFLOPS FP8 · NVLink 900 GB/s
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=YOL71bUu0ks
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+## Fuentes
+
+- [Gaudi 3 launch (Intel Newsroom, 24-sep-2024)](https://newsroom.intel.com/artificial-intelligence/next-generation-ai-solutions-xeon-6-gaudi-3)
+- [Falcon Shores cancelado (Tom's Hardware)](https://www.tomshardware.com/tech-industry/artificial-intelligence/intel-cancels-falcon-shores-gpu-for-ai-workloads-jaguar-shores-to-be-successor)
+- [Jaguar Shores HBM4/HBM4E (VideoCardz/TweakTown)](https://videocardz.com/newz/intel-jaguar-shores-reportedly-set-to-use-hbm4e-memory)
+- [Benchmark H200 9x Gaudi 3 (DatacenterDynamics)](https://www.datacenterdynamics.com/en/news/nvidia-h200-outperforms-intel-gaudi-3-by-factor-of-nine-across-first-llama-31-405b-benchmark-test-exclusive)
+- [Gaudi 3 vs H200 vs B200 specs (Spheron)](https://www.spheron.network/blog/intel-gaudi-3-vs-nvidia-h200-b200-llm-inference-2026)
+
+## Conclusión
+
+- Falcon Shores cancelado (ene-2025) · heredero Jaguar Shores (HBM4, ~2026-27)
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*

@@ -13,6 +13,7 @@ const posts = defineCollection({
     videoId: z.string().optional(),
     videoUrl: z.string().optional(),
     duration: z.string().optional(),
+    image: z.string().optional(),
     color: z.string().default('#ff6a00'),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),

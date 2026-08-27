@@ -1,11 +1,12 @@
 ---
 title: 'Grok 3 Mini Local: Desmontando el Mito'
-description: '¿Grok 3 Mini en local? Ese titular es falso: qué es de verdad, qué "Grok" corre en tu PC y qué 8B abiertos sí valen.'
+description: 'La idea original de YouTube decía: "Grok-3 Mini Local: Running the world''s most uncensored 8B model on consumer hardware". **Esto es FALSO en su premisa centr'
 pubDate: 2026-08-16
 lang: es
 videoId: 'aUG62643X_U'
 videoUrl: 'https://www.youtube.com/watch?v=aUG62643X_U'
 duration: ''
+image: 'https://i.ytimg.com/vi/aUG62643X_U/hqdefault.jpg'
 color: '#ff6a00'
 tags: ['youtube', 'nramosdev', 'ia', 'análisis']
 ---
@@ -14,50 +15,80 @@ tags: ['youtube', 'nramosdev', 'ia', 'análisis']
 
 **Grok 3 Mini Local: Desmontando el Mito**
 
-¿Grok 3 Mini en local? Ese titular es falso: qué es de verdad, qué "Grok" corre en tu PC y qué 8B abiertos sí valen.
 
-## Capítulos del vídeo
-
-- **00:00** — El mito del Grok 3 Mini local
-- **00:21** — Grok-3 Mini: cerrado y solo API
-- **00:53** — Los pesos abiertos de xAI (Grok-1 y Grok-2)
-- **01:32** — La promesa incumplida de Grok 3
-- **02:04** — El "Grok local" real: Grok OSS Apollyon-8B
-- **02:30** — La receta: abliteración + toxic DPO
-- **03:05** — El precio: toxicidad y riesgos
-- **03:38** — Cómo ejecutarlo en tu PC
-- **04:13** — Alternativas honestas 8B
+Este artículo amplía el vídeo del canal [nramosdev](https://www.youtube.com/@nramosdev) con el estudio completo y las fuentes verificadas.
 
 ## El contexto
 
-El mito dice que Grok 3 Mini corre en un PC de consumo como "el 8B más sin censura del mundo". La realidad, verificada con fuentes primarias: Grok 3 Mini es un modelo cerrado, solo API, y xAI nunca ha publicado sus pesos — tampoco los de Grok 3, pese a la promesa de Musk. En este vídeo desmontamos el titular, descubrimos qué es realmente el "Grok OSS Apollyon-8B" que sí se ejecuta en local (una Llama 3.1 abliterada con entrenamiento tóxico) y cerramos con las alternativas 8B de código abierto real que merecen tu hardware.
+La idea original de YouTube decía: "Grok-3 Mini Local: Running the world's most uncensored 8B model on consumer hardware".
+**Esto es FALSO en su premisa central**: Grok-3 Mini NO es un modelo abierto ni de 8B ni ejecutable en local.
 
-## Análisis
+- Grok-3 Mini es un modelo de RAZONAMIENTO CERRADO, solo disponible vía API de xAI (OpenRouter: lanzado 10-jun-2025, contexto 131K, tamaño NO revelado, knowledge cutoff feb-2025).
+- NO existe en HuggingFace como pesos abiertos. xAI solo ha publicado Grok-1 y Grok-2 (pesos), nunca Grok-3 ni Grok-3 Mini.
+- Lo que SÍ corre en un PC de consumo con el nombre "Grok" es un proyecto COMUNITARIO llamado "Grok OSS" (Apollyon-8B): NO es Grok real, es un fine-tune de Llama-3.1-8B-Instruct "abliterado" (guardarraíles quirúrgicamente eliminados).
 
-El vídeo desgrana el tema con datos verificados, comparativas y conclusiones prácticas. Aquí tienes el contexto por escrito para profundizar.
+## Hechos verificados
+
+### 1. Grok-3 Mini (el modelo real, API)
+- Fuente: OpenRouter (openrouter.ai/x-ai/grok-3-mini) + docs.x.ai.
+- Lanzado: 10 de junio de 2025 por xAI.
+- Modelo de razonamiento ("thinking"), trazas de razonamiento accesibles vía API.
+- Contexto: 131K tokens. Knowledge cutoff: febrero 2025.
+- Tamaño: NO revelado por xAI (Artificial Analysis: "proprietary model and SpaceXAI has not disclosed the model size").
+- Solo API: NO hay pesos, NO hay descarga, NO se puede auto-alojar.
+- Artificial Analysis: Grok 3 mini Reasoning (high) → índice AA de 23; ~73.6 tokens/s vía API.
+### 2. Historia de open weights de xAI (qué se ha abierto y qué no)
+- **Grok-1** (17-mar-2024): 314B parámetros, MoE 8 expertos / 2 activos (~86B activos por token), 64 capas, Apache 2.0, modelo BASE (sin instruct), código JAX en github.com/xai-org/grok-1. Hardware: ~320GB VRAM en 4-bit; 8-bit → 8×H100 80GB. NADA de hardware de consumo.
+- **Grok-2 / Grok-2.5** (24-ago-2025, anunciado por Musk): pesos en HuggingFace xai-org/grok-2. ~270B totales / ~115B activos (MoE, 8 expertos top-2). GQA 64 cabezas query / 8 key-value. Licencia "Grok 2 Community License Agreement" → NO es open source según OSI (ZDNET: "weights-available, there's nothing open about it"). ~500GB de pesos, requiere TP=8 → 8 GPUs de &gt;40GB. Tampoco es hardware de consumo.
+- **Grok 3**: Musk prometió open source "en ~6 meses" (23-ago-2025 → febrero 2026). A 16-ago-2026 SIGUE SIN PUBLICARSE (discusión oficial en HF xai-org/grok-2 #44: "I still don't see Grok3 weights", "still unreleased"). Promesa incumplida.
+- **Grok 4.5 / 4.6**: cerrados (Grok 4.6 = flagship actual, lanzado 12-ago-2026, knowledge cutoff 1-feb-2026, precio $2/$6 por millón de tokens).
+### 3. El "Grok local de 8B" real: Grok OSS Apollyon-8B (proyecto comunitario)
+- Fuente: HuggingFace c4tdr0ut/grok-oss-Apollyon-8B (autor: "Catdrout Technologies AB", proyecto "Team Grok OSS").
+- NO es un modelo de xAI. Usa la marca "Grok" como juego de nombres ("Grok OSS").
+- Base: **Llama-3.1-8B-Instruct** ABLITERADA (técnica de eliminación del circuito de refusal/alineación, popularizada por Maxime Labonne).
+- Entrenamiento: SFT (~1.000 turns, ~1-2M tokens "distilled from internal Grok-style interactions") + "Toxic DPO" (dataset de preferencias que favorece salidas edgy/bold/uncensored). Unsloth. Entrenado en &lt;16 minutos en UNA NVIDIA H200 (141GB) en Modal Cloud.
+- Existe variante 24B: base Mistral-Small-24B-Instruct-2501 abliterada, ~46 min de entrenamiento. Con "known quirks": respuestas erráticas/agresivas no intencionadas (contaminación del dataset).
+- GGUF disponibles (mradermacher/grok-oss-Apollyon-8B-GGUF): Q4_K_M = 5.0GB (recomendado), Q8_0 = 8.6GB, f16 = 16.2GB. → CORRE en hardware de consumo vía llama.cpp/Ollama.
+- "World's most uncensored 8B" = claim de MARKETING del propio proyecto (no verificado por benchmark independiente).
+- Advertencia real del model card: "may occasionally generate offensive, biased, or factually incorrect content" + ejemplo de interacción con instrucciones para cometer actos violentos → modelo de investigación con contenido potencialmente tóxico.
+### 4. Contexto de mercado (agosto 2026)
+- BenchLM (gmicloud.ai, 05-ago-2026): best open-weight = MiniMax M3 (68.8 score); Grok 4.5 = best near-frontier value (91% del top, 88% más barato en output). Fastest measured: NVIDIA Nemotron 3 Nano Omni 30B A3B (323 tok/s).
+- Alternativas 8B abiertas reales y locales (llama.cpp/ollama): Qwen 3 8B (Apache 2.0, 128K), Llama 3.1/3.3 8B, Gemma 3 9B, gpt-oss-20b (MoE, 3.6B activos, Apache 2.0), DeepSeek R1 distil 7B/8B.
+- Rendimiento local típico 8B en consumer: RTX 4060 Ti 16GB → 55-65 tok/s con Llama 3.1 8B (daily.dev).
 
 ## Puntos clave
 
-- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=aUG62643X_U
-- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
-- Fuentes primarias listadas a continuación
+- Ver el análisis en vídeo: https://www.youtube.com/watch?v=aUG62643X_U
+- Investigación verificada contra fuentes primarias (fecha de publicación del vídeo)
+- Fuentes listadas a continuación para profundizar
 
 ## Fuentes
 
-- [Docs oficiales xAI (modelos y precios, actualizado 12-ago-2026)](https://docs.x.ai/developers/models)
-- [Grok 3 Mini en OpenRouter (lanzamiento 10-jun-2025, 131K contexto)](https://openrouter.ai/x-ai/grok-3-mini)
-- [Pesos oficiales Grok-2 en Hugging Face](https://huggingface.co/xai-org/grok-2)
-- [Discusión oficial "Grok 3 sigue sin pesos" (HF)](https://huggingface.co/xai-org/grok-2/discussions/44)
-- [Grok OSS Apollyon-8B (model card, proyecto comunitario)](https://huggingface.co/c4tdr0ut/grok-oss-Apollyon-8B)
-- [Variante 24B (quirks erráticos documentados)](https://huggingface.co/c4tdr0ut/grok-oss-Apollyon-24B)
-- [GGUF para local (mradermacher)](https://huggingface.co/mradermacher/grok-oss-Apollyon-8B-GGUF)
-- ["Grok 2.5 no es open source" (ZDNET)](https://www.zdnet.com/article/no-grok-2-5-has-not-been-open-sourced-heres-how-you-can-tell)
-- [Artificial Analysis (rendimiento Grok 3 mini)](https://artificialanalysis.ai/models/grok-3-mini-reasoning)
+- [docs.x.ai](https://docs.x.ai/developers/models)
+- [openrouter.ai](https://openrouter.ai/x-ai/grok-3-mini)
+- [huggingface.co](https://huggingface.co/xai-org/grok-2)
+- [github.com](https://github.com/xai-org/grok-1)
+- [huggingface.co](https://huggingface.co/xai-org/grok-2/discussions/44)
+- [huggingface.co](https://huggingface.co/c4tdr0ut/grok-oss-Apollyon-8B)
+- [huggingface.co](https://huggingface.co/c4tdr0ut/grok-oss-Apollyon-24B)
+- [huggingface.co](https://huggingface.co/mradermacher/grok-oss-Apollyon-8B-GGUF)
+- [x.ai](https://x.ai/news)
+- [www.zdnet.com](https://www.zdnet.com/article/no-grok-2-5-has-not-been-open-sourced-heres-how-you-can-tell)
+- [www.techzine.eu](https://www.techzine.eu/news/applications/134028/xai-makes-grok-2-5-open-source)
+- [dataconomy.com](https://dataconomy.com/2026/02/10/musk-confirms-xai-to-open-source-grok-3)
+- [www.gmicloud.ai](https://www.gmicloud.ai/en/blog/ai-model-benchmarks-august-2026-open-weight-models-catch-the-frontier)
+- [artificialanalysis.ai](https://artificialanalysis.ai/models/grok-3-mini-reasoning)
+- [www.youtube.com](https://www.youtube.com/watch?v=SLtKGhOXamQ)
 
 ## Conclusión
 
-Un análisis más en el canal. [Suscríbete](https://www.youtube.com/@nramosdev) para no perderte los próximos.
+La idea original de YouTube decía: "Grok-3 Mini Local: Running the world's most uncensored 8B model on consumer hardware".
+**Esto es FALSO en su premisa central**: Grok-3 Mini NO es un modelo abierto ni de 8B ni ejecutable en local.
+
+- Grok-3 Mini es un modelo de RAZONAMIENTO CERRADO, solo disponible vía API de xAI (OpenRouter: lanzado 10-jun-2025, contexto 131K, tamaño NO revelado, knowledge cutoff feb-2025).
+- NO existe en HuggingFace como pesos abiertos. xAI solo ha publicado Grok-1 y Grok-2 (pesos), nunca Grok-3 ni Grok-3 Mini.
+- Lo que SÍ corre en un PC de consumo con el nombre "Grok" es un proyecto COMUNITARIO llamado "Grok OSS" (Apollyon-8B): NO es Grok real, es un fine-tune de Llama-3.1-8B-Instruct "abliterado" (guardarraíles quirúrgicamente eliminados).
 
 ---
 
-*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*
+*Artículo generado desde el estudio completo del pipeline de vídeo de [nramosdev](https://www.youtube.com/@nramosdev). Todos los datos provienen de la investigación verificada del canal.*

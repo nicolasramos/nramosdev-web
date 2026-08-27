@@ -9,10 +9,65 @@ export async function getStaticPaths() {
 
 const {post} = Astro.props;
 const {Content} = await render(post);
+
+const slug = post.id.replace(/^(es|en)-/, '');
+const canonical = `https://nramos.dev/blog/${slug}/`;
+const ogImage = post.data.image ?? undefined;
+
+// JSON-LD: Article + VideoObject (rich snippets en Google)
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Article',
+      headline: post.data.title,
+      description: post.data.description,
+      datePublished: post.data.pubDate.toISOString(),
+      dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+      author: {'@type': 'Person', name: 'Nicolás Ramos', url: 'https://nramos.dev'},
+      publisher: {'@type': 'Organization', name: 'NRamosDev', logo: {type: 'ImageObject', url: 'https://nramos.dev/favicon.svg'}},
+      mainEntityOfPage: canonical,
+      keywords: (post.data.tags ?? []).join(', '),
+      inLanguage: 'es',
+    },
+  ],
+};
+
+if (post.data.videoId && post.data.videoId !== 'PENDIENTE') {
+  jsonLd['@graph'].push({
+    '@type': 'VideoObject',
+    name: post.data.title,
+    description: post.data.description,
+    thumbnailUrl: `https://i.ytimg.com/vi/${post.data.videoId}/hqdefault.jpg`,
+    uploadDate: post.data.pubDate.toISOString(),
+    duration: post.data.duration || undefined,
+    embedUrl: `https://www.youtube.com/embed/${post.data.videoId}`,
+    contentUrl: post.data.videoUrl || `https://www.youtube.com/watch?v=${post.data.videoId}`,
+  });
+}
+
+// Posts relacionados: misma etiqueta, excluyendo el actual
+const related = (await getCollection('posts', ({data}) => data.lang === 'es' && !data.draft))
+  .filter((p) => p.id !== post.id)
+  .map((p) => ({post: p, shared: (p.data.tags ?? []).filter((t) => (post.data.tags ?? []).includes(t)).length}))
+  .filter((r) => r.shared > 0)
+  .sort((a, b) => b.shared - a.shared)
+  .slice(0, 3)
+  .map((r) => r.post);
 ---
 
-<Base lang="es" title={`${post.data.title} — NRamosDev`} description={post.data.description}>
-  <article class="mx-auto max-w-3xl py-16">
+<Base lang="es" title={`${post.data.title} — NRamosDev`} description={post.data.description} ogType="article" ogImage={ogImage} jsonLd={jsonLd}>
+  <nav class="mx-auto max-w-3xl pt-8 text-xs font-bold uppercase tracking-widest text-neutral-500" aria-label="Breadcrumb">
+    <ol class="flex flex-wrap items-center gap-1">
+      <li><a href="/" class="transition hover:text-black">Inicio</a></li>
+      <li aria-hidden="true">/</li>
+      <li><a href="/blog" class="transition hover:text-black">Blog</a></li>
+      <li aria-hidden="true">/</li>
+      <li aria-current="page" class="text-black">{post.data.title}</li>
+    </ol>
+  </nav>
+
+  <article class="mx-auto max-w-3xl py-10">
     <div class="mb-10 text-center">
       <div class="text-xs font-black uppercase tracking-[0.3em] text-neutral-600">NRamosDev · Blog</div>
       <h1 class="mt-4 text-4xl font-black leading-tight">{post.data.title}</h1>
@@ -41,9 +96,23 @@ const {Content} = await render(post);
     <div class="mt-16 rounded-xl border border-black/10 bg-neutral-50 p-8 text-center">
       <p class="font-mono text-xl font-black">([nr])</p>
       <p class="mt-3 text-neutral-600">¿Te ha gustado? Suscríbete al canal para más análisis de IA en español.</p>
-      <a href="https://www.youtube.com/@nramosdev" target="_blank" rel="noopener" class="mt-5 inline-block rounded-lg bg-black px-6 py-3 text-sm font-black uppercase tracking-widest text-black transition hover:opacity-70">
+      <a href="https://www.youtube.com/@nramosdev" target="_blank" rel="noopener" class="mt-5 inline-block rounded-lg bg-black px-6 py-3 text-sm font-black uppercase tracking-widest text-white transition hover:opacity-70">
         Ver en YouTube
       </a>
     </div>
   </article>
+
+  {related.length > 0 && (
+    <section class="mx-auto max-w-3xl pb-16">
+      <h2 class="mb-6 text-sm font-black uppercase tracking-[0.3em] text-neutral-600">Artículos relacionados</h2>
+      <div class="grid gap-4 sm:grid-cols-3">
+        {related.map((p) => (
+          <a href={`/blog/${p.id.replace(/^(es|en)-/, '')}`} class="group block rounded-xl border border-black/10 bg-neutral-50 p-5 transition hover:border-black/60">
+            <time class="text-xs font-bold uppercase tracking-widest text-neutral-500">{p.data.pubDate.toLocaleDateString('es-ES', {year: 'numeric', month: 'short'})}</time>
+            <h3 class="mt-2 text-sm font-black leading-snug transition group-hover:text-black">{p.data.title}</h3>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
 </Base>

@@ -1,11 +1,12 @@
 ---
 title: 'BitNet 1.58b: ¿Un modelo de 70B en tu móvil? Verificamos la promesa'
-description: 'Circula por internet un vídeo viral que promete lo imposible: un modelo de 70.000 millones de parámetros corriendo en un smartphone gracias a BitNet 1.58b. ¿Es '
+description: '**NO existe hoy un modelo BitNet de 70B parámetros.** El modelo oficial más grande de Microsoft sigue siendo BitNet-b1.58-2B-4T (2.4B params, abril 2025). La '
 pubDate: 2026-08-15
 lang: es
 videoId: 'qdH7cflMLhU'
 videoUrl: 'https://www.youtube.com/watch?v=qdH7cflMLhU'
 duration: ''
+image: 'https://i.ytimg.com/vi/qdH7cflMLhU/hqdefault.jpg'
 color: '#ff6a00'
 tags: ['youtube', 'nramosdev', 'ia', 'análisis']
 ---
@@ -14,47 +15,85 @@ tags: ['youtube', 'nramosdev', 'ia', 'análisis']
 
 **BitNet 1.58b: ¿Un modelo de 70B en tu móvil? Verificamos la promesa**
 
-Circula por internet un vídeo viral que promete lo imposible: un modelo de 70.000 millones de parámetros corriendo en un smartphone gracias a BitNet 1.58b. ¿Es real o es humo? En este vídeo lo verificamos con las fuentes primarias: el paper original de Microsoft Research, el framework oficial bitnet.cpp, el modelo BitNet b1.58 2B4T y el hito de 2026 que llevó BitNet por primera vez a un NPU de Qualcomm.
 
-## Capítulos del vídeo
-
-- **0:00** — El gancho: la promesa del 70B en el móvil
-- **0:40** — El muro de la memoria (VRAM vs RAM)
-- **1:34** — La lógica ternaria y la era matmul-free
-- **2:27** — Lo que sí es real: BitNet b1.58 2B4T
-- **3:22** — 2026: el salto al móvil (NPU Hexagon)
-- **4:18** — Mito vs realidad: el pero que te ocultan
-- **5:09** — El camino: hardware de 1 bit
-- **5:54** — Veredicto final
+Este artículo amplía el vídeo del canal [nramosdev](https://www.youtube.com/@nramosdev) con el estudio completo y las fuentes verificadas.
 
 ## El contexto
 
-Los pesos ternarios (-1, 0, +1) eliminan las multiplicaciones de las redes neuronales, reducen la energía de la multiplicación de matrices 71,4 veces y permiten que un modelo de 2.400 millones de parámetros ocupe solo 0,4 GB. Pero el modelo de 70B… todavía no existe. Te explico qué es real hoy, cuál es el muro real del entrenamiento y el camino que falta para la inteligencia local de alto nivel.
+**NO existe hoy un modelo BitNet de 70B parámetros.** El modelo oficial más grande de Microsoft sigue siendo BitNet-b1.58-2B-4T (2.4B params, abril 2025). La comunidad ternaria más grande ronda los 2-10B (Falcon-Edge de TII: 1B y 3B oficiales; PrismML: modelos ~3-4B equivalentes). Las cifras de "70B" del paper original son PROYECCIONES/SIMULACIONES, no un modelo real. Los claims del vídeo viral ("razonamiento nivel GPT-4", "70B en tu móvil hoy") NO están respaldados por ninguna fuente primaria. El vídeo honesto: explicar la promesa, verificar qué es real hoy (2026), y el camino que falta para llegar a 70B en el bolsillo.
 
-## Análisis
+## HECHOS VERIFICADOS CON FUENTES
 
-📚 FUENTES
-- The Era of 1-bit LLMs: All Large Language Models are in 1.58 Bits (Microsoft Research, arXiv 2402.17764)
-- microsoft/BitNet — bitnet.cpp, framework oficial de inferencia (GitHub)
-- BitNet-b1.58-2B-4T (Hugging Face, Microsoft)
-- Falcon-Edge de TII (Hugging Face)
-- ENERZAi: Running BitNet on Qualcomm Hexagon with custom 1.58 kernels (junio 2026)
+### 1. Paper fundacional — BitNet b1.58 (feb 2024, Microsoft Research)
+Fuente: arXiv 2402.17764 "The Era of 1-bit LLMs: All Large Language Models are in 1.58 Bits" (Wang et al., Microsoft Research).
+- Cada peso es TERNARIO: solo {-1, 0, +1}. "1.58 bits" viene de log₂(3) ≈ 1.58 (mínimo teórico de bits para 3 estados).
+- Se entrena DESDE CERO con pesos 1.58-bit y activaciones de 8 bits (capas BitLinear sustituyen a nn.Linear). NO es cuantización posterior: es entrenamiento nativo.
+- La multiplicación de matrices pasa a ser casi solo SUMAS de enteros (matmul-free / casi sin multiplicaciones).
+- Iguala al LLaMA FP16 a partir de 3B: a 3B es 2.71x más rápido y usa 3.55x menos memoria GPU.
+- BitNet 3.9B supera a LLaMA 3B FP16 (mejora Pareto: mejor y más barato).
+- Memoria medida (FasterTransformer): 700M → 0.80GB vs 2.08GB; 1.3B → 1.14GB vs 3.34GB; 3B → 2.22GB vs 7.89GB.
+- Proyección a 70B (simulada con kernel 2-bit): 4.1x más rápido que LLaMA; throughput 2977 vs 333 tokens/s (8.9x); batch 176 vs 16 (11x) en 2×A100. OJO: son estimaciones del paper, NO un modelo 70B real.
+- Energía: ahorra 71.4x en energía aritmética de multiplicación de matrices (modelo energético 7nm).
+- Arquitectura LLaMA-alike (RMSNorm, SwiGLU, RoPE) → integrable en HuggingFace, vLLM, llama.cpp.
+- El propio paper señala "LLMs on Edge and Mobile" como caso de uso y pide hardware nuevo diseñado para 1-bit.
+### 2. bitnet.cpp — framework oficial de inferencia (oct 2024)
+Fuente: GitHub microsoft/BitNet (MIT, 40.1k stars) + reporte técnico arXiv 2410.16144 (+ sistema 2502.11880).
+- Kernels CPU: x86 2.37x–6.17x más rápido, energía -71.9% a -82.2%; ARM 1.37x–5.07x, energía -55.4% a -70.0%.
+- El reporte demuestra que un BitNet b1.58 de 100B (modelo simulado para escalado) correría en una sola CPU a velocidad de lectura humana (5-7 tokens/s).
+- Hitos: oct 2023 paper BitNet original (2310.11453); feb 2024 b1.58; oct 2024 bitnet.cpp 1.0; nov 2024 BitNet a4.8 activaciones 4-bit (2411.04965); abr 2025 modelo 2B4T; may 2025 kernels GPU; ene 2026 optimización CPU (+1.15x–2.1x); jul 2026 modelos embedding 0.6B/270M + VibeASR.cpp (ASR en tiempo real en CPU, RTF&lt;1, arXiv 2607.21075).
+### 3. Modelo oficial — BitNet-b1.58-2B-4T (14 abr 2025)
+Fuente: HuggingFace microsoft/BitNet-b1.58-2B-4T + reporte técnico arXiv 2504.12285.
+- Primer modelo oficial b1.58: 2.4B parámetros, entrenado con 4T tokens, licencia MIT, contexto 4096.
+- Footprint 0.4GB en memoria (vs 1.4–4.8GB de modelos similares); latencia 29ms.
+- Hasta 6.17x más rápido en CPU x86 / 5.07x ARM; -82.2% energía en x86.
+- Corre en CPU (incluido Apple M2, Raspberry Pi) sin GPU.
+### 4. Falcon-Edge — TII (Abu Dhabi), 2026
+Fuente: HF blog tiiuae/falcon-edge.
+- Serie 1.58-bit basada en BitNet: tamaños 1B y 3B (base + instruct), pre-entrenados ~1.5T tokens.
+- Nuevo paradigma: un solo entrenamiento produce variantes bf16 + BitNet nativo + BitNet pre-cuantizado para fine-tuning.
+- Diseño "matmul-free"; toolkit de entrenamiento open source onebitllms.
+- Rendimiento a la par o mejor que modelos comparables (HF leaderboard v2).
+- Ecosistema: llama.cpp soporta formatos ternarios TQ2_0 (2-bit) y TQ1_0 (1.58-bit); Apple MLX soporta BitNet con kernels Metal optimizados.
+### 5. HITO CLAVE 2026: BitNet en NPU de smartphone (2 jun 2026)
+Fuente: Edge AI and Vision Alliance — "Running BitNet on Qualcomm Hexagon with custom 1.58 kernels" (ENERZAi).
+- ENERZAi desplegó BitNet (b1.58) 2B en el NPU Hexagon del Qualcomm QCS6490 (chip Snapdragon de smartphones/AR/automoción) vía QNN con kernels 1.58-bit propios.
+- El SDK QNN NO soportaba operaciones ternarias → tuvieron que escribir kernels a medida para Hexagon.
+- Lo califican de "prueba de concepto temprana en el camino hacia modelos &gt;8B en NPU" (consideran ~8B el umbral de "edge intelligence" real).
+- Snapdragon = miles de millones de dispositivos en bolsillos, muñecas y coches.
+### 6. Contexto 2026 — PrismML y la comunidad
+Fuente: YouTube Tim Carambat (21 abr 2026), Hacker News item 47812749, r/LocalLLaMA.
+- PrismML publicó los primeros "ternary models" de la comunidad (abril 2026), basados en Qwen, ejecutables con llama.cpp (formatos TQ).
+- El modelo ternario más grande de la comunidad sigue siendo pequeño (~2-4B equivalente); la comunidad pide "12 o 27B" como siguiente paso.
+- Debate abierto en r/LocalLLaMA: "¿Fue BitNet un callejón sin salida? El mayor modelo ternario sigue siendo 2B".
+### 7. Reality check del claim viral
+- 70B en FP16 = ~140GB de VRAM. En 4-bit ≈ 35GB. Un smartphone actual: 8–16GB RAM. → hoy es inviable para un modelo denso de 70B, terna o no.
+- SI existiera un BitNet 70B: 70B × 1.58 bits ≈ 13.8GB → sí cabría en un flagship (~15GB). El argumento de footprint es matemáticamente coherente, pero el modelo NO existe.
+- Entrenar un BitNet de 70B hoy requiere pesos maestro en 16-bit + estados de optimizador: se estima &gt;640GB de VRAM (r/LocalLLaMA). Ese es el muro real del entrenamiento, no de la inferencia.
+- "Razonamiento a nivel GPT-4": sin evidencia en fuentes primarias. La 2B4T iguala a modelos FP16 de SU tamaño (~1-3B), no a frontera.
 
-- Blog: https://nramos.dev
-- LinkedIn: https://linkedin.com/in/nramosdev
-- GitHub: https://github.com/nicolasramos
+## DATOS PARA EL GUIÓN (resumen ejecutivo)
+
+- Ternario {-1, 0, +1}, 1.58 bits = log₂3, entrenado nativo desde cero, matmul-free (sumas).
+- 3B: 2.71x más rápido, 3.55x menos memoria que LLaMA FP16; 3.9B gana al 3B FP16.
+- 71.4x menos energía en matmul (paper).
+- bitnet.cpp: x86 hasta 6.17x / ARM 5.07x; energía -82%.
+- 2B4T: 2.4B params, 4T tokens, MIT, 0.4GB, corre en CPU/Raspberry Pi/M2.
+- 2026: optimización CPU (ene), embeddings 0.6B/270M + VibeASR (jul), QUALCOMM HEXAGON NPU con BitNet 2B (jun, ENERZAi).
+- Falcon-Edge TII: 1B/3B matmul-free, fine-tunables, onebitllms.
+- NO existe 70B; paper simula 70B: 4.1x más rápido, 8.9x throughput; 100B en CPU a 5-7 tok/s (simulado).
+- Entrenar 70B ternario: &gt;640GB VRAM estimado (muro del entrenamiento).
+- Móvil 2026: BitNet 2B en NPU Hexagon = real; 8B+ = el siguiente hito.
 
 ## Puntos clave
 
-- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=qdH7cflMLhU
-- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
-- Fuentes primarias listadas a continuación
-
+- Ver el análisis en vídeo: https://www.youtube.com/watch?v=qdH7cflMLhU
+- Investigación verificada contra fuentes primarias (fecha de publicación del vídeo)
+- Fuentes listadas a continuación para profundizar
 
 ## Conclusión
 
-Un análisis más en el canal. [Suscríbete](https://www.youtube.com/@nramosdev) para no perderte los próximos.
+**NO existe hoy un modelo BitNet de 70B parámetros.** El modelo oficial más grande de Microsoft sigue siendo BitNet-b1.58-2B-4T (2.4B params, abril 2025). La comunidad ternaria más grande ronda los 2-10B (Falcon-Edge de TII: 1B y 3B oficiales; PrismML: modelos ~3-4B equivalentes). Las cifras de "70B" del paper original son PROYECCIONES/SIMULACIONES, no un modelo real. Los claims del vídeo viral ("razonamiento nivel GPT-4", "70B en tu móvil hoy") NO están respaldados por ninguna fuente primaria. El vídeo honesto: explicar la promesa, verificar qué es real hoy (2026), y el camino que falta para llegar a 70B en el bolsillo.
 
 ---
 
-*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*
+*Artículo generado desde el estudio completo del pipeline de vídeo de [nramosdev](https://www.youtube.com/@nramosdev). Todos los datos provienen de la investigación verificada del canal.*
