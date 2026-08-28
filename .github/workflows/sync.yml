@@ -1,0 +1,50 @@
+name: Sync YouTube → Blog
+
+on:
+  schedule:
+    # Daily at 08:00 UTC — check for new videos
+    - cron: '0 8 * * *'
+  workflow_dispatch: # Allow manual trigger from Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run YouTube sync
+        run: node scripts/sync-youtube.mjs
+
+      - name: Check for new posts
+        id: changes
+        run: |
+          if git diff --quiet src/content/posts/; then
+            echo "new_posts=false" >> "$GITHUB_OUTPUT"
+            echo "No new posts detected."
+          else
+            echo "new_posts=true" >> "$GITHUB_OUTPUT"
+            echo "New posts detected:"
+            git diff --name-only src/content/posts/
+          fi
+
+      - name: Commit and push new posts
+        if: steps.changes.outputs.new_posts == 'true'
+        run: |
+          git config user.name "nramosdev-bot"
+          git config user.email "bot@nramos.dev"
+          git add src/content/posts/
+          DIFF_SUMMARY=$(git diff --cached --stat | tail -1)
+          git commit -m "blog(sync): auto-sync YouTube videos — $DIFF_SUMMARY"
+          git push
