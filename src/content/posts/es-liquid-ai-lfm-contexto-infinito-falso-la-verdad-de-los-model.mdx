@@ -1,0 +1,148 @@
+---
+title: 'LIQUID AI LFM: ¿contexto infinito? Falso. La verdad de los modelos no-transformer'
+description: '¿Contexto infinito? Falso. Desmontamos tres afirmaciones falsas de la idea de YouTube sobre Liquid AI LFM y qué es de verdad el modelo no-transformer de Liquid AI.'
+pubDate: 2026-08-27
+lang: es
+videoId: '_sUvt3NjKRU'
+videoUrl: 'https://www.youtube.com/watch?v=_sUvt3NjKRU'
+duration: ''
+image: 'https://i.ytimg.com/vi/_sUvt3NjKRU/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**LIQUID AI LFM: ¿contexto infinito? Falso. La verdad de los modelos no-transformer**
+
+
+Este artículo amplía el vídeo del canal [nramosdev](https://www.youtube.com/@nramosdev) con el estudio completo y las fuentes verificadas.
+
+## El contexto
+
+La idea de YouTube Studio contiene **TRES afirmaciones falsas o imprecisas** (patrón debunk del canal):
+
+1. **"Neural LFM" NO existe** — El modelo real es **Liquid Foundation Model (LFM)** de Liquid AI. El nombre de la idea es un invento de YouTube.
+2. **"first non-transformer" es FALSO** — RWKV (ago-2021), Mamba (2023) y xLSTM (2024) le preceden. El claim REAL y más acotado de Liquid es: LFM-1B fue *"the first time a non-GPT architecture significantly outperforms transformer-based models"* (primera no-GPT que supera claramente a transformers en su clase, no "la primera no-transformer").
+3. **"infinite context" es FALSO** — Los LFM tienen contexto FINITO: 32K (LFM1/LFM2) y hasta 128K (LFM2.5-8B, 2.6B). Lo real es **memoria constante / acotada**: la KV cache no crece linealmente con la secuencia → pueden procesar contextos largos con footprint de memoria casi constante. No es "contexto infinito".
+
+**Ángulo del vídeo (honesto, estilo debunk):** desmontar el clickbait + explicar qué es de verdad LFM y por qué la memoria constante (no el "contexto infinito") es la innovación real.
+
+## 1. Qué es Liquid AI (fuente: liquid.ai/company, cognitiverevolution.ai)
+
+- **Spin-off de MIT CSAIL** fundado en **2023** por 4 cofundadores:
+- **Ramin Hasani** (CEO) — creador de Liquid Neural Networks (tesis TU Wien 2020), ex-MIT CSAIL
+- **Mathias Lechner** (CTO)
+- **Alexander Amini** (CSO)
+- **Daniela Rus** (directora de MIT CSAIL)
+- **Financiación:** ~$37M seed; **$250M Series A (dic-2024)** liderada por AMD Ventures. Asociación con AMD (Instinct, Ryzen, NPU).
+- **Misión:** modelos de IA eficientes a toda escala → **edge/on-device** (teléfonos, portátiles, coches, robots, wearables, satélites, defensa).
+- Origen técnico: redes "líquidas" inspiradas en C. elegans (gusano con ~300 neuronas, comportamiento robusto). Investigación iniciada ~2015 en MIT.
+
+## 2. Línea de investigación (origen de LFM)
+
+- **Liquid Time-Constant Networks (LTC)** — Hasani & Lechner 2018/2020 (arXiv 1811.00321, 2006.04439): RNNs de tiempo continuo con constantes de tiempo adaptativas.
+- **Closed-form Continuous-time Neural Networks (CfC)** — Nature Machine Intelligence, nov-2022: LNN en forma cerrada (sin solver numérico) → escala a miles de millones de neuronas.
+- **Liquid Structural State-Space Models (Liquid-S4)** — 2022 (arXiv 2209.12951).
+- **LIV operators** (Linear Input-Varying) — Thomas et al. 2024 (arXiv 2411.17800): marco unificado de convolución, recurrencia y atención.
+- **STAR** — motor de Neural Architecture Search (NAS) propio.
+
+## 3. LFM v1 (primera generación — 16-10-2024)
+
+- Blog: liquid.ai/blog/liquid-foundation-models-our-first-series-of-generative-ai-models
+- **Modelos:** LFM-1.3B (dense), LFM-3.1B (dense), **LFM-40.3B MoE** (12B activos).
+- **Contexto:** 32K tokens best-in-class.
+- **Claim estrella:** LFM-1B = "primera vez que una arquitectura no-GPT supera significativamente a modelos transformer" en su clase.
+- **LFM-3B** superaba a Llama 3.2 3.2B y competía con Phi-3.5-mini siendo 18.4% más pequeño; superaba a generaciones previas de 7B y 13B.
+- **RULER benchmark (contexto efectivo):** LFM-3B effective length = **32K** (igual que el claimed); Llama 3.2 3B claimed 128K pero effective solo 4K. *"LFMs Truly Exploit their Context Length"*.
+- **Memoria:** footprint de inferencia casi constante al crecer el contexto (vs KV cache lineal en transformers).
+- **⚠️ NO eran open weights en lanzamiento:** "we're not open-sourcing our models at the moment" (para mantener ventaja).
+
+## 4. LFM2 (segunda generación — feb-2025, open weights)
+
+- Blog: liquid.ai/blog/liquid-foundation-models-v2-our-second-series-of-generative-ai-models; Technical Report arXiv 2511.23404.
+- **Modelos:** 350M, 700M, **1.2B** (dense). Contexto 32K.
+- **Arquitectura:** híbrida — 16 bloques: **10 bloques de convolución corta con doble puerta (gated short-range conv) + 6 bloques de Grouped Query Attention (GQA)**. Diseñada con STAR.
+- **Entrenamiento:** 10T tokens (75% inglés, 20% multilingüe, 5% código). Distillation knowledge from LFM1-7B teacher.
+- **Rendimiento:** **2x más rápido** decode+prefill en CPU que Qwen3; **3x mejora en eficiencia de entrenamiento** vs generación anterior.
+- **OPEN WEIGHTS en Hugging Face** (LiquidAI). **Licencia basada en Apache 2.0** (uso libre académico/comercial si &lt;$10M ingresos; contacto para mayores). LFM2-VL bajo misma licencia.
+- **Runtimes:** llama.cpp (GGUF), ExecuTorch, MLX, vLLM, SGLang, ONNX, Transformers, TRL.
+- **Rendimiento en dispositivo:** LFM2-1.2B corre en Galaxy S25, 32K contexto completo, **~719MB**, ~70 tok/s en CPU (vs Llama 3.2 1B ~9.4% de la KV memory → ~90% reducción).
+- **Benchmarks:** LFM2-1.2B competitivo con Qwen3-1.7B (47% más grande); LFM2-700M supera a Gemma 3 1B IT.
+
+## 5. LFM2.5 (2026 — la línea actual)
+
+- **LFM2.5-8B-A1B** (may-2026): MoE 8B total/1B activo, **contexto 128K**, reasoning-only, vocab 128K (duplicado), 38T tokens pre-train, RL a gran escala. 253 tok/s M5 Max, ~30 tok/s teléfono, &lt;6GB.
+- **LFM2.5-1.2B-Thinking** (2026): razonamiento on-device **&lt;1GB**, 32K contexto, ~52 tok/s a 16K en Ryzen NPU.
+- **LFM2.5-2.6B** (ago-2026): agéntico on-device, **128K contexto**, ~34T tokens, SFT→Teacher Specialization→MOPD→Agentic RL (entrenado dentro de Hermes Agent, OpenClaw). 220 tok/s M5 Max, &lt;2.5GB. Open weights HF.
+- **LFM2.5-VL**: variantes visión-lenguaje (450M, 1.6B, 3B).
+- **Métricas de la empresa:** 56 LFM shipped, 40.9M descargas, 3200+ variantes.
+
+## 6. Por qué la memoria constante es la innovación (no el "contexto infinito")
+
+- En transformers, la KV cache crece **linealmente** con la longitud de la secuencia → memoria explota con inputs largos.
+- En LFM, el estado recurrente/atencional es **acotado**: footprint de memoria casi **constante** (independiente de la longitud).
+- Consecuencia práctica: puedes meter contextos largos en hardware pequeño (teléfono, CPU) — no porque el contexto sea "infinito", sino porque **no te come la RAM**.
+- Esto habilita agentes locales, RAG, análisis de documentos largos en el edge.
+
+## 7. Competidores no-transformer (contexto del "no es el primero")
+
+- **RWKV** — ago-2021, primera arquitectura no-transformer escalada a decenas de miles de millones (linear attention + recurrencia).
+- **Mamba** — 2023, State Space Models selectivos (SSM), escalado a billones. Referenciado en la propia investigación de Liquid (Liquid-S4).
+- **xLSTM** — 2024, NXAI (Sepp Hochreiter).
+- Liquid AI se posiciona como la más prominente en **edge/on-device** de esta familia.
+
+## 8. Fuentes primarias
+
+- liquid.ai/blog/liquid-foundation-models-our-first-series-of-generative-ai-models (LFM1, oct-2024)
+- liquid.ai/blog/liquid-foundation-models-v2-our-second-series-of-generative-ai-models (LFM2, feb-2025)
+- liquid.ai/blog/lfm2-5-8b-a1b (may-2026)
+- liquid.ai/blog/lfm2-5-2-6b (ago-2026)
+- liquid.ai/blog/lfm2-5-1-2b-thinking-on-device-reasoning-under-1gb (2026)
+- arxiv.org/html/2511.23404 (LFM2 Technical Report)
+- liquid.ai/company (fundadores, MIT CSAIL)
+- cognitiverevolution.ai (entrevista Ramin Hasani)
+- machine-learning-made-simple.medium.com (análisis LFM2 edge)
+- rwkv wiki / arxiv (contexto histórico no-transformer)
+
+## 9. Datos para TTS (pronunciaciones)
+
+- LFM → "ele efe eme" (sigla deletreada)
+- Liquid → "líquid"
+- Transformer → "transfórmer" (término técnico, inglés)
+- RWKV → "erre doble u ká u" (sigla)
+- Mamba → "mamba"
+- xLSTM → "equis el este te eme" (sigla)
+- KV cache → "la caché de clave-valor"
+- 1.2B → "un modelo de mil doscientos millones de parámetros"
+- 40.3B → "cuarenta coma tres mil millones" / "cuarenta mil millones"
+- 719MB → "setecientos diecinueve megabytes"
+- tok/s → "tokens por segundo"
+- MIT → "eme i te"
+- AMD → "a eme de"
+- Hugging Face → "jaguin feis"
+- MoE → "mezcla de expertos"
+
+## 10. Acento de marca
+
+Liquid AI usa identidad de **cian/azul líquido** (estilo "agua/líquido"). Propongo acento **CIAN #00B2FF** con fondo #0a0a0a y texturas tipo gota/líquido. → **Acento CIAN líquido #00B2FF** (marca Liquid).
+
+## Puntos clave
+
+- Ver el análisis en vídeo: https://www.youtube.com/watch?v=_sUvt3NjKRU
+- Investigación verificada contra fuentes primarias (fecha de publicación del vídeo)
+- Fuentes listadas a continuación para profundizar
+
+## Conclusión
+
+La idea de YouTube Studio contiene **TRES afirmaciones falsas o imprecisas** (patrón debunk del canal):
+
+1. **"Neural LFM" NO existe** — El modelo real es **Liquid Foundation Model (LFM)** de Liquid AI. El nombre de la idea es un invento de YouTube.
+2. **"first non-transformer" es FALSO** — RWKV (ago-2021), Mamba (2023) y xLSTM (2024) le preceden. El claim REAL y más acotado de Liquid es: LFM-1B fue *"the first time a non-GPT architecture significantly outperforms transformer-based models"* (primera no-GPT que supera claramente a transformers en su clase, no "la primera no-transformer").
+3. **"infinite context" es FALSO** — Los LFM tienen contexto FINITO: 32K (LFM1/LFM2) y hasta 128K (LFM2.5-8B, 2.6B). Lo real es **memoria constante / acotada**: la KV cache no crece linealmente con la secuencia → pueden procesar contextos largos con footprint de memoria casi constante. No es "contexto infinito".
+
+**Ángulo del vídeo (honesto, estilo debunk):** desmontar el clickbait + explicar qué es de verdad LFM y por qué la memoria constante (no el "contexto infinito") es la innovación real.
+
+---
+
+*Artículo generado desde el estudio completo del pipeline de vídeo de [nramosdev](https://www.youtube.com/@nramosdev). Todos los datos provienen de la investigación verificada del canal.*

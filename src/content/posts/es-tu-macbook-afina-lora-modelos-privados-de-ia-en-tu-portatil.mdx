@@ -1,0 +1,63 @@
+---
+title: 'TU MACBOOK AFINA LORA: modelos privados de IA en tu portátil'
+description: '¿Crees que para desplegar un modelo de IA afinado con tus datos necesitas un servidor o pagar la nube? Te equivocas. Con adapters LoRA puedes llevar modelos de '
+pubDate: 2026-08-27
+lang: es
+videoId: 'aQ4inVqk_fc'
+videoUrl: 'https://www.youtube.com/watch?v=aQ4inVqk_fc'
+duration: ''
+image: 'https://i.ytimg.com/vi/aQ4inVqk_fc/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**TU MACBOOK AFINA LORA: modelos privados de IA en tu portátil**
+
+¿Crees que para desplegar un modelo de IA afinado con tus datos necesitas un servidor o pagar la nube? Te equivocas. Con adapters LoRA puedes llevar modelos de lenguaje privados y especializados a un MacBook Air estándar, 100% local. Hoy desmontamos cómo funciona Apple Intelligence por dentro (modelo de 3B + adapters de rango 16), la vía propietaria con el Foundation Models framework y la alternativa open source con MLX. Al final sabrás exactamente qué camino elegir: el ecosistema cerrado de Apple o el control total con código abierto.
+
+## Capítulos del vídeo
+
+- **00:00** — Qué son los adapters LoRA y por qué importan para la privacidad
+- **00:37** — La arquitectura on-device de Apple Intelligence (3B · 3.7 bits · 30 tok/s)
+- **01:14** — La vía propietaria: Foundation Models framework y el toolkit de entrenamiento
+- **01:50** — El peaje de la manzana: reentrenar por versión de OS, 160 MB por adapter, entitlement
+- **02:26** — La alternativa open source: MLX con los comandos lora, convert y fuse
+- **03:03** — Práctica real en MacBook Air: Mistral 7B de 29.5 GB a 4.3 GB en 4-bit
+- **03:44** — Core ML multifunction: fusionar varios adapters en un solo modelo
+- **04:24** — Veredicto: cuándo usar cada vía
+
+## El contexto
+
+**DATOS CLAVE**
+
+## Análisis
+
+- Modelo on-device de Apple Intelligence: ~3 mil millones de parámetros
+
+- Adapter LoRA de rango 16 en 16 bits: apenas decenas de MB
+
+- Paletización 2-bit + 4-bit: promedio 3.7 bits por peso sin pérdida de calidad
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=aQ4inVqk_fc
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+## Fuentes
+
+- [Apple — Introducing Apple's On-Device and Server Foundation Models](https://machinelearning.apple.com/research/introducing-apple-foundation-models)
+- [Apple — Foundation Models adapter training](https://developer.apple.com/apple-intelligence/foundation-models-adapter)
+- [WWDC25 — Explore large language models on Apple silicon with MLX](https://developer.apple.com/videos/play/wwdc2025/298)
+- [Core ML Tools — Multifunction Models](https://apple.github.io/coremltools/docs-guides/source/multifunction-models.html)
+- [Apple Intelligence Foundation Language Models Tech Report 2025](https://machinelearning.apple.com/research/apple-foundation-models-tech-report-2025)
+
+## Conclusión
+
+- Rendimiento (iPhone 15 Pro): ~0.6 ms time-to-first-token por token, ~30 tokens/s
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*

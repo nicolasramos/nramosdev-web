@@ -216,7 +216,7 @@ function richPostTemplate({id, title, url, published, research, hook, seoDesc}) 
   const body = [
     `## TL;DR`,
     ``,
-    `**${title}**`,
+    `**${mdxSafe(title)}**`,
     ``,
     hook ? `> ${mdxSafe(hook)}` : null,
     ``,
@@ -227,7 +227,7 @@ function richPostTemplate({id, title, url, published, research, hook, seoDesc}) 
 
   for (const s of mainSections) {
     if (!s.body.join('').trim()) continue;
-    body.push(``, `## ${s.title}`, ``);
+    body.push(``, `## ${mdxSafe(s.title)}`, ``);
     for (const rawLine of s.body) {
       const line = rawLine.trim();
       if (!line) continue;
@@ -238,7 +238,7 @@ function richPostTemplate({id, title, url, published, research, hook, seoDesc}) 
   if (tables.length) {
     body.push(``, `## Datos comparativos`, ``);
     for (const tbl of tables) {
-      body.push(tbl.trim(), ``);
+      body.push(mdxSafe(tbl.trim()), ``);
     }
   }
 
@@ -304,16 +304,16 @@ function postTemplate({id, title, description, published, url}) {
     if (/^Enlaces:?$/i.test(line)) continue;
     const header = sectionHeader(line);
     if (header) { kept.push(`**${header}**`); continue; }
-    kept.push(line);
+    kept.push(mdxSafe(line));
   }
   const body = kept.join('\n').split(/\n{2,}/).map((p) => p.trim()).filter(Boolean).slice(0, 8);
   const chapters = chapterLines.slice(0, 12).map((l) => {
     const m = l.match(/^(\d{1,2}:\d{2})\s+(.+)$/);
-    return `- **${m[1]}** — ${m[2]}`;
+    return `- **${m[1]}** — ${mdxSafe(m[2])}`;
   });
   const sources = sourceLines.map((l) => {
     const m = l.match(/^(.+):\s*(https?:\/\/\S+)$/);
-    return m ? `- [${m[1].trim()}](${m[2].trim()})` : `- ${l}`;
+    return m ? `- [${mdxSafe(m[1].trim())}](${m[2].trim()})` : `- ${mdxSafe(l)}`;
   });
 
   const conclusion = body[5] || `Un análisis más en el canal. [Suscríbete](https://www.youtube.com/@${HANDLE}) para no perderte los próximos.`;
@@ -333,7 +333,7 @@ tags: ['youtube', 'nramosdev', 'ia', 'análisis']
 
 ## TL;DR
 
-**${title}**
+**${mdxSafe(title)}**
 
 ${body[0] || 'Análisis completo del vídeo publicado en el canal nramosdev.'}
 
