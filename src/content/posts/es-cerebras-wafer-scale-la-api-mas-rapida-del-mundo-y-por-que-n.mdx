@@ -1,0 +1,97 @@
+---
+title: 'CEREBRAS WAFER-SCALE: la API más rápida del mundo y por qué no es tuya'
+description: '### WSE-3 (Wafer Scale Engine 3) — specs (arXiv 2503.11698, prensa Cerebras 13-03-2024) - Un único silicio del tamaño de una oblea = 1 chip. TSMC 5nm. Área 46'
+pubDate: 2026-08-27
+lang: es
+videoId: 'UqD_5oz9iCs'
+videoUrl: 'https://www.youtube.com/watch?v=UqD_5oz9iCs'
+duration: ''
+image: 'https://i.ytimg.com/vi/UqD_5oz9iCs/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**CEREBRAS WAFER-SCALE: la API más rápida del mundo y por qué no es tuya**
+
+
+Este artículo amplía el vídeo del canal [nramosdev](https://www.youtube.com/@nramosdev) con el estudio completo y las fuentes verificadas.
+
+## El contexto
+
+### WSE-3 (Wafer Scale Engine 3) — specs (arXiv 2503.11698, prensa Cerebras 13-03-2024)
+- Un único silicio del tamaño de una oblea = 1 chip. TSMC 5nm. Área 46.225 mm² (21,5×21,5 cm), ~57× mayor que un GPU (H100 826 mm²).
+- 4 billones de transistores, 900.000 núcleos de IA optimizados, 44 GB de SRAM on-die.
+- 21 PB/s de ancho de banda de memoria on-chip (7.000× el H100 3,35 TB/s).
+- Pico 125 PFLOPS (FP16). Sin HBM, sin memoria fuera del chip.
+- Entrena modelos hasta 24 billones de parámetros. Cluster hasta 2.048 sistemas CS-3 (256 ExaFLOPs).
+- Sistema CS-3: 15U, ~23 kW, precio estimado $2,5M. Memoria externa MemoryX hasta 1,2 PB.
+
+### Ventaja vs GPU (Spheron 28-04-2026 + Cerebras)
+- Batch 1: Cerebras ~2.100 tok/s vs H100 ~550 tok/s (Llama 3.1 70B). Cerebras gana 3-4×.
+- Batch 8: Cerebras ~2.100 vs H100 ~3.200. Batch 32: 8.000. Batch 64: 12.000 → **H100 gana a partir de batch&gt;8**.
+- TTFT plano ~50 ms en Cerebras a cualquier batch (vs 80-700 ms H100). Ventaja real en agentes/chat en tiempo real.
+- Motivo: la inferencia batch 1 es memory-bandwidth-bound; el SRAM on-die a 21 PB/s elimina el memory wall. Pero los 44 GB no caben un 70B en FP8 (~70 GB) → cuantiza o particiona.
+- Por eso el resultado más rápido actual es gpt-oss-120b (MoE: parámetros activos caben en SRAM).
+- 21 PB/s vs 3,35 TB/s no es comparable 1:1 (on-die SRAM vs off-chip HBM).
+
+### Rendimiento real publicado
+- Lanzamiento inferencia (Cerebras, ago-2024): Llama 3.1 8B a 1.800 tok/s, 70B a 450 tok/s. "Instantáneo". 20× más rápido que cloud GPU. 2,4× más rápido que Groq en 8B. Pesos 16-bit nativos (precisión máxima).
+- Gemma 4 31B en Cerebras (jul-2026): ~2.300 tok/s — **primer multimodal open-weight &gt;2.000 tok/s**. 17× más rápido que providers GPU en el mismo modelo.
+- Document analysis (PDF 60 págs DeepSeek-V4): 1,79 s en Cerebras vs ~25 s GPU = 17×.
+- Image search: 80 imágenes, 3 imágenes/lote ~300 ms, 17 frames de vídeo procesados en 5 s.
+- AlphaSignal/Artificial Analysis (jul-2026): Gemma 4 31B a 1.851 tok/s, ~35× más rápido que endpoints GPU típicos.
+- Kimi K2.6 (Moonshot) a 981 tok/s output (Cerebras, 20-05-2026); Artificial Analysis lo verificó 6,7× más rápido que el siguiente cloud GPU.
+
+### Capacidades de visión en tiempo real (Gemma 4 31B multimodal)
+- OCR, comprensión de documentos, búsqueda de imágenes, detección de objetos, entendimiento de UI, análisis de frames de vídeo.
+- 131K contexto, 140+ idiomas, razonamiento, chain-of-thought, function calling, agéntico.
+- 84,3% GPQA Diamond, 80,0% LiveCodeBench v6 (comparable a Claude Haiku 4.5, open-weight Apache 2.0).
+
+### CS-4 (anunciado 18-08-2026) + roadmap
+- CS-4 = primer sistema sobre plataforma rack Nexus. 3× WSE-3 Turbo (backpacks modulares traseros).
+- Hasta 30× más rápido que GPUs. &gt;1.000 tok/s en modelos de &gt;10T parámetros. Latencia wafer-to-wafer 2 µs.
+- 10× más throughput por watt que CS-3. Primeros envíos este trimestre.
+- CS-5 (2027): 10.000 tok/s por usuario en open models (Gemma 4 31B, gpt-oss-120b); 5.000 tok/s en frontier (&gt;50T params). 3M tok/s por megawatt.
+- CS-6: SRAM wafer-scale + DRAM apilada 3D (proyecto iniciado 2024). Memoria mucho mayor sin perder localidad.
+
+### Precios (Cerebras + trackers 2026)
+- Pay-as-you-go: Llama 3.1 8B $0,10/1M; Llama 3.1 70B $0,60/1M (lanzamiento). Trackers (may-2026): 8B $0,10/$0,10; 70B $0,85/$1,20; Qwen3 32B $0,40/$0,80 (131K).
+- Free tier: 1M tokens/día gratis (sin tarjeta) en Llama/Qwen/GPT-OSS.
+- Suscripciones planas (Cerebras Code, sobre GLM-4.7): Code Pro $50/mes (50 RPM, 24M tok/día, 1.000 msg/día); Code Max $200/mes (120 RPM, 120M tok/día, 5.000 msg/día). ~1.000 tok/s.
+- API US-only. Modelos: Llama 3.x, Qwen 3-32B/235B, GPT-OSS-120B, GLM-4.7, Gemma 4. NO DeepSeek, Mistral, Gemma 3.
+
+### La verdad incómoda (el "pero")
+- NO es hardware que compres ni montes en casa: CS-3 ~$2,5M, CS-4 aún más, consumo 23 kW, 15U.
+- Es cloud propietario (API managed). El modelo (Gemma 4, gpt-oss, Qwen) es open-weight, pero la potencia de cómputo NO es tuya.
+- Solo inferencia (no fine-tuning on-demand en la API pública).
+- Los 44 GB de SRAM limitan qué modelos caben densos &gt;70B → MoE o paralelismo.
+- A batch alto (&gt;8) la GPU H100 le supera en throughput.
+- Filtro del canal: hardware cloud propietario = categoría LOW, el vídeo se hace como análisis/desmontaje honesto.
+
+## Fuentes primarias (para citar en el SEO)
+
+- Cerebras blog "Ultrafast Frontier Inference / Hot Chips 2026" — cerebras.ai/blog/ultrafast-frontier-inference-cerebras-deep-dive-at-hot-chips-2026 (25-08-2026)
+- Cerebras "Introducing CS-4" — cerebras.ai/blog/introducing-cerebras-cs-4 (18-08-2026)
+- Cerebras "First Look @ Gemma 4 on Cerebras" — cerebras.ai/blog/first-look-gemma-4-on-cerebras-3-fast-multimodal-apps-we-built (08-07-2026)
+- Cerebras "Introducing Cerebras Inference" — cerebras.ai/blog/introducing-cerebras-inference-ai-at-instant-speed
+- Prensa WSE-3 — cerebras.ai/press-release/cerebras-announces-third-generation-wafer-scale-engine (13-03-2024)
+- arXiv 2503.11698 — "A Comparison of the Cerebras Wafer-Scale Integration..." (arxiv.org/html/2503.11698v1)
+- Spheron "Cerebras vs NVIDIA H100" — spheron.network/blog/cerebras-vs-nvidia-h100-inference-2026 (28-04-2026)
+- AlphaSignal "Cerebras runs Gemma 4 31B at 35x GPU speed" — alphasignal.ai (jul-2026)
+- MorphLLM "Cerebras Pricing 2026" — morphllm.com/cerebras-pricing
+
+## Gancho (hook, &lt;150 chars)
+
+"¿La API más rápida del mundo para visión en tiempo real? Cerebras y su chip del tamaño de una oblea — ¿cuánto hay de real y por qué no la tendrás en tu casa?"
+
+## Puntos clave
+
+- Ver el análisis en vídeo: https://www.youtube.com/watch?v=UqD_5oz9iCs
+- Investigación verificada contra fuentes primarias (fecha de publicación del vídeo)
+- Fuentes listadas a continuación para profundizar
+
+---
+
+*Artículo generado desde el estudio completo del pipeline de vídeo de [nramosdev](https://www.youtube.com/@nramosdev). Todos los datos provienen de la investigación verificada del canal.*

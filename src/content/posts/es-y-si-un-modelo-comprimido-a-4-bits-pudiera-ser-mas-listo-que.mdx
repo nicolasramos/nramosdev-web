@@ -1,0 +1,65 @@
+---
+title: '¿Y si un modelo comprimido a 4 bits pudiera ser MÁS listo que el original de 16? Desmontamos el m...'
+description: 'El QAH de Multiverse Computing destila un modelo de 4 bits directamente del original sin comprimir, y el resultado gana a su propia versión a precisión completa'
+pubDate: 2026-08-28
+lang: es
+videoId: '6atGTmF8J60'
+videoUrl: 'https://www.youtube.com/watch?v=6atGTmF8J60'
+duration: ''
+image: 'https://i.ytimg.com/vi/6atGTmF8J60/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**¿Y si un modelo comprimido a 4 bits pudiera ser MÁS listo que el original de 16? Desmontamos el m...**
+
+El QAH de Multiverse Computing destila un modelo de 4 bits directamente del original sin comprimir, y el resultado gana a su propia versión a precisión completa en 7 de 9 benchmarks. Analizamos la receta, la comparativa QAH vs QAT, y por qué la cuantización deja de ser un impuesto para convertirse en una oportunidad de enseñar al modelo.
+
+## Capítulos del vídeo
+
+- **0:00** — Introducción — ¿un 4-bit que supera al 16-bit?
+- **0:08** — El problema — comprimir y cuantizar degrada
+- **0:29** — Healing — el paso que falta
+- **0:46** — QAT — el método dominante y su coste
+- **1:09** — QAD — la alternativa y su límite
+- **1:31** — El techo — profesor degradado
+- **1:59** — QAH — el cambio clave
+- **2:34** — Qué cambia — la cuantización ya no es pérdida
+- **3:00** — Resultados — 4-bit gana al 16-bit
+- **3:27** — Vs profesor — mitad de tamaño, a la altura
+- **3:52** — QAH vs QAT — mismo pico, distinto camino
+- **4:18** — Eficiencia — más preciso y más barato
+
+## El contexto
+
+**DATOS CLAVE**
+
+## Análisis
+
+- QAH (Quantization-Aware Healing): destila el estudiante de 4 bits directamente del modelo original sin comprimir, no del checkpoint recuperado
+
+- Aplicado a GPT-OSS 120B → 60B → MXFP4: gana a su propia versión bfloat16 en 7 de 9 benchmarks
+
+- Mayores avances donde más daña la compresión: AA-LCR +7.4 (contexto largo), AIME 2025 +5.6 (matemáticas)
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=6atGTmF8J60
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+## Fuentes
+
+- [Blog Hugging Face (QAH)](https://huggingface.co/blog/MultiverseComputingCAI/quantization-aware-healing)
+- [Paper (arXiv 2608.20953)](https://huggingface.co/papers/2608.20953)
+- [Modelo Hypernova-60B](https://huggingface.co/MultiverseComputingCAI/Hypernova-60B-2605)
+
+## Conclusión
+
+- Supera al profesor de 120B en LiveCodeBench (66.5 vs 66.0) y queda a 1.6 puntos en GPQA Diamond
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*
