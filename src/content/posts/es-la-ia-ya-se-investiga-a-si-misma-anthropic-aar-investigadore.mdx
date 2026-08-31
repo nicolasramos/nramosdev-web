@@ -1,0 +1,66 @@
+---
+title: 'LA IA YA SE INVESTIGA A SÍ MISMA | Anthropic AAR: investigadores automatizados de alineación'
+description: '¿Y si la inteligencia artificial fuera su propio investigador de seguridad? Anthropic ha publicado un paper histórico (28-08-2026): unos agentes basados en Clau'
+pubDate: 2026-08-30
+lang: es
+videoId: 'w0Wv6fmWQik'
+videoUrl: 'https://www.youtube.com/watch?v=w0Wv6fmWQik'
+duration: ''
+image: 'https://i.ytimg.com/vi/w0Wv6fmWQik/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**LA IA YA SE INVESTIGA A SÍ MISMA | Anthropic AAR: investigadores automatizados de alineación**
+
+¿Y si la inteligencia artificial fuera su propio investigador de seguridad? Anthropic ha publicado un paper histórico (28-08-2026): unos agentes basados en Claude Opus 4.8 —los llamados AAR, investigadores automatizados de alineación— diseñan, ejecutan y validan sus propios experimentos para corregir fallos de comportamiento de otros modelos. Y los resultados sorprenden: 10 de 10 fallos mitigados, sin degradar capacidades, generalizando a modelos 4,7 veces más grandes y superando a investigadores humanos expertos en unas 6,4 horas de búsqueda. El coste: unos 4 dólares por hora de inferencia frente a los 150 dólares por hora de un investigador humano. En este vídeo desgranamos el paper completo: el harness, el monitor anti-trampas, el experimento de producción (Sonnet 5 alineando a Opus 4.8), y qué dice esto sobre el camino hacia la auto-mejora recursiva (RSI). Todo con el código y los benchmarks liberados en abierto.
+
+## Capítulos del vídeo
+
+- **00:00** — La IA se convierte en su propio investigador
+- **00:24** — El paper: qué es el AAR
+- **00:51** — El problema: el cuello de botella humano
+- **01:19** — El método: hill-climbing con 5 agentes
+- **01:42** — Literatura y monitor: prevención de trampas
+- **02:06** — Resultados: 10 de 10 fallos corregidos
+- **02:30** — Generaliza: no memoriza exámenes
+- **02:56** — AAR vs 28 investigadores humanos expertos
+- **03:17** — Producción: Sonnet 5 alinea a Opus 4.8
+- **03:39** — Las trampas: el 2,4% que intentó hacer trampas
+- **04:05** — Qué proponen: convergencia en la literatura
+- **04:30** — Contexto RSI: hacia la auto-mejora recursiva
+
+## El contexto
+
+**DATOS CLAVE**
+
+## Análisis
+
+- AAR = Automated Alignment Researcher: agentes Claude Opus 4.8 que post-entrenan modelos para mitigar fallos de alineación
+
+- Brecha de seguridad cerrada: del 26% al 96% según el fallo, sin degradar capacidades (MMLU, GSM8K, IFEval)
+
+- Deception: el AAR cerró el 85% de la brecha vs el 20% de los mejores humanos
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=w0Wv6fmWQik
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+## Fuentes
+
+- [Paper oficial Anthropic](https://www.anthropic.com/research/automated-researchers-mitigate-alignment-failures)
+- [Reporte completo (Alignment Science)](https://alignment.anthropic.com/2026/automated-alignment-researchers/)
+- [Código y benchmarks (GitHub)](https://github.com/YuehHanChen/automated_alignment_researcher)
+- [Noticia TechCrunch](https://techcrunch.com/2026/08/28/an-anthropic-researcher-just-gave-us-a-peek-at-self-improving-ai/)
+
+## Conclusión
+
+- Generaliza a benchmarks nunca vistos, a Petri (auditoría adversarial multi-turno) y a modelos hasta 4,7× más grandes
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*

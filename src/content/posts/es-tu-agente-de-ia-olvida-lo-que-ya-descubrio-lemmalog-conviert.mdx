@@ -1,0 +1,65 @@
+---
+title: 'Tu agente de IA olvida lo que ya descubrió: Lemmalog convierte su memoria en un programa'
+description: 'Tu agente de IA lleva horas investigando y de repente olvida lo que ya había establecido. Un ingeniero de seguridad de Google cree que el problema no es la memo'
+pubDate: 2026-08-30
+lang: es
+videoId: 'Gl5Jy_oxmJ8'
+videoUrl: 'https://www.youtube.com/watch?v=Gl5Jy_oxmJ8'
+duration: ''
+image: 'https://i.ytimg.com/vi/Gl5Jy_oxmJ8/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**Tu agente de IA olvida lo que ya descubrió: Lemmalog convierte su memoria en un programa**
+
+Tu agente de IA lleva horas investigando y de repente olvida lo que ya había establecido. Un ingeniero de seguridad de Google cree que el problema no es la memoria en sí, sino cómo la construimos: como recuerdos borrosos en lugar de como un programa. Por eso escribió Lemmalog, un motor de Datalog en Rust que convierte la memoria de los LLM en una base de datos deductiva: el modelo extrae hechos, y un motor determinista deriva conclusiones con procedencia, retracciones e intervalos de validez. Resultado: más del doble de F1 que meter la conversación entera en contexto, con 38 veces menos tokens, y un agente que sabe por qué cree lo que cree. ¿Hace falta cada vez más contexto, o basta con mantener el estado?
+
+## Capítulos del vídeo
+
+- **00:00** — Tu agente de IA pierde el hilo
+- **00:12** — El problema: olvida hipótesis falsas en investigaciones largas
+- **00:31** — La memoria actual: vectores que recuerdan lo DICHO, no lo SABIDO
+- **00:47** — El ejemplo: un hecho que cambia dos horas después
+- **01:06** — Esto es análisis de programas
+- **01:20** — Datalog: hechos + reglas = deducción
+- **01:37** — Lemmalog: la parte difusa del LLM y la parte determinista del motor
+- **01:57** — Retracciones: borrar hechos sin romper conclusiones con doble apoyo
+- **02:14** — ¿Por qué? la procedencia detrás de cada conclusión
+- **02:33** — El tiempo: intervalos de validez de los hechos
+- **02:49** — Vectores vs verdad: dos problemas distintos
+- **03:04** — LongMemEval: 0.463 F1, más del doble que el contexto completo
+
+## El contexto
+
+**DATOS CLAVE**
+
+## Análisis
+
+- LongMemEval (102 preguntas): Lemmalog 0.463 F1 vs 0.222 del contexto completo y 0.197 de GPT-4.1
+
+- 38x menos tokens por pregunta: 2.700 frente a 104.000
+
+- Knowledge Update: 0.579 — nº1 por encima de PropMem (0.528) y contexto (0.202)
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=Gl5Jy_oxmJ8
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+## Fuentes
+
+- [Artículo original](https://pwning.systems/posts/llm-memory-program-analysis/)
+- [Benchmark LongMemEval](https://github.com/ProsusAI/MemEval)
+- [Perfil del autor](https://github.com/JordyZomer)
+
+## Conclusión
+
+- LoCoMo (1.986 preguntas): 0.533 F1; adversarial con premisa falsa: 0.707 vs 0.509
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*
