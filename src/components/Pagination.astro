@@ -1,0 +1,61 @@
+---
+// Navegación de paginación del blog. Props:
+// - current: número de página actual (1-based)
+// - totalPages: número total de páginas
+// - basePath: '/blog' o '/en/blog'
+// - lang: 'es' | 'en' (para las etiquetas)
+const {current, totalPages, basePath, lang = 'es'} = Astro.props;
+
+if (totalPages <= 1) return;
+
+const isEs = lang === 'es';
+const prevLabel = isEs ? 'Anterior' : 'Previous';
+const nextLabel = isEs ? 'Siguiente' : 'Next';
+
+// Ventana de páginas: actual, 1 vecina a cada lado
+function pageWindow() {
+  const pages = [];
+  const from = Math.max(1, current - 1);
+  const to = Math.min(totalPages, current + 1);
+  for (let i = from; i <= to; i++) pages.push(i);
+  return pages;
+}
+const pages = pageWindow();
+const href = (n) => (n === 1 ? `${basePath}/` : `${basePath}/${n}/`);
+---
+
+<nav class="mt-12 flex items-center justify-between gap-4 border-t border-line/70 pt-8" aria-label={isEs ? 'Paginación' : 'Pagination'}>
+  {
+    current > 1 ? (
+      <a href={href(current - 1)} class="inline-flex items-center gap-2 rounded-md border border-line px-4 py-2 font-mono text-sm font-bold text-fg transition hover:border-amber hover:text-amber">
+        <span aria-hidden="true">←</span> {prevLabel}
+      </a>
+    ) : (
+      <span class="inline-flex items-center gap-2 rounded-md border border-line/50 px-4 py-2 font-mono text-sm font-bold text-muted opacity-50">
+        <span aria-hidden="true">←</span> {prevLabel}
+      </span>
+    )
+  }
+
+  <div class="flex items-center gap-1.5 font-mono text-sm">
+    {pages.map((n) => (
+      n === current ? (
+        <span class="rounded-md bg-amber px-3 py-1.5 font-bold text-bg" aria-current="page">{n}</span>
+      ) : (
+        <a href={href(n)} class="rounded-md px-3 py-1.5 text-muted transition hover:text-amber">{n}</a>
+      )
+    ))}
+  </div>
+
+  {
+    current < totalPages ? (
+      <a href={href(current + 1)} class="inline-flex items-center gap-2 rounded-md border border-line px-4 py-2 font-mono text-sm font-bold text-fg transition hover:border-amber hover:text-amber">
+        {nextLabel} <span aria-hidden="true">→</span>
+      </a>
+    ) : (
+      <span class="inline-flex items-center gap-2 rounded-md border border-line/50 px-4 py-2 font-mono text-sm font-bold text-muted opacity-50">
+        {nextLabel} <span aria-hidden="true">→</span>
+      </span>
+    )
+  }
+</nav>

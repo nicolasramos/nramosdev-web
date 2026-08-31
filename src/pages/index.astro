@@ -2,8 +2,14 @@
 import Base from '../layouts/Base.astro';
 import {getCollection} from 'astro:content';
 
-const posts = (await getCollection('posts', ({data}) => data.lang === 'es' && !data.draft))
+const POSTS_PER_PAGE = 12;
+
+const allPosts = (await getCollection('posts', ({data}) => data.lang === 'es' && !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// La home muestra solo los más recientes; el resto vive en el blog paginado.
+const posts = allPosts.slice(0, POSTS_PER_PAGE);
+const hasMore = allPosts.length > POSTS_PER_PAGE;
 ---
 
 <Base lang="es" title="nramosdev — IA y tecnología en español" description="Blog de Nicolás Ramos sobre inteligencia artificial, modelos de lenguaje y desarrollo de software. Cada vídeo del canal tiene su análisis por escrito.">
@@ -50,5 +56,12 @@ const posts = (await getCollection('posts', ({data}) => data.lang === 'es' && !d
         </a>
       ))}
     </div>
+    {hasMore && (
+      <div class="reveal mt-8">
+        <a href="/blog" class="inline-flex items-center gap-2 rounded-md border border-line px-5 py-2.5 font-mono text-sm font-bold text-fg transition hover:border-amber hover:text-amber">
+          <span aria-hidden="true">→</span> Ver todos los artículos ({allPosts.length})
+        </a>
+      </div>
+    )}
   </section>
 </Base>

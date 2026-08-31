@@ -1,9 +1,16 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Pagination from '../../components/Pagination.astro';
 import {getCollection} from 'astro:content';
 
-const posts = (await getCollection('posts', ({data}) => data.lang === 'es' && !data.draft))
+const POSTS_PER_PAGE = 12;
+
+const allPosts = (await getCollection('posts', ({data}) => data.lang === 'es' && !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const totalPages = Math.max(1, Math.ceil(allPosts.length / POSTS_PER_PAGE));
+const current = 1;
+const pagePosts = allPosts.slice(0, POSTS_PER_PAGE);
 ---
 
 <Base lang="es" title="Blog — nramosdev" description="Artículos del blog nramosdev: análisis de IA y tecnología en español.">
@@ -14,7 +21,7 @@ const posts = (await getCollection('posts', ({data}) => data.lang === 'es' && !d
     <h1 class="reveal mt-5 font-mono text-4xl font-extrabold tracking-tight sm:text-5xl">Artículos</h1>
     <p class="reveal mt-3 text-muted">Análisis por escrito de cada vídeo del canal.</p>
     <div class="mt-10 grid gap-4">
-      {posts.map((post, i) => (
+      {pagePosts.map((post, i) => (
         <a
           href={`/blog/${post.id.replace(/^(es|en)-/, '')}`}
           class="reveal group block rounded-lg border border-line/70 bg-panel/60 p-6 transition hover:border-amber/50 hover:bg-panel sm:p-7"
@@ -34,5 +41,6 @@ const posts = (await getCollection('posts', ({data}) => data.lang === 'es' && !d
         </a>
       ))}
     </div>
+    <Pagination current={current} totalPages={totalPages} basePath="/blog" lang="es" />
   </section>
 </Base>
