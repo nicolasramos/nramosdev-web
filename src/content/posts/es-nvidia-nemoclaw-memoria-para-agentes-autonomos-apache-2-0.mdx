@@ -1,0 +1,62 @@
+---
+title: 'NVIDIA NemoClaw: Memoria para agentes autónomos — Apache 2.0'
+description: 'El 92% de empresas no ha desplegado agentes de IA en producción. NVIDIA acaba de lanzar NemoClaw: un stack completo open-source (Apache 2.0) con memoria persist'
+pubDate: 2026-09-11
+lang: es
+videoId: '5PJZafIEK-c'
+videoUrl: 'https://www.youtube.com/watch?v=5PJZafIEK-c'
+duration: ''
+image: 'https://i.ytimg.com/vi/5PJZafIEK-c/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**NVIDIA NemoClaw: Memoria para agentes autónomos — Apache 2.0**
+
+El 92% de empresas no ha desplegado agentes de IA en producción. NVIDIA acaba de lanzar NemoClaw: un stack completo open-source (Apache 2.0) con memoria persistente, sandbox seguro y un modelo Nemotron de 550B parámetros que supera al RAG tradicional en 8 puntos porcentuales.
+
+## Capítulos del vídeo
+
+- **00:00** — El 92% de empresas no despliega agentes: la barrera es la seguridad
+- **00:31** — NemoClaw: stack open-source completo con sandbox NVIDIA OpenShell
+- **01:02** — Nemotron 3 Ultra: 550B parámetros, arquitectura Mamba-Transformer
+- **01:39** — Self Model: memoria persistente con evidencia separada de conocimiento
+- **02:13** — Tres capas de ejecución: evidencia, conocimiento y ejecución gobernada
+- **02:45** — Benchmark: 90.9% precisión vs 82.8% del RAG tradicional
+- **03:20** — Coste API: $0.50/M tokens entrada — 30x más barato que Claude Opus
+
+## El contexto
+
+En este vídeo analizamos la arquitectura de NemoClaw, el concepto de "self model" para memoria de agentes, y los resultados del Agent Memory Benchmark comparado con soluciones agénticas tradicionales.
+
+## Análisis
+
+**DATOS CLAVE**
+• Nemotron 3 Ultra: 550B parámetros totales, 55B activos por token
+• Arquitectura: Mamba-Transformer híbrida con LatentMoE + Multi-Token Prediction
+• DGX Spark: 128GB memoria unificada, ejecuta Super (120B) localmente
+• Ultra mínimo: 8x H100 80GB
+• Self Model precisión: 90.9% vs 82.8% RAG (diferencia: +8.1 puntos)
+• Preguntas difíciles: 87.1% vs 67.7%
+• Tracking temporal: 100% vs 60%
+• Razonamiento punto-en-tiempo: 66.7% vs 33.3%
+• Coste API: $0.50/M entrada, $2.20/M salida (OpenRouter)
+• PinchBench: 91% (empata con Kimi K2.6, supera GLM 5.1)
+• Licencia: Apache 2.0, sin vendor lock-in
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=5PJZafIEK-c
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+
+## Conclusión
+
+Un análisis más en el canal. [Suscríbete](https://www.youtube.com/@nramosdev) para no perderte los próximos.
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*

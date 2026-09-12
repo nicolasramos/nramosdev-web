@@ -1,0 +1,69 @@
+---
+title: 'Engrim: la memoria local-first que tus agentes de IA necesitan'
+description: '¿Te han dicho que cada vez que cambias de modelo de IA en un proyecto, el siguiente agente empieza de cero? Es así. Engrim es un motor de memoria episódica loca'
+pubDate: 2026-09-11
+lang: es
+videoId: 'krWccEh7dXU'
+videoUrl: 'https://www.youtube.com/watch?v=krWccEh7dXU'
+duration: ''
+image: 'https://i.ytimg.com/vi/krWccEh7dXU/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**Engrim: la memoria local-first que tus agentes de IA necesitan**
+
+¿Te han dicho que cada vez que cambias de modelo de IA en un proyecto, el siguiente agente empieza de cero? Es así. Engrim es un motor de memoria episódica local-first basado en SQLite que resuelve exactamente eso: tu agente guarda sus decisiones en tu máquina y el siguiente las recupera sin perder ni una. Sin cloud, sin API, sin suscripciones.
+
+## Capítulos del vídeo
+
+- **00:00** — La amnesia de los agentes de IA
+- **00:23** — Engrim: memoria episódica local-first
+- **00:47** — Stack técnico: FTS5 + Model2Vec + RRF
+- **01:15** — 4 agentes, 1 memoria — integración universal
+- **01:38** — Workflow continue as clear
+- **02:06** — Caso de estudio: trading algorítmico 105 sesiones
+- **02:28** — Engrim vs Engram vs Mnemo vs Mem0
+- **02:57** — Filosofía local-first: tu memoria, tu máquina
+
+## El contexto
+
+Engrim es un motor de memoria episódica local-first para agentes de IA: SQLite en ~/.engrim/memory.db, búsqueda híbrida FTS5 + Model2Vec + Reciprocal Rank Fusion, compatible con Antigravity, Claude Code, Cursor y Windsurf. Tim Gordon lo publicó como Show HN en septiembre de 2026, versión 1.3.0, licencia MIT. Caso de estudio: 50K líneas, 105 sesiones, cero regresiones en 186 tests.
+
+## Análisis
+
+**DATOS CLAVE**
+• Motor: SQLite local-first (~/.engrim/memory.db)
+• Búsqueda: FTS5 + Model2Vec + RRF híbrido
+• Tiempo de carga embeddings: 30ms en CPU, sin GPU
+• Agentes soportados: Antigravity, Claude Code, Cursor, Windsurf
+• Workflow: continue as clear — add, review, clear, inject
+• Caso de estudio: 50K líneas, 105 sesiones, 0 regresiones
+• Licencia: MIT · Cross-model · Bootstrapped
+• Versión: 1.3.0 (septiembre 2026)
+
+💼 LinkedIn: https://www.linkedin.com/in/nramosdev
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=krWccEh7dXU
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+## Fuentes
+
+- [GitHub — Engrim](https://github.com/timgordontg/engrim)
+- [Hacker News Show HN](https://news.ycombinator.com/item?id=49594008)
+- [Model2Vec — MinishLab](https://github.com/MinishLab/model2vec)
+- [SQLite FTS5 Documentation](https://www.sqlite.org/fts5.html)
+- [Reciprocal Rank Fusion](https://arxiv.org/abs/2210.10761)
+
+## Conclusión
+
+Un análisis más en el canal. [Suscríbete](https://www.youtube.com/@nramosdev) para no perderte los próximos.
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*

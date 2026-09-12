@@ -1,0 +1,68 @@
+---
+title: 'Speculative Decoding en vLLM: 2.87× más rápido en AMD GPUs sin cambiar tu modelo'
+description: '¿Te han dicho que acelerar la inferencia de IA siempre cuesta dinero? Es falso. Speculative decoding es la optimización gratuita que multiplica por 2.87× el ren'
+pubDate: 2026-09-11
+lang: es
+videoId: 'UJDruUuMpos'
+videoUrl: 'https://www.youtube.com/watch?v=UJDruUuMpos'
+duration: ''
+image: 'https://i.ytimg.com/vi/UJDruUuMpos/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**Speculative Decoding en vLLM: 2.87× más rápido en AMD GPUs sin cambiar tu modelo**
+
+¿Te han dicho que acelerar la inferencia de IA siempre cuesta dinero? Es falso. Speculative decoding es la optimización gratuita que multiplica por 2.87× el rendimiento en AMD GPUs usando vLLM. Cinco métodos probados, benchmarks reales, y funciona en tu GPU de consumidor. Sin reentrenamiento, sin pérdida de calidad.
+Speculative decoding propone tokens candidatos con un modelo ligero y el modelo original verifica varios a la vez. Si aciertan, se aceptan en bloque. El resultado es idéntico pero mucho más rápido. El equipo de vLLM y AMD publicaron cinco métodos: Native MTP, Gemma 4 MTP, Eagle 3, DFlash y DSpark. DFlash alcanza 2.87× de speedup en MATH500 con n=7. El coste por millón de tokens baja un 19.4%. Y funciona en GPUs de consumidor como la Radeon RX 7900 XTX con 24GB VRAM.
+**DATOS CLAVE**
+• DFlash: 2.87× speedup en MATH500 (n=7)
+• Eagle 3: 2.33× en HumanEval (n=4)
+• Coste por millón de tokens: -19.4%
+• RX 7900 XTX: 96→130 tok/s con draft 1-3B
+• ROCm 7.x compatible
+• Lossless: resultado idéntico al modelo original
+CTA 👍💬🔔
+¿Ya usas vLLM? ¿Qué método de drafting probarías primero? Déjalo en los comentarios. Dale like si esto te ahorra dinero y suscríbete para más optimizaciones de IA.
+
+## Capítulos del vídeo
+
+- **00:00** — Qué es Speculative Decoding
+- **00:30** — Cinco métodos de drafting
+- **01:13** — Benchmarks: 2.87× speedup
+- **01:46** — Reducción de coste -19.4%
+- **02:09** — Funciona en GPUs de consumidor
+- **02:43** — Optimización gratuita sin retraining
+- **03:04** — Ecosistema listo: Z-Lab, Red Hat, vLLM
+- **03:42** — Tu primera optimización
+
+## El contexto
+
+Este artículo amplía el vídeo publicado en el canal [nramosdev](https://www.youtube.com/@nramosdev).
+
+## Análisis
+
+El vídeo desgrana el tema con datos verificados, comparativas y conclusiones prácticas. Aquí tienes el contexto por escrito para profundizar.
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=UJDruUuMpos
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+## Fuentes
+
+- [vLLM Blog: Speculative Decoding on AMD GPUs (23 ago 2026)](https://vllm.ai/blog/2026-08-23-speculative-decoding-amd-gpus)
+- [Z-Lab DFlash Open Source](https://github.com/z-lab/dflash)
+- [Red Hat Inference Server](https://developers.redhat.com/articles/2026/04/16/performance-improvements-speculative-decoding-vllm-gpt-oss)
+- [vLLM Speculators Library](https://github.com/vllm-project/speculators)
+
+## Conclusión
+
+Un análisis más en el canal. [Suscríbete](https://www.youtube.com/@nramosdev) para no perderte los próximos.
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*

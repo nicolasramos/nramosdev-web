@@ -1,0 +1,69 @@
+---
+title: 'Coop: Aísla tus agentes IA en VMs desechables | Trail of Bits'
+description: '¿Tu agente IA tiene acceso total a tu terminal y filesystem? Un error o un fallo de seguridad y tu proyecto se fue. Trail of Bits publicó coop: un CLI en Rust q'
+pubDate: 2026-09-11
+lang: es
+videoId: 'ixuxuryjSbM'
+videoUrl: 'https://www.youtube.com/watch?v=ixuxuryjSbM'
+duration: ''
+image: 'https://i.ytimg.com/vi/ixuxuryjSbM/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**Coop: Aísla tus agentes IA en VMs desechables | Trail of Bits**
+
+¿Tu agente IA tiene acceso total a tu terminal y filesystem? Un error o un fallo de seguridad y tu proyecto se fue. Trail of Bits publicó coop: un CLI en Rust que crea máquinas virtuales desechables donde Claude Code y Codex trabajan con libertad completa, pero todo queda atrapado dentro de la VM.
+
+## Capítulos del vídeo
+
+- **00:00** — El problema de dar acceso total a un agente IA
+- **00:29** — Coop: VMs desechables para Claude Code y Codex
+- **00:56** — Firecracker y Lima: la arquitectura elegante
+- **01:34** — La VM como boundary de aislamiento
+- **02:05** — Credential proxy: secretos protegidos sin claves reales
+- **02:28** — Uso real: auditorías de seguridad diarias
+- **03:08** — 47 agentes de OpenAI escaparon de su sandbox
+- **03:36** — Seguridad con arquitectura, no con promesas
+
+## El contexto
+
+Coop es un CLI en Rust de Trail of Bits (Apache 2.0) que ejecuta Claude Code y Codex en VMs desechables: Firecracker en Linux, Lima en macOS. Credential proxy con tokens temporales por instancia y fail-closed con Landlock/Seatbelt. La VM es el boundary de aislamiento: el agente tiene libertad total dentro, cero riesgo fuera.
+
+## Análisis
+
+**DATOS CLAVE**
+• Trail of Bits: firma de ciberseguridad de referencia, open source Apache 2.0
+• CLI en Rust con typestate pattern: compile-time safety, no runtime flags
+• Firecracker (Linux): las mismas microVMs de AWS Lambda y Fargate
+• Lima (macOS): Apple Virtualization.framework directo, sin Docker
+• Credential proxy: tokens temporales por instancia, Landlock/Seatbelt fail-closed
+• 47 agentes autónomos de OpenAI escaparon de sandbox en julio 2026
+• Explosión aislada: cada VM tiene su propio ciclo de vida y secretos
+
+Si usas Claude Code o Codex, esto es lo que deberías estar ejecutando. No es opcional, es lo mínimo. Dale like si piensas que la seguridad de agentes IA debería ser arquitectura, no buenas intenciones.
+
+💼 LinkedIn: https://www.linkedin.com/in/nramosdev
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=ixuxuryjSbM
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+## Fuentes
+
+- [Trail of Bits coop repo](https://github.com/trailofbits/coop)
+- [Hacker News discussion](https://news.ycombinator.com/item?id=49593842)
+- [Trust model](https://github.com/trailofbits/coop/blob/main/docs/trust-model.md)
+- [Architecture](https://github.com/trailofbits/coop/blob/main/docs/ARCHITECTURE.md)
+
+## Conclusión
+
+Un análisis más en el canal. [Suscríbete](https://www.youtube.com/@nramosdev) para no perderte los próximos.
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*
