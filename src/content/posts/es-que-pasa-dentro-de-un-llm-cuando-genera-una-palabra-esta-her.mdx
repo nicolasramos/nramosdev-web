@@ -1,0 +1,70 @@
+---
+title: '¿Qué pasa dentro de un LLM cuando genera una palabra? Esta herramienta lo muestra en tiempo real...'
+description: '¿Alguna vez te has preguntado qué pasa dentro de la cabeza de un modelo de inteligencia artificial cuando responde a una pregunta? Isham Faizal ha creado el LLM'
+pubDate: 2026-09-13
+lang: es
+videoId: '0eQWBVepPYY'
+videoUrl: 'https://www.youtube.com/watch?v=0eQWBVepPYY'
+duration: ''
+image: 'https://i.ytimg.com/vi/0eQWBVepPYY/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**¿Qué pasa dentro de un LLM cuando genera una palabra? Esta herramienta lo muestra en tiempo real...**
+
+¿Alguna vez te has preguntado qué pasa dentro de la cabeza de un modelo de inteligencia artificial cuando responde a una pregunta? Isham Faizal ha creado el LLM Attention Visualizer: una app web que instrumenta Qwen3-0.6B con 28 tensors post-RoPE para mostrarte en tiempo real cómo cada token contribuye a cada palabra generada. Todo corre 100% en tu navegador via WebAssembly — sin servidores, sin APIs, sin coste. Modelo de 618MB, 600M parámetros, 28 capas de atención, licencia Apache 2.0.
+
+## Capítulos del vídeo
+
+- **00:00** — Qué pasa dentro de un LLM
+- **00:16** — El Attention Visualizer
+- **00:32** — El modelo Qwen3-0.6B
+- **00:53** — La instrumentación ONNX
+- **01:11** — Métrica de atención
+- **01:36** — Interfaz interactiva
+- **01:50** — Privacidad total
+- **02:02** — Visualizaciones experimentales
+- **02:18** — Benchmarks
+- **02:41** — Código abierto
+- **02:53** — Casos de uso
+- **03:09** — Comparación con otras herramientas
+
+## El contexto
+
+**DATOS CLAVE**
+
+## Análisis
+
+• Qwen3-0.6B: 600M params, 28 capas, 16 query/8 KV heads (GQA)
+
+• Contexto: 32K tokens, entrenado con 36T tokens
+
+• Archivo ONNX instrumentado: 618MB (28 tensors post-RoPE)
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=0eQWBVepPYY
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+## Fuentes
+
+- [Blog del autor](https://ishamf.dev/p/llm-attention-visualizer/)
+- [Repositorio GitHub](https://github.com/ishamf/llm-visualizer)
+- [Modelo ONNX instrumentado](https://huggingface.co/ishamf/Qwen3-0.6B-ONNX-Instrumented)
+- [Modelo base Qwen3-0.6B](https://huggingface.co/Qwen/Qwen3-0.6B)
+- [Specs y benchmarks](https://www.emergentmind.com/topics/qwen3-0-6b)
+- [Arquitectura detallada](https://apxml.com/models/qwen3-0-6b)
+- [Benchmarks completos](https://openlaboratory.com/models/qwen3-0_6b)
+- [Requisitos GPU](https://willitrunai.com/blog/qwen-3-gpu-requirements)
+
+## Conclusión
+
+• Métrica: unprojected attention contribution magnitude
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*
