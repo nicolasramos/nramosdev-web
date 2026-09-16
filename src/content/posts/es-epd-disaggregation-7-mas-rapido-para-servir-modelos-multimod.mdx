@@ -1,0 +1,67 @@
+---
+title: 'EPD Disaggregation: 7× Más Rápido para Servir Modelos Multimodales'
+description: '¿Te han dicho que separar encode, prefill y decode es la solución perfecta? Sí, pero hay un problema…'
+pubDate: 2026-09-16
+lang: es
+videoId: '8fu1KYx5WhQ'
+videoUrl: 'https://www.youtube.com/watch?v=8fu1KYx5WhQ'
+duration: ''
+image: 'https://i.ytimg.com/vi/8fu1KYx5WhQ/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**EPD Disaggregation: 7× Más Rápido para Servir Modelos Multimodales**
+
+¿Te han dicho que separar encode, prefill y decode es la solución perfecta? Sí, pero hay un problema…
+
+## Capítulos del vídeo
+
+- **00:00** — EPD / 7× MÁS RÁPIDO
+- **00:24** — Encode → Prefill → Decode / 3 Workers
+- **00:59** — 3 Topologías / NIXL+RDMA
+- **01:28** — Dynamo / 7.2K ⭐ / Apache 2.0
+- **01:56** — TTFT 5× / E2E 7× / -42% Texto
+- **02:19** — EPDServe / ICML 2025 / Huawei
+- **02:45** — Cuándo SÍ / Multimodal + MoE
+- **03:09** — Cuándo NO / Dense + Largos
+- **03:33** — NIXL / RDMA / NVLink
+- **03:58** — Cache + Routing + NVFP4
+- **04:23** — vLLM + SGLang + EPD
+- **04:48** — 24 ⭐ vs 7.2K ⭐
+
+## El contexto
+
+EPD significa Encode, Prefill, Decode. Tres etapas, tres workers, tres pools de GPUs independientes. En un sistema tradicional, encode y prefill están acoplados en el mismo GPU. Eso causa head of line blocking: las peticiones de texto esperan mientras se codifica una imagen pesada.
+
+## Análisis
+
+NVIDIA propone tres topologías. Aggregated: todo en un worker. Colocated encoder: cada GPU ejecuta encoder workers junto con un PD worker. Disaggregated encoder: encoder workers en un tier de GPUs menos costoso, conectados via NIXL sobre RDMA.
+
+Dynamo es el framework que orquesta todo. No reemplaza vLLM, SGLang ni TensorRT-LM. Los coordina en un sistema multi node. Siete mil doscientas cincuenta y dos estrellas en GitHub. Apache 2.0.
+
+Los números de NVIDIA son contundentes. Time to First Token hasta cinco veces más rápido. End to end hasta siete veces más rápido. En tráfico mixto, el TTFT de texto baja cuarenta y dos por ciento.
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=8fu1KYx5WhQ
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+## Fuentes
+
+- [NVIDIA Developer Blog - EPD Disaggregation](https://developer.nvidia.com/blog/epd-disaggregation)
+- [EPDServe Paper (ICML 2025)](https://arxiv.org/abs/2501.05460)
+- [Dynamo Framework](https://github.com/ai-dynamo/dynamo)
+- [vLLM Encoder Disaggregation](https://docs.vllm.ai)
+- [SGLang Independent Workers](https://sglang.readthedocs.io)
+
+## Conclusión
+
+El paper original es de Huawei Cloud, ICML 2025. EPDServe. Ocho GPUs A800: cinco para encode, dos para prefill, una para decode. Peak memory hasta quince veces menor. Batch size hasta veintidós veces mayor.
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*

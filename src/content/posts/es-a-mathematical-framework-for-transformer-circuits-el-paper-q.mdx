@@ -1,0 +1,60 @@
+---
+title: 'A Mathematical Framework for Transformer Circuits — el paper que cambió la IA'
+description: '¿Te han dicho que las IAs no tienen "mente"? Este paper de Anthropic demostró que se puede leer lo que piensan usando solo matemáticas.'
+pubDate: 2026-09-15
+lang: es
+videoId: 'YIp-mKtPspY'
+videoUrl: 'https://www.youtube.com/watch?v=YIp-mKtPspY'
+duration: ''
+image: 'https://i.ytimg.com/vi/YIp-mKtPspY/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**A Mathematical Framework for Transformer Circuits — el paper que cambió la IA**
+
+¿Te han dicho que las IAs no tienen "mente"? Este paper de Anthropic demostró que se puede leer lo que piensan usando solo matemáticas.
+
+## Capítulos del vídeo
+
+- **00:00** — ¿Y si te dijera que hay una forma de leer la mente de una IA?
+- **02:34** — El paper seminal: 24 investigadores de Anthropic
+- **04:08** — El problema: ¿qué algoritmos aprenden internamente?
+- **05:34** — Empezar por lo simple: modelos de 2 capas
+- **07:02** — La idea central: estructura lineal → fórmulas exactas
+- **08:35** — OV Circuit: qué efecto tiene cada token atendido
+- **10:05** — QK Circuit: qué token fuente se va a atender
+- **11:34** — Skip-trigrams: [source]... [destination][out]
+- **13:06** — Una capa vs dos capas: de tabla de búsqueda a algoritmo
+- **14:36** — Induction Heads: si viste "A B" y aparece "A" → predice "B"
+- **16:16** — K-composition: shift del key vector un token adelante
+- **17:44** — Path Expansion: cada ruta por la red es un additive path
+
+## El contexto
+
+En 2021, un equipo de 24 investigadores de Anthropic publicó "A Mathematical Framework for Transformer Circuits", un paper que fundó el campo de la interpretabilidad mecanicista. Su idea: los transformers tienen una enorme estructura lineal que permite derivar fórmulas algebraicas exactas directamente desde sus pesos.
+
+## Análisis
+
+El descubrimiento estrella: los "induction heads", heads que implementan in-context learning. Si un modelo vio "A B" antes y aparece "A" de nuevo, predice "B". Y solo existen en modelos con 2+ capas.
+
+El framework introduce herramientas que hoy son estándar: QK circuit, OV circuit, path expansion, y skip-trigrams. Todo para responder una pregunta simple: ¿qué algoritmos aprenden internamente las IAs?
+
+**DATOS CLAVE**
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=YIp-mKtPspY
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+
+## Conclusión
+
+• 24 investigadores de Anthropic y colaboradores
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*
