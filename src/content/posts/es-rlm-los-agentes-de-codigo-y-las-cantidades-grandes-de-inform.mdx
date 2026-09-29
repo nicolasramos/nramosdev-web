@@ -1,0 +1,46 @@
+---
+title: 'RLM: los agentes de código y las cantidades grandes de información (rlm-agent)'
+description: 'Hay una cosa que los agentes de código todavía hacen bastante mal: trabajar con cantidades grandes de información.'
+pubDate: 2026-09-28
+lang: es
+videoId: 'HXezpHbn2_M'
+videoUrl: 'https://www.youtube.com/watch?v=HXezpHbn2_M'
+duration: ''
+image: 'https://i.ytimg.com/vi/HXezpHbn2_M/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**RLM: los agentes de código y las cantidades grandes de información (rlm-agent)**
+
+Hay una cosa que los agentes de código todavía hacen bastante mal: trabajar con cantidades grandes de información.
+
+
+## El contexto
+
+Por ejemplo: tienes un log de 5.000 líneas, unos 130.000 tokens, y le pides al agente que encuentre el error. Con un modelo local, meter todo eso en el contexto puede hacer que directamente sea imposible ejecutarlo. Con un modelo de frontera, sí puede hacerlo, pero estás metiendo ~125.000 tokens en el prompt para resolver una pregunta que quizá necesita mirar 20 líneas.
+
+## Análisis
+
+Y aquí es donde decidimos llevar RLM (Recursive Language Model) al editor de código. La idea es sencilla: en lugar de darle al modelo todo el contenido, le damos acceso a los datos. El modelo escribe Python para consultar los datos y obtener exactamente lo que necesita. Ese código se ejecuta en un kernel persistente, y el modelo recibe únicamente el resultado.
+
+Medido en una tarea real:
+
+- Antes: ~125.000 tokens, 7,4 segundos, en local el modelo no podía manejar el contexto
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=HXezpHbn2_M
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+
+## Conclusión
+
+- Con RLM: 75 tokens, 0,6 segundos, ejecutándose completamente en local
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*
