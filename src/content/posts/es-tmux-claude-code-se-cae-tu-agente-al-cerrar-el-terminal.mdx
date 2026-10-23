@@ -1,0 +1,61 @@
+---
+title: 'TMUX + CLAUDE CODE: ¿se cae tu agente al cerrar el terminal?'
+description: '¿Tu agente de código se cae cada vez que cierras la ventana o pierdes el SSH? Montamos Claude Code dentro de tmux para que sobreviva a caídas SSH y suspensión: '
+pubDate: 2026-10-23
+lang: es
+videoId: 'nr2Qy6kg5Ik'
+videoUrl: 'https://www.youtube.com/watch?v=nr2Qy6kg5Ik'
+duration: ''
+image: 'https://i.ytimg.com/vi/nr2Qy6kg5Ik/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**TMUX + CLAUDE CODE: ¿se cae tu agente al cerrar el terminal?**
+
+¿Tu agente de código se cae cada vez que cierras la ventana o pierdes el SSH? Montamos Claude Code dentro de tmux para que sobreviva a caídas SSH y suspensión: el patrón de sesiones, send-keys, capture-pane y su techo práctico de ~4 agentes.
+
+## Capítulos del vídeo
+
+- **00:00** — Tu agente sobrevive (tmux en vez de la ventana)
+- **00:22** — Una ventana, cuatro agentes — tmux ls
+- **00:36** — Nombres de sesión: sin puntos ni dos puntos
+- **00:48** — Paneles que no cuestan nada (split-window, tiled)
+- **01:02** — Send-keys: scriptea al agente desde fuera
+- **01:18** — Capture-pane y pipe-pane: lee al agente de vuelta
+- **01:31** — El techo: ~4 agentes — sin estado compartido
+- **01:53** — Cierre: mantén tmux, ¿6 agentes? crystl / Zellij
+
+## El contexto
+
+**DATOS CLAVE**
+
+## Análisis
+
+- tmux v3.7c · nacido el 20-11-2007 (Nicholas Marriott, OpenBSD) · licencia ISC/BSD · libre y open source
+
+- Claude Code: NO es gratis — se incluye en Pro ($20/mes), Max 5x ($100/mes) o la API de Claude; el patrón en tmux es gratis (solo pagas los tokens de la LLM)
+
+- Un patrón por proyecto: `tmux new-session -A -s [nombre]`, con `send-keys` para scriptear desde fuera y `capture-pane -J` / `pipe-pane -o` para leer al agente
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=nr2Qy6kg5Ik
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+## Fuentes
+
+- [Tmux and Claude Code: Sessions, Send-Keys, and the Ceiling — crystl.dev](https://crystl.dev/guides/tmux-for-ai-agents/)
+- [tmux (página oficial / CVS de OpenBSD)](https://man.openbsd.org/tmux)
+- [Claude Code y planes de Anthropic (Pro / Max / API)](https://www.anthropic.com/pricing)
+
+## Conclusión
+
+- Techo práctico de tmux con agentes: ~4 (el estado no se comparte y no hay evento de finalización)
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*
