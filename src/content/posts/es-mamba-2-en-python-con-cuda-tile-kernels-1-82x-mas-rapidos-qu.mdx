@@ -1,0 +1,56 @@
+---
+title: 'Mamba-2 en Python con CUDA Tile: kernels 1,82x más rápidos que Triton'
+description: 'NVIDIA publicó el 19 de octubre de 2026 un caso práctico de CUDA Tile (cuTile) con Mamba-2: un DSL en Python y un modelo de programación paralela en el que escr'
+pubDate: 2026-10-24
+lang: es
+videoId: 'KF1SgpZIgHQ'
+videoUrl: 'https://www.youtube.com/watch?v=KF1SgpZIgHQ'
+duration: ''
+image: 'https://i.ytimg.com/vi/KF1SgpZIgHQ/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**Mamba-2 en Python con CUDA Tile: kernels 1,82x más rápidos que Triton**
+
+NVIDIA publicó el 19 de octubre de 2026 un caso práctico de CUDA Tile (cuTile) con Mamba-2: un DSL en Python y un modelo de programación paralela en el que escribes el kernel en Python y el compilador busca solo las capacidades del hardware, incluidas las Tensor Cores. El trabajo lo firmaron ingenieros de machine learning de Jane Street junto a NVIDIA.
+
+## Capítulos del vídeo
+
+- **00:00** — CUDA Tile: escribir kernels de GPU en Python
+- **00:32** — Jane Street lleva Mamba-2 a cuTile con tres kernels
+- **01:02** — Qué es Mamba-2: estado oculto fijo y memoria constante
+- **01:37** — Los tres kernels del forward pass
+- **02:06** — chunk_cumsum: sumas acumuladas en espacio log
+- **02:36** — fwd_pass_state: fórmula de salto con Tensor Cores
+- **03:11** — Cuatro optimizaciones: latency hints, operand swap, TMA y autotuner
+- **03:43** — Benchmark en B300 SXM6 y dónde está el código en TileGym
+
+## El contexto
+
+En este vídeo desglosamos los tres kernels del forward pass que implementaron: chunk_cumsum, que acumula el decaimiento en espacio log dentro de cada bloque; fwd_pass_state, que avanza el estado oculto entre bloques con la fórmula de salto; y compute_out, que genera las salidas de cada bloque a partir del estado inicial y mantiene la matriz de interacción en registros en lugar de materializarla en memoria global.
+
+## Análisis
+
+Por el camino repasamos por qué Mamba-2 importa: al estilo de una red recurrente mantiene un estado oculto de tamaño fijo, así que el coste y la memoria no crecen con la longitud de la secuencia. Y vemos las cuatro optimizaciones que sostienen el rendimiento: latency hints para modelar el tráfico de DRAM, operand swap para aliviar la contención en memoria compartida de las Tensor Cores de quinta generación de Blackwell, un layout de memoria transpuesto que habilita TMA, y un autotuner que busca bloque y ocupación óptimos por forma de entrada.
+
+El benchmark compara los kernels de cuTile contra la referencia en Triton de mamba_ssm sobre una NVIDIA B300 SXM6 de Blackwell Ultra con 268 GiB de HBM: entre 1,14x y 1,82x más rápidos, con ventaja que crece al subir la longitud de secuencia y el tamaño del estado. NVIDIA aclara que son velocidades a nivel de kernel: el training de punta a punta depende también del backward pass. La implementación está en TileGym.
+
+Fuentes
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=KF1SgpZIgHQ
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+
+## Conclusión
+
+NVIDIA Developer — Accelerating Mamba-2 with High-Performance Forward Pass Kernels in NVIDIA CUDA Tile: https://developer.nvidia.com/blog/accelerating-mamba-2-with-high-performance-forward-pass-kernels-in-nvidia-cuda-tile/
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*

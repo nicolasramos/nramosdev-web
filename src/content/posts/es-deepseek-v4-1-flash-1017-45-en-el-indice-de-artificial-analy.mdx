@@ -1,0 +1,55 @@
+---
+title: 'DeepSeek V4.1 Flash 1017: 45 en el índice de Artificial Analysis y por qué importa'
+description: 'DeepSeek publicó el 17 de octubre V4.1 Flash 1017, una actualización "minor" que sube el modelo a 45 puntos en el Artificial Analysis Intelligence Index y lo co'
+pubDate: 2026-10-24
+lang: es
+videoId: 'fEuTWY-BC_k'
+videoUrl: 'https://www.youtube.com/watch?v=fEuTWY-BC_k'
+duration: ''
+image: 'https://i.ytimg.com/vi/fEuTWY-BC_k/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**DeepSeek V4.1 Flash 1017: 45 en el índice de Artificial Analysis y por qué importa**
+
+DeepSeek publicó el 17 de octubre V4.1 Flash 1017, una actualización "minor" que sube el modelo a 45 puntos en el Artificial Analysis Intelligence Index y lo coloca en el segundo puesto de 121 modelos. Sin cambiar de endpoint: el alias deepseek-flash ya sirve esta versión.
+
+## Capítulos del vídeo
+
+- **00:00** — DeepSeek V4.1 Flash 1017: la actualización del 17 de octubre
+- **00:36** — Alias deepseek-flash: heredar la mejora sin tocar código
+- **01:00** — Arquitectura MoE 552B / 16B y caché KV con n-gramas
+- **01:41** — Benchmarks agénticos: Terminal-Bench 4.0, DeepSWE y Chartography
+- **02:18** — Precios: 0.30 / 1.20 por millón y caché al 98 %
+- **02:55** — Velocidad y verbosidad: 230,4 tok/s frente a 210M tokens
+- **03:27** — Veredicto: calidad-precio real con pesos abiertos y licencia MIT
+
+## El contexto
+
+En este vídeo repasamos lo que de verdad cambió, con las cifras verificadas en la ficha del modelo y en la comparativa de proveedores. Arquitectura MoE de 552B totales con 16B activos por token, caché KV comprimida con n-gramas, contexto de 1M de tokens y entrada de texto e imagen. En tareas agénticas gana o empata en Terminal-Bench 4.0 (42.3 frente a 31.2 de la versión anterior, un 35,6 % más), DeepSWE (77.0), Automation-Bench (60.5) y Chartography (83.0); pierde en razonamiento sin herramientas, con 42.6 en Humanity's Last Exam.
+
+## Análisis
+
+El precio es la otra mitad de la historia: 0.30 dólares por millón de tokens de entrada y 1.20 por millón de salida, con un 98 % de descuento de caché y 0.18 dólares blended. DeepInfra lo deja en 0.10 blended y Baseten en 0.18, y los cinco proveedores comparados soportan JSON mode y tool calling.
+
+El detalle que conviene tener presente es la verbosidad: el modelo generó 210 millones de tokens de salida en el índice, por encima de la mediana de 140 millones, así que el coste real sube por token generado. Es rápido (230,4 tok/s medidos por Artificial Analysis) y tiene licencia MIT, pero no es open source estricto: faltan el dataset y parte del código.
+
+Fuentes
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=fEuTWY-BC_k
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+
+## Conclusión
+
+Artificial Analysis — ficha del modelo: https://artificialanalysis.ai/models/deepseek-v4-1-flash-1017
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*
