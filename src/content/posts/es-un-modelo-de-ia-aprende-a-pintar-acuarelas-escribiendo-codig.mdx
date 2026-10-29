@@ -1,0 +1,72 @@
+---
+title: 'Un modelo de IA aprende a pintar acuarelas escribiendo código JavaScript — y lo hace open source'
+description: 'La IA ha trasladado el cuello de botella de hacer a notar. Un proyecto de Hugging Face demuestra que un modelo de lenguaje puede aprender a pintar acuarelas con'
+pubDate: 2026-10-29
+lang: es
+videoId: 'BdDTgonbGoI'
+videoUrl: 'https://www.youtube.com/watch?v=BdDTgonbGoI'
+duration: ''
+image: 'https://i.ytimg.com/vi/BdDTgonbGoI/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**Un modelo de IA aprende a pintar acuarelas escribiendo código JavaScript — y lo hace open source**
+
+La IA ha trasladado el cuello de botella de hacer a notar. Un proyecto de Hugging Face demuestra que un modelo de lenguaje puede aprender a pintar acuarelas con código, usando RL sobre gusto humano. El pool de 178 imágenes valoradas a mano es la prueba: decidir qué es bonito sigue siendo trabajo humano.
+
+## Capítulos del vídeo
+
+- **00:00** — Un modelo de IA pinta acuarelas con código
+- **00:12** — La idea se hizo viral en Twitter
+- **00:22** — p5.brush — la librería que simula acuarela
+- **00:31** — La restricción intencional: 10 de 47 métodos
+- **00:42** — Solo formas rellenas con efecto bleed
+- **00:48** — Entrenamiento con GRPO y LoRA
+- **01:03** — El loop de 4 pasos del entrenamiento
+- **01:11** — Reward: judge pareado y HPSv3
+- **01:24** — HPSv3 y el gate de código
+- **01:38** — El pool de referencia: 178 pinturas valoradas a mano
+- **02:02** — Resultados: judge pareado vs HPSv3
+- **02:29** — Costes de entrenamiento: H200 y scorer
+
+## El contexto
+
+**DATOS CLAVE**
+
+## Análisis
+
+• Modelo: Qwen3.5-35B-A3B (35B parámetros, 3B activos, MoE)
+
+• Algoritmo: GRPO (Group Relative Policy Optimization)
+
+• Librería: p5.brush v2.2.2 — 47 métodos, solo 10 permitidos
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=BdDTgonbGoI
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+## Fuentes
+
+- [Hugging Face Blog — Training a coding model to paint watercolours](https://huggingface.co/blog/train-to-paint-with-code)
+- [Surya Narreddi — Training AI to Paint with Code](https://surya.website/rling-qwen-to-paint-with-code)
+- [GitHub — HuggingEnvs/02-watercolour](https://github.com/adithya-s-k/HuggingEnvs/tree/main/02-watercolour)
+- [GitHub — p5.brush v2.2.2 (MIT)](https://github.com/acamposuribe/p5.brush)
+- [HuggingFace — MizzenAI/HPSv3](https://huggingface.co/MizzenAI/HPSv3)
+- [arXiv — HPSv3: Wide-Spectrum Human Preference Score](https://arxiv.org/abs/2508.03789)
+- [Tweet viral — @kickingkeys (1.5M vistas)](https://x.com/kickingkeys/status/2091570990048276897)
+- [TRL GRPOTrainer documentation](https://huggingface.co/docs/trl/grpo_trainer)
+- [HuggingFace — Paint with Code collection](https://huggingface.co/collections/HuggingEnvs/paint-with-code-6a955b79d63f67f1631d9be6)
+- [Alex Yango — Animales con el mismo mecanismo](https://x.com/alexyango/status/2091696296931574217)
+
+## Conclusión
+
+• Pool de referencia: 178 pinturas generadas por IA, valoradas a mano
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*
