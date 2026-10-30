@@ -1,0 +1,60 @@
+---
+title: 'Chrome quitó la IA de tu ordenador para detectar estafas: la razón son 22 GB'
+description: 'El titular dice que Chrome recurre a Gemini para detectar estafas. La fuente primaria dice lo contrario: Chrome acaba de sacar el modelo de tu ordenador y meter'
+pubDate: 2026-10-30
+lang: es
+videoId: '4DADelWwUls'
+videoUrl: 'https://www.youtube.com/watch?v=4DADelWwUls'
+duration: ''
+image: 'https://i.ytimg.com/vi/4DADelWwUls/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**Chrome quitó la IA de tu ordenador para detectar estafas: la razón son 22 GB**
+
+El titular dice que Chrome recurre a Gemini para detectar estafas. La fuente primaria dice lo contrario: Chrome acaba de sacar el modelo de tu ordenador y meterlo en el servidor de Google. En mayo de 2025, con Chrome 137, la detección usaba Gemini Nano en el dispositivo. En el blog de seguridad del 20 de octubre de 2026, Google escribe que ha pasado a un modelo Gemini del lado del servidor, más potente.
+
+## Capítulos del vídeo
+
+- **00:00** — La pantalla de seguridad y sus tres modos
+- **00:37** — Diez minutos: lo que vive un sitio malicioso
+- **01:16** — De qué va este vídeo: censo, no calidad
+- **01:46** — Lo que yo esperaba encontrar y lo que dice el blog
+- **02:21** — El argumento contrario: en servidor se arregla en horas
+- **02:57** — El segundo argumento: el hardware es un impuesto
+- **03:32** — Bloque 1: Chrome 137 y el modelo local
+- **04:10** — Bloque 1: de dos veces a diez veces
+- **04:50** — Bloque 1: lo que Google no publica
+- **05:25** — Matiz de fuente: avisos, no estafas evitadas
+- **06:01** — Bloque 2: la razón es un censo
+- **06:32** — Bloque 2: 22 GB, cuatro de vídeo o dieciséis de RAM
+
+## El contexto
+
+El motivo no es un benchmark: es un censo de hardware. El modelo local de Chrome exige 22 GB libres de disco y, o más de 4 GB de memoria de vídeo, o 16 GB de RAM con cuatro núcleos, y solo en escritorio. Android e iOS quedan fuera: con ese umbral, proteger a todos los usuarios de Protección Mejorada es imposible por diseño. El competidor hizo lo contrario: el bloqueador de scareware de Edge usa un modelo local de visión y viene activado por defecto con más de 2 GB de RAM y cuatro núcleos.
+
+## Análisis
+
+La cifra que lo explica todo estaba escondida en el blog de 2025: el sitio malicioso medio existe menos de diez minutos. Una lista de bloqueo llega tarde por definición, y por eso hace falta un modelo que juzgue la página que tienes delante. La pregunta del vídeo es por qué ese modelo acabó en un servidor y no en tu máquina.
+
+Tres bloques con sus cifras, su fuente y el punto donde cada una se queda corta, y una checklist para quien escribe código: el modelo local sigue gratis y sin claves de API, pero comprueba antes la disponibilidad en el equipo de tus usuarios.
+
+FUENTES
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=4DADelWwUls
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+
+## Conclusión
+
+- Google Security Blog, «Our latest defenses against evolving web scams» (20-oct-2026): https://blog.google/security/our-latest-defenses-against-evolving-web-scams/
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*
