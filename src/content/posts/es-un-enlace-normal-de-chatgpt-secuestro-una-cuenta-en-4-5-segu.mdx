@@ -1,0 +1,60 @@
+---
+title: 'Un enlace normal de ChatGPT secuestró una cuenta en 4,5 segundos'
+description: 'Un enlace público de ChatGPT, de esos que os mandáis por chat sin pensar, podía ejecutar código del atacante dentro de vuestra sesión y leer conversaciones priv'
+pubDate: 2026-11-03
+lang: es
+videoId: 'y-Obj5CSmu8'
+videoUrl: 'https://www.youtube.com/watch?v=y-Obj5CSmu8'
+duration: ''
+image: 'https://i.ytimg.com/vi/y-Obj5CSmu8/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**Un enlace normal de ChatGPT secuestró una cuenta en 4,5 segundos**
+
+Un enlace público de ChatGPT, de esos que os mandáis por chat sin pensar, podía ejecutar código del atacante dentro de vuestra sesión y leer conversaciones privadas. El 28 de octubre de 2026 la empresa de seguridad Parameter publicó cómo lo encontró: una cadena de tres eslabones que convertía la dirección de un chat compartido en JavaScript arbitrario ejecutándose como chatgpt.com. Cuatro segundos y medio, severidad P1 y un pago de 5.000 dólares.
+
+## Capítulos del vídeo
+
+- **00:00** — Un enlace de ChatGPT que no debería existir
+- **00:34** — Las dos cifras: 4,5 segundos y 5.000 dólares
+- **01:11** — Qué vais a ver en este vídeo
+- **01:47** — El prejuicio con el que empecé
+- **02:21** — El argumento en contra: la caja aislada
+- **02:57** — El segundo argumento en contra
+- **03:31** — Bloque 1: el enlace bastaba
+- **04:09** — Cómo se reprodujo el ataque
+- **04:48** — Quién lo descubrió: Parameter
+- **05:23** — Un matiz importante: una sola fuente
+- **05:59** — Bloque 2: lo que hacía el código
+- **06:32** — Qué leía el código de tu sesión
+
+## El contexto
+
+En este vídeo desmontamos el ataque pieza a pieza y os contamos qué os tenéis que llevar puesto si montáis interfaces web. Tres bloques, cada uno con su cifra, su fuente y su límite: primero que el enlace bastaba y cómo se midió; después qué podía hacer el código una vez dentro y dónde se queda corta la prueba; y por último el dinero, la cronología del arreglo y por qué 5.000 dólares parece corto para un secuestro de cuenta completo.
+
+## Análisis
+
+Al final, un checklist práctico de tres puntos para vuestro propio código: validar el origen en cada receptor de postMessage, no dejar que un ajuste externo meta HTML, y darle sandbox al iframe y arena al documento dinámico.
+
+FUENTES
+
+- Parameter (Mukul Goyal) — Do the Math: How We Took Over ChatGPT Accounts. https://www.parameter.ai/labs/we-found-a-gap-at-openai
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=y-Obj5CSmu8
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+
+## Conclusión
+
+- The Hacker News — A Shared ChatGPT Link Could Run Attacker Code in Your Session and Read Private Chats. https://thehackernews.com/2026/10/a-shared-chatgpt-link-could-run.html
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*
