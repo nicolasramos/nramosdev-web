@@ -1,0 +1,60 @@
+---
+title: 'NVIDIA RTX Spark: elegís quién manda en la GPU (y sin una cifra)'
+description: 'Dos ventanas abiertas en el mismo portátil: un editor de vídeo exportando al 40 % y un agente de IA repasando documentos en segundo plano. Los dos quieren la mi'
+pubDate: 2026-11-04
+lang: es
+videoId: 'vKdtUfkKuk4'
+videoUrl: 'https://www.youtube.com/watch?v=vKdtUfkKuk4'
+duration: ''
+image: 'https://i.ytimg.com/vi/vKdtUfkKuk4/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**NVIDIA RTX Spark: elegís quién manda en la GPU (y sin una cifra)**
+
+Dos ventanas abiertas en el mismo portátil: un editor de vídeo exportando al 40 % y un agente de IA repasando documentos en segundo plano. Los dos quieren la misma GPU y ninguno sabe que el otro está ahí. El 28 de octubre de 2026 NVIDIA anunció Resource Management, un control en su aplicación para decidir quién manda. Lo anunció sin publicar ni un solo porcentaje de reparto, sin API y sin que conste en las notas de versión de la aplicación que lo aloja. Ese es el vídeo: qué se sabe de verdad, qué no, y cómo decidir si os merece la pena.
+
+## Capítulos del vídeo
+
+- **00:00** — Dos ventanas, una sola GPU
+- **00:42** — 18,7 minutos: la cifra que ordena todo
+- **01:30** — La pregunta: ¿os merece la pena?
+- **02:10** — Fui a buscar el número y no estaba
+- **02:49** — Lo que NVIDIA sí puede defender
+- **03:39** — El suelo ya estaba: green contexts
+- **04:30** — El mando existe, el marcador no
+- **05:11** — Tres comprobaciones que podéis hacer
+- **05:57** — El interruptor, no el efecto
+- **06:36** — Dos perillas que la prensa mezcla
+- **07:13** — Lo medido es el agente solo
+- **07:56** — Las cifras, ordenadas
+
+## El contexto
+
+QUÉ CUBRE
+
+## Análisis
+
+- Qué es Resource Management y dónde está (NVIDIA App mayor que  System mayor que  Advanced), con el requisito de hardware-accelerated GPU scheduling.
+
+- Las tres comprobaciones que muestran que no hay cifras: el propio post se contradice, las notas de versión no lo recogen y las siete herramientas MCP públicas de NVIDIA App no incluyen prioridad de cómputo.
+
+- La medición independiente de Artificial Analysis con AA-AgentPerf-Local: 18,7 minutos con Qwen 3.8 27B, 8 frente a 10 minutos con Qwen 3.6 35B A3B, un 25 % por delante del MacBook Pro M5 Max.
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=vKdtUfkKuk4
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+
+## Conclusión
+
+- Green contexts en CUDA: 0,007 ms frente a 0,140 y 3,727 ms en una Blackwell de 148 SM (NVIDIA, blog de desarrollo). Y por qué no se puede afirmar que el interruptor use ese mecanismo.
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*

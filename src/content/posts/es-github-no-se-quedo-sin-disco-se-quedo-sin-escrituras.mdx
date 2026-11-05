@@ -1,0 +1,60 @@
+---
+title: 'GitHub no se quedó sin disco: se quedó sin escrituras'
+description: 'En agosto de 2026 GitHub se cayó tres veces: 10 horas y 42 minutos el día 6, 7 horas y 47 minutos el 17 y 9 horas y 54 minutos el 20. Ese mismo mes la empresa y'
+pubDate: 2026-11-05
+lang: es
+videoId: 'mO1lm2eEH10'
+videoUrl: 'https://www.youtube.com/watch?v=mO1lm2eEH10'
+duration: ''
+image: 'https://i.ytimg.com/vi/mO1lm2eEH10/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**GitHub no se quedó sin disco: se quedó sin escrituras**
+
+En agosto de 2026 GitHub se cayó tres veces: 10 horas y 42 minutos el día 6, 7 horas y 47 minutos el 17 y 9 horas y 54 minutos el 20. Ese mismo mes la empresa ya había añadido más de 3 millones de núcleos de CPU y 120 petabytes de almacenamiento de alta velocidad, y lo contaba ella misma en su blog. Tres millones de núcleos y tres caídas: si el problema fuera de disco, ese mes no habría existido.
+
+## Capítulos del vídeo
+
+- **00:00** — Tres líneas rojas en agosto
+- **00:43** — 1.088 commits por segundo
+- **01:30** — Dos historias y un titular
+- **02:10** — Marketing con unidades de medida
+- **02:50** — El 40 por ciento de las pull requests
+- **03:34** — Mil millones de peticiones en un repositorio
+- **04:15** — No crecieron las personas: crecieron las vueltas
+- **05:06** — 64 eventos por cada commit
+- **05:49** — Correlación no es causa
+- **06:34** — Ejecuciones no son trabajos
+- **07:15** — El techo era la escritura, no el disco
+- **07:53** — Separar durabilidad de cómputo
+
+## El contexto
+
+Así que en este vídeo no os cuento el titular de la capacidad, os cuento qué se le estaba rompiendo por dentro. Por qué su arquitectura de toda la vida, Spokes, guardaba cinco copias completas de cada repositorio y todas participaban en cada escritura, de modo que añadir lecturas empeoraba las escrituras y un push tardaba lo que la réplica más lenta. Por qué la salida no es más hierro sino separar durabilidad de cómputo, y qué significa el 35 veces más rendimiento de escritura que han medido en pruebas internas. Y por qué la cuenta de todo esto ya no es suya: desde el 1 de junio de 2026 Copilot se paga por consumo, un crédito son 0,01 dólares, y la revisión de código de Copilot consume además minutos de GitHub Actions.
+
+## Análisis
+
+Tres bloques de evidencia, cada uno con su límite declarado: las cifras de actividad (473.300 millones de eventos Git al mes frente a 7.380 millones de commits, unos 64 eventos por cada versión guardada), el cambio de arquitectura, y el traslado del coste al cliente. Dos matices etiquetados —la trampa de confundir ejecuciones con trabajos de Actions, y las dos duraciones distintas que GitHub publica para el mismo incidente— y tres comprobaciones con coste declarado, desde medir vuestro propio bucle hasta autoalojar un espejo con Forgejo.
+
+Un aviso honesto: no existe ninguna medición independiente de estas cifras. Todas son de GitHub sobre GitHub, y en el vídeo se dice cuándo es medición y cuándo es afirmación.
+
+FUENTES
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=mO1lm2eEH10
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+
+## Conclusión
+
+GitHub, «GitHub Universe 2026: Evolving every layer of the stack» (28-oct-2026) — https://github.blog/news-insights/company-news/github-universe-2026-evolving-every-layer-of-the-stack/
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*
