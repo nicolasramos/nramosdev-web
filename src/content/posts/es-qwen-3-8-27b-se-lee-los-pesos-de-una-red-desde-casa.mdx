@@ -1,0 +1,60 @@
+---
+title: 'Qwen 3.8 27B se lee los pesos de una red desde casa'
+description: 'Un portátil abierto, un gestor de modelos con 16,8 gigabytes cargados y una ventana que lleva cuarenta minutos sin escribir nada. No se ha colgado: está pensand'
+pubDate: 2026-11-07
+lang: es
+videoId: 'oX5OBMIfSn0'
+videoUrl: 'https://www.youtube.com/watch?v=oX5OBMIfSn0'
+duration: ''
+image: 'https://i.ytimg.com/vi/oX5OBMIfSn0/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**Qwen 3.8 27B se lee los pesos de una red desde casa**
+
+Un portátil abierto, un gestor de modelos con 16,8 gigabytes cargados y una ventana que lleva cuarenta minutos sin escribir nada. No se ha colgado: está pensando. En el portapapeles tiene pegados 17.253 números con tres decimales cada uno y una sola pregunta: a qué juego jugaba la red que lleva esos números dentro. Sin ejecutar código, sin calculadora, sin abrir nada. Tarda 52 minutos y 25 segundos, cuenta a mano como quien multiplica en un papel, y acierta.
+
+## Capítulos del vídeo
+
+- **00:00** — El portátil pensando 52 minutos: cuenta los pesos a mano
+- **00:58** — La cifra ancla: 17.253 pesos son 46 páginas de números
+- **01:48** — De qué va el vídeo: la lectura, la cuenta y las críticas
+- **02:25** — Por qué pasé de página la primera vez que lo leí
+- **03:07** — La versión fuerte: pregunta abierta y cuatro redes idénticas
+- **03:47** — La otra versión fuerte: el cuarto acierto no es un cuatro entero
+- **04:28** — El montaje: cuatro redes con la misma arquitectura
+- **05:13** — La medición en un portátil: 3 de 4 y el fallo más caro
+- **06:15** — Dónde se queda corto: n igual a uno y la vara del laboratorio
+- **07:04** — Quién escribe el porcentaje de confianza y por qué no calibra
+- **07:46** — Tres formas de pagar la misma pregunta: euros o horas
+- **08:30** — La cuenta en euros: 0,19 dólares frente a céntimos de luz
+
+## El contexto
+
+Este vídeo baja el experimento estrella del laboratorio a algo que podéis hacer vosotros y hace las tres cuentas que nadie hace. Primero, qué salió exactamente: un modelo abierto de 17 gigabytes acierta 3 de 4, y el intento fallido es el que más pensó de los cuatro —una hora y dieciséis minutos con 69.787 tókens de razonamiento— mientras presumía un 70 por ciento de confianza. Segundo, la cuenta: la misma pregunta en la nube cuesta 9 minutos y 19 céntimos; en casa, céntimos de luz y una tarde entera. Y el único modelo cerrado de toda la historia es justo el que no podéis descargar.
+
+## Análisis
+
+Tercero, las dos personas que lo desmontaron el mismo día que se hizo viral, y hasta qué punto les falta razón: el cuarto acierto es una respuesta vecina que el corrector acepta por palabras clave, el porcentaje de confianza no calibra, y calcular a qué parte del tablero mira la primera capa es un ejercicio de tres líneas de código. Todo pasa, además, en redes de entre 17.000 y 172.000 pesos: justo el único tamaño que un humano puede inspeccionar a mano. Al final, una checklist de tres pasos y un veredicto binario sobre si os merece la pena poneros a leer pesos o seguir entrenando.
+
+FUENTES
+
+- RikiyaT · «Weight-space programming» (la entrada de blog del trabajo original, con registros y código): https://rikiyat.github.io/blog/weight-space-programming/
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=oX5OBMIfSn0
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+
+## Conclusión
+
+- RikiyaT · lm_understand-logs / exp1_which_game: el repositorio con los enunciados y los ficheros de pesos: https://github.com/RikiyaT/lm_understand-logs/tree/main/exp1_which_game
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*
