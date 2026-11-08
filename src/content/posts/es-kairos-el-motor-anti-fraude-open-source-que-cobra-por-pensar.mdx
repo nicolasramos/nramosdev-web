@@ -1,0 +1,60 @@
+---
+title: 'Kairos: el motor anti-fraude open source que cobra por pensar'
+description: 'Son las once de la noche y en la pantalla de un analista aparece una retirada de 900 dólares. El sistema la mira un instante y responde: revisar. El analista, d'
+pubDate: 2026-11-07
+lang: es
+videoId: 'bmoo24BK5Tg'
+videoUrl: 'https://www.youtube.com/watch?v=bmoo24BK5Tg'
+duration: ''
+image: 'https://i.ytimg.com/vi/bmoo24BK5Tg/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**Kairos: el motor anti-fraude open source que cobra por pensar**
+
+Son las once de la noche y en la pantalla de un analista aparece una retirada de 900 dólares. El sistema la mira un instante y responde: revisar. El analista, desconfiado, vuelve a enviar exactamente la misma petición, con los mismos datos y desde la misma pantalla, y algo se mueve: la probabilidad cambia hasta 0,06 y un caso cruza el umbral de revisión de una pasada a otra. Eso es lo que enseña Kairos cuando lo encendéis, y es también la primera pista de de qué va este vídeo.
+
+## Capítulos del vídeo
+
+- **00:00** — La retirada de 900 dólares y dos respuestas distintas
+- **00:42** — La cifra: 0,11 dólares por cada 1.000 decisiones
+- **01:22** — Qué es vuestro y qué no en este motor de riesgo
+- **02:01** — Por qué lo descarté: 4 días de repo y 2 autores
+- **02:40** — La objeción de Stripe: el riesgo ya viene con el pago
+- **03:26** — La objeción de la API: sin clave de Finic no arranca
+- **04:10** — Lo que pasa a ser vuestro: 69.933 líneas en Apache-2.0
+- **05:03** — Medir cuesta tres líneas: qué podéis mover y qué no
+- **05:47** — El modelo es una API: 4.227 tokens por petición
+- **06:28** — El matiz del método: 25 de cada 100 respuestas cambian
+- **07:10** — El agente que afina el modelo: features, entrena, publica
+- **07:55** — La medición del agente: 93,3 % de captura y 27,5 % de frenos
+
+## El contexto
+
+Kairos es un motor de decisión de fraude y riesgo publicado en Apache-2.0: 69.933 líneas de TypeScript, motor de reglas, colas de revisión, auditoría y una suite de evaluación. Y trae la parte rara: un agente que hace el trabajo de un ingeniero de machine learning, elegiendo variables, entrenando, evaluando y publicando el modelo. El giro está en la letra pequeña, que verificáis en el propio código: para arrancar exige una clave de pago y trae la dirección de la API grabada a fuego, sin opción de cambiarla. El software es vuestro; el cerebro, una API de pago.
+
+## Análisis
+
+Y ahora las cuentas, que es lo que interesa. El titular dice 87,5 % de aciertos por 0,11 dólares cada 1.000 decisiones, pero en la métrica de ordenación gana Claude Opus, y dos de los seis conjuntos son de la propia empresa. En cambio hay dos experimentos que sí podéis correr vosotros, sin una sola clave, con los notebooks y las respuestas guardadas en el repositorio: +0,007 de área en 1.782 reclamaciones de coche y +0,008 en 126.000 préstamos. Al final, un matiz sobre el no determinismo, una checklist de tres pasos y un veredicto binario.
+
+FUENTES
+
+- finic-ai/kairos · El repositorio completo en Apache-2.0 (main = e8fb857, 2-nov-2026): https://github.com/finic-ai/kairos
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=bmoo24BK5Tg
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+
+## Conclusión
+
+- Docs del repo · La configuración: GRAYSON_API_KEY es obligatoria para arrancar: https://github.com/finic-ai/kairos/blob/main/docs/deployment/configuration.md
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*
