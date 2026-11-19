@@ -1,0 +1,65 @@
+---
+title: 'TERABYTES EN CASA: así funciona Xet, el almacenamiento open source de Hugging Face'
+description: '¿Entrenar modelos con datasets de terabytes desde una conexión doméstica normal? Xet, el motor de almacenamiento open source de Hugging Face que sustituyó a Git'
+pubDate: 2026-11-18
+lang: es
+videoId: 'XxEpSvnqMpk'
+videoUrl: 'https://www.youtube.com/watch?v=XxEpSvnqMpk'
+duration: ''
+image: 'https://i.ytimg.com/vi/XxEpSvnqMpk/hqdefault.jpg'
+color: '#ff6a00'
+tags: ['youtube', 'nramosdev', 'ia', 'análisis']
+---
+
+## TL;DR
+
+**TERABYTES EN CASA: así funciona Xet, el almacenamiento open source de Hugging Face**
+
+¿Entrenar modelos con datasets de terabytes desde una conexión doméstica normal? Xet, el motor de almacenamiento open source de Hugging Face que sustituyó a Git LFS, descarga solo los fragmentos que cambian. Te explico su troceado por contenido, el delta sync y cómo usarlo en local.
+
+## Capítulos del vídeo
+
+- **00:00** — Entrenar con terabytes y conexión doméstica: el reto
+- **00:17** — Por qué Git y Git LFS no escalan con binarios grandes
+- **00:36** — Qué es Xet: de Apple a Hugging Face
+- **00:59** — El troceado por contenido (CDC) y la deduplicación
+- **01:19** — Delta sync: descargar solo lo que cambia
+- **01:36** — Los xorbs, la compresión LZ4 y la verificación Merkle
+- **01:53** — Cómo se usa en local: un comando con huggingface_hub
+- **02:10** — Números reales: 500K repos, 20 PB, 191 GB a 97 GB
+- **02:28** — Conclusión y CTA
+
+## El contexto
+
+**DATOS CLAVE**
+
+## Análisis
+
+Xet: protocolo de almacenamiento content-addressable open source de Hugging Face, reemplazo de Git LFS en el Hub.
+
+Troceado por contenido (CDC): chunks variables de 8 KiB a 128 KiB con GearHash.
+
+Delta sync: el cliente descarga solo los fragmentos que faltan; actualizar un modelo no re-descarga todo.
+
+## Puntos clave
+
+- Ver datos y cifras en el vídeo: https://www.youtube.com/watch?v=XxEpSvnqMpk
+- Investigación previa documentada en el pipeline de vídeo (research.md del proyecto)
+- Fuentes primarias listadas a continuación
+
+## Fuentes
+
+- [Blog oficial HF — Migrating the Hub from Git LFS to Xet](https://huggingface.co/blog/migrating-the-hub-to-xet)
+- [Especificación del protocolo Xet v1.1.0](https://huggingface.co/docs/xet/index)
+- [xet-core (Rust) en GitHub](https://github.com/huggingface/xet-core)
+- [Docs huggingface_hub — Download files](https://huggingface.co/docs/huggingface_hub/en/guides/download)
+- [SiliconANGLE — HF adquiere XetHub](https://siliconangle.com/2024/08/08/hugging-face-acquires-xethub-enhance-ai-storage-infrastructure)
+- [Introducción a XET (00f.net, parte 1 y 2)](https://00f.net/2026/01/19/xet-intro-1/)
+
+## Conclusión
+
+Xorbs: paquetes de hasta 64 MB que agrupan muchos trozos; compresión LZ4 con byte-grouping para pesos FP32; verificación con árbol de Merkle.
+
+---
+
+*Artículo generado automáticamente desde el vídeo publicado en [nramosdev](https://www.youtube.com/@nramosdev). Cada número citado proviene de la investigación verificada del pipeline.*
